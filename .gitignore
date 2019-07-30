@@ -59,3 +59,23 @@ typings/
 
 # next.js build output
 .next
+
+.DS_Store
+dist/electron/*
+dist/web/*
+build/*
+!build/icons
+node_modules/
+npm-debug.log
+npm-debug.log.*
+thumbs.db
+!.gitkeep
+
+ 
+/.idea/encodings.xml
+/.idea/game-document-sync.iml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
