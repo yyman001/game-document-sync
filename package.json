@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
+    "fs-extra": "^8.1.0",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
