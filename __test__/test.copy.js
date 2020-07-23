@@ -2,7 +2,7 @@
  * @Description: 拷贝文件测试
  * @Author: your name
  * @Date: 2019-08-15 21:59:42
- * @LastEditTime: 2019-08-19 23:59:02
+ * @LastEditTime: 2020-07-23 22:04:40
  * @LastEditors: Please set LastEditors
  */
 
@@ -11,9 +11,9 @@
 const path = require('path')
 const FileClass = require('./../src/utils/FileClass')
 
-let test_dir = `test_data`
-let copy_path = path.join(__dirname, test_dir)
-let save_path = path.join(__dirname, 'test_copy')
+let test_dir  = path.join(__dirname, `test_data`)
+let copy_path = path.join(test_dir, 'orgin')
+let save_path = path.join(test_dir, 'test_copy')
 
 async function run() {
 
