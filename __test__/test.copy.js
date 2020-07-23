@@ -11,9 +11,9 @@
 const path = require('path')
 const FileClass = require('./../src/utils/FileClass')
 
-let dir_name = `SniperGhostWarrior2`
-let copy_path = path.join(`C:\\Users\\lenovo\\Saved Games`, dir_name)
-let save_path = path.join(__dirname, 'local_doc', dir_name)
+let test_dir = `test_data`
+let copy_path = path.join(__dirname, test_dir)
+let save_path = path.join(__dirname, 'test_copy')
 
 async function run() {
 
