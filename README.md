@@ -18,6 +18,7 @@
      - Southpaw Games
      - Rebuilt Games
      - Ninja Kiwi
+  - 扫描配置文件, 记录游戏存档相关信息
 
 
 ## 功能
@@ -60,10 +61,132 @@
    - epic  
  - 备份文档列表展示
    - 扫描游戏存档
-   - 以游戏为基准?
-   - 以存档为基准(主) + 游戏信息(副) 
+   - 以游戏为基准(主) + 游戏文档数据(副) 
+   - ~~以存档为基准(主) + 游戏信息(副)~~ 
  - 创建游戏
 
+
+## 数据结构
+ #### 文档扫描配置 `scan.json`
+    这个文件暂时需要用户手动配置, 暂时没找到对应数据能识别游戏的存档,以后找到这个扫描就可以全自动了
+```js
+[
+  {
+    // [游戏名]
+    "gameName": '空洞骑士',
+    // 游戏存档目录名
+    "gameDocDir": 'Hollow Knight',
+    // [游戏开发公司/团队]
+    "gameCompany": 'Team Cherry',
+    // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
+    "gameDocPath": '/Team Cherry/Hollow Knight'
+  }
+]
+
+```
+
+### 游戏存档配置信息/存档清单文件
+每次备份会生成一份
+`file_detailed_json`, 不记录目录(除主目录外), 只记录目录下的文件路径, 并打成压缩包(在临时区域操作)
+```js
+{
+  // [游戏名]
+  "gameName": '空洞骑士',
+  // 游戏存档目录名
+  "gameDocDir": 'Hollow Knight',
+  // [游戏开发公司/团队]
+  "gameCompany": 'Team Cherry',
+  // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
+  "gameDocPath": '/Team Cherry/Hollow Knight'
+  // 存档备份id
+  "id": "",
+  // 备份的游戏
+  "game": "",
+  // 游戏版本
+  "version": ""
+  // 创建时间
+  "time": "",
+  // 备份文件清单
+ "file_detailed": [
+    {
+      // 文件名
+      "name": '',
+      // 文件路径
+      "path": '',
+      // md5码
+      "md5": '',
+      // 文件大小
+      "size": '',
+      // 文件类型 dir or file
+      "type": ''
+    }
+  ]
+}
+
+```
+
+### 列表展示
+   多个游戏版本?
+```js
+{
+    // [游戏名]
+    "gameName": '空洞骑士',
+    // 游戏存档目录名
+    "gameDocDir": 'Hollow Knight',
+    // [游戏开发公司/团队]
+    "gameCompany": 'Team Cherry',
+    // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
+    "gameDocPath": '/Team Cherry/Hollow Knight',
+    // 游戏存档路径
+    "fullPath": '',
+    // 游戏主程序路径
+    "mainProgram": '',
+    // 游戏目录
+    "gameDir": '',
+    // 启动方式
+    "startMode": '',
+    // 游戏平台
+    "gamePlatform": [
+      {
+       id: '',
+       name: 'steam',
+       link: 'steam://rungameid/game-id'
+      },
+      {
+        id: '',
+        name: 'epic',
+        link: ''
+      }
+    ],
+    // 游戏版本
+    "version": ""
+    // 最后备份时间
+    "lastBackTime": ''
+    // 备份路径(多路径,因为支持多路径的)
+    "backPath": []
+  }
+```
+
+### 备份记录
+  本地备份和云备份
+```js
+
+[
+  {
+    // 备份记录与游戏挂钩(暂时未确定使用什么标识进行关联)
+    id: 'xxx',
+    name: "压缩包名称",
+    time: "备份时间"
+  }
+]
+
+
+```
+### 还原记录
+  本地还原和云还原,数据跟上面一致
+
+### 操作流程
+ 扫描配置 --> 生成存档配置 --> ?[创建游戏配置] --> 合并为 <列表展示> --> 生成备份记录
 
 #### Build Setup
 
