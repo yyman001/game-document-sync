@@ -76,7 +76,9 @@
 [
   {
     // [游戏名]
-    "gameName": '空洞骑士',
+    "gameName": 'Hollow Knight',
+    // [游戏译名,根据语言版本翻译]
+    "nickName": '空洞骑士',
     // 游戏存档目录名
     "gameDocDir": 'Hollow Knight',
     // [游戏开发公司/团队]
@@ -95,6 +97,8 @@
 {
   // [游戏名]
   "gameName": '空洞骑士',
+      // [游戏译名,根据语言版本翻译]
+  "nickName": '空洞骑士',
   // 游戏存档目录名
   "gameDocDir": 'Hollow Knight',
   // [游戏开发公司/团队]
