@@ -1,13 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-07-28 21:17:49
- * @LastEditTime: 2020-07-28 21:57:27
+ * @LastEditTime: 2020-07-29 22:30:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \game-document-sync\src\utils\index.js
  */ 
 
-
+const fs = require('fs')
 
 /**
  * 初始化扫描路径
@@ -32,8 +32,34 @@ function initScanPath(scanList = [], configList = [], userName = '') {
     return keyMap
 }
 
+/**
+ * 过滤无效的扫描路径
+ *
+ * @param {Array} scanList 扫描路径数组
+ * @param {Object} scanPath 路径集合对象
+ * @returns {Object} 返回有效的路径集合对象
+ */
+function filterInvalidPath(scanList = [], scanPath = {}) {
+    return scanList.reduce((gather, { gameDocDir }) => {
+
+        let configList = scanPath[gameDocDir] || []
+
+        configList.some((gameDocPath) => {
+
+            if (fs.existsSync(gameDocPath)) {
+                gather[gameDocDir] = gameDocPath
+                return true
+            }
+
+            return false
+        })
+
+        return gather
+    }, Object.create(null))
+}
 
 
- module.exports = {
-    initScanPath
- }
+module.exports = {
+    initScanPath,
+    filterInvalidPath
+}
