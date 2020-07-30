@@ -1,0 +1,392 @@
+[
+    {
+        "gameName": "Hollow Knight",
+        "nickName": "空洞骑士",
+        "gameDocDir": "Hollow Knight",
+        "gameCompany": "Team Cherry",
+        "gameDocPath": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+        "fileDetailedList": [
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\Benchwarp.GlobalSettings.json",
+                "md5": "7b18555e041d727f4d872027f49a78f5",
+                "size": 436
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\Benchwarp.GlobalSettings.json.bak",
+                "md5": "7b18555e041d727f4d872027f49a78f5",
+                "size": 436
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\Crashes",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\ModCommon.GlobalSettings.json",
+                "md5": "282dd6b286d18c77029d436717211bc3",
+                "size": 352
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\ModCommon.GlobalSettings.json.bak",
+                "md5": "282dd6b286d18c77029d436717211bc3",
+                "size": 352
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\ModdingApi.GlobalSettings.json",
+                "md5": "422da2b116643e3346713bd5c93f7ff2",
+                "size": 604
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\ModdingApi.GlobalSettings.json.bak",
+                "md5": "422da2b116643e3346713bd5c93f7ff2",
+                "size": 604
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\ModLog.txt",
+                "md5": "efd83bdf3cd983c819f395e94e82392d",
+                "size": 52315
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\output_log.txt",
+                "md5": "eedf07868cb5e571a910e1707e6e98ee",
+                "size": 620623
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1 - 副本.dat",
+                "md5": "786ccd772cfcbb92600165034afeb7b8",
+                "size": 370138
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1.dat",
+                "md5": "786ccd772cfcbb92600165034afeb7b8",
+                "size": 370138
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1.dat.bak601",
+                "md5": "92d8264e1919839e003be3bab904c6ad",
+                "size": 370098
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1.dat.bak602",
+                "md5": "0c99784664a513158f2de594250f249c",
+                "size": 370138
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1.dat.bak603",
+                "md5": "dea6ae8030841288a8b38172f22c8c45",
+                "size": 370138
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user1_1.4.3.2.dat",
+                "md5": "786ccd772cfcbb92600165034afeb7b8",
+                "size": 370138
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user2.dat",
+                "md5": "38276a80623a00d186ab6b03a520d9e3",
+                "size": 64838
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user2_1.4.3.2.dat",
+                "md5": "38276a80623a00d186ab6b03a520d9e3",
+                "size": 64838
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user3.dat",
+                "md5": "77b810baf20dadfb512fa29596c1fcfb",
+                "size": 374962
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user3.dat.bak81",
+                "md5": "0eafd7f56889f450e60a458061f82f37",
+                "size": 375110
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user3.dat.bak82",
+                "md5": "499d1c7623c88fc2ba7fce5024f9ae7f",
+                "size": 374962
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user3.dat.bak83",
+                "md5": "78f6715b376337db454124d259f808b8",
+                "size": 374962
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user3_1.4.3.2.dat",
+                "md5": "77b810baf20dadfb512fa29596c1fcfb",
+                "size": 374962
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\LocalLow\\Team Cherry\\Hollow Knight\\user4_1.4.3.2.dat",
+                "md5": "a61b8a422cd2a306406af88070c1fb9c",
+                "size": 370970
+            }
+        ]
+    },
+    {
+        "gameName": "Blazing Beaks",
+        "nickName": "",
+        "gameDocDir": "BlazingBeaks",
+        "gameCompany": "",
+        "gameDocPath": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks",
+        "fileDetailedList": [
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks\\gamedata.sav",
+                "md5": "1e2e81bbf56a3d70d88fffa859e408e3",
+                "size": 13325
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks\\mods",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks\\mods\\custom",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks\\mods\\custom\\config.ini",
+                "md5": "bb7e2f5469fa27388f41b93dff8e6158",
+                "size": 158
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\BlazingBeaks\\mods\\mods.txt",
+                "md5": "8b9035807842a4e4dbe009f3f1478127",
+                "size": 6
+            }
+        ]
+    },
+    {
+        "gameName": "Darksiders3",
+        "nickName": "暗黑血统3",
+        "gameDocDir": "Darksiders3",
+        "gameCompany": "",
+        "gameDocPath": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3",
+        "fileDetailedList": [
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\CrashReportClient",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\CrashReportClient\\UE4CC-Windows-A62D635042FD3AFE3D17C0B0E01D7C51",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\CrashReportClient\\UE4CC-Windows-A62D635042FD3AFE3D17C0B0E01D7C51\\CrashReportClient.ini",
+                "md5": "3896e4f9652c6536e8ef72f760b61681",
+                "size": 270
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\ApexDestruction.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Compat.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\DeviceProfiles.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\EditorPerProjectUserSettings.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Engine.ini",
+                "md5": "9e7e2709201c00c62ccfcad8db672d9d",
+                "size": 633
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Game.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\GameUserSettings.ini",
+                "md5": "2bdbe2d1ec71c900549d4512c41f02c2",
+                "size": 150
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Hardware.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Input.ini",
+                "md5": "ace3ff9aeda085adf6a3b4a434bb284a",
+                "size": 3725
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Lightmass.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Paper2D.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\PhysXVehicles.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Config\\WindowsNoEditor\\Scalability.ini",
+                "md5": "81051bcc2cf1bedf378224b0a93e2877",
+                "size": 2
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\Logs",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\SaveGames",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\SaveGames\\profile.sav",
+                "md5": "74b9e76a56f34faeea3326e935c3424c",
+                "size": 688
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\Darksiders3\\Saved\\SaveGames\\save_0.sav",
+                "md5": "9e0c41d22597112f470721b16bcf2dc5",
+                "size": 1246887
+            }
+        ]
+    },
+    {
+        "gameName": "PAYDAY 2",
+        "nickName": "独立日2",
+        "gameDocDir": "PAYDAY 2",
+        "gameCompany": "",
+        "gameDocPath": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2",
+        "fileDetailedList": [
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2\\renderer_settings.xml",
+                "md5": "53fc38159ad9b415e636e87d61bdf6a1",
+                "size": 753
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2\\saves",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": false,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2\\saves\\90071996842377217",
+                "md5": "",
+                "size": 0
+            },
+            {
+                "isFile": true,
+                "path": "C:\\Users\\lenovo\\AppData\\Local\\PAYDAY 2\\saves\\90071996842377217\\save098.sav",
+                "md5": "b551114c60eca143136f0392cc7d0171",
+                "size": 13778
+            }
+        ]
+    }
+]
