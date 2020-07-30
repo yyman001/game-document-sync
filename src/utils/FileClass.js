@@ -2,7 +2,7 @@
  * @Description: 文件操作类
  * @Author: your name
  * @Date: 2019-08-16 00:57:03
- * @LastEditTime: 2019-08-19 23:58:33
+ * @LastEditTime: 2020-07-30 22:24:47
  * @LastEditors: Please set LastEditors
  */
 const fs = require('fs-extra')
@@ -65,7 +65,7 @@ async function readJson (file_path) {
  */
 async function outputJson (file_path, file_buffer) {
   try {
-    await fs.outputJson(file_path, {name: 'JP'})
+    await fs.outputJson(file_path, file_buffer)
 
     const data = await fs.readJson(file_path)
 
