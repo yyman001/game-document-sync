@@ -8,7 +8,7 @@
 
 const path = require('path')
 const FileClass = require('./../src/utils/FileClass')
-const config = require('./scan.config.json')
+const config = require('../src/config/scan.config.json')
 const { scanList } = require('./scan')
 const { initScanPath, createGameDocDetailed, getInvalidPath } = require('../src/utils/index')
 

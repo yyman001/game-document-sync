@@ -6,7 +6,7 @@
  * @LastEditors: Please set LastEditors
  */
 
-const config = require('./scan.config.json')
+const config = require('../src/config/scan.config.json')
 const { scanList } = require('./scan')
 const { initScanPath, filterInvalidPath } = require('../src/utils/index')
 

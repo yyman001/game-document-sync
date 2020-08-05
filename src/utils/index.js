@@ -10,6 +10,7 @@
 const fs = require('fs')
 const rd = require('rd')
 const md5 = require('md5')
+const path = require("path")
 
 /**
  * 初始化扫描路径
@@ -19,16 +20,14 @@ const md5 = require('md5')
  * @param {string} [userName='']
  * @returns
  */
+
 function initScanPath(scanList = [], configList = [], userName = '') {
     let keyMap = Object.create(null)
-    scanList.forEach(({ gameDocDir, gameCompany }) => {
-        keyMap[gameDocDir] = configList.map((path) => {
-            return path.replace(/{userName}/, userName)
-                .replace(/{gameName}/, gameDocDir)
-                // 为了设置过滤标识,给后面的filter过滤掉这个无用path
-                .replace(/{gameCompany}/, gameCompany || '{filter}')
+    scanList.forEach(({ gameDocDir }) => {
+        keyMap[gameDocDir] = configList.map((scanPath) => {
+            const temp_path = scanPath.replace(/{userName}/, userName).replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
+            return path.join(temp_path) 
         })
-            .filter((path) => !/{filter}/.test(path))
     })
 
     return keyMap

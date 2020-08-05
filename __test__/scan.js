@@ -10,7 +10,7 @@ module.exports.scanList = [
     {
         "gameName": "Hollow Knight",
         "nickName": "空洞骑士",
-        "gameDocDir": "Hollow Knight",
+        "gameDocDir": "Team Cherry|Hollow Knight",
         "gameCompany": "Team Cherry"
     },
     {

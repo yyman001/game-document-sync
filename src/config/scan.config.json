@@ -1,0 +1,7 @@
+[
+    "C:\\Users\\{userName}\\Saved Games\\{gameDocDir}",
+    "C:\\Users\\{userName}\\AppData\\Local\\{gameDocDir}",
+    "C:\\Users\\{userName}\\AppData\\LocalLow\\{gameDocDir}",
+    "C:\\Users\\{userName}\\AppData\\Roaming\\{gameDocDir}",
+    "C:\\Users\\{userName}\\Documents\\{gameDocDir}"
+]

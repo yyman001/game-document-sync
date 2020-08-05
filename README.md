@@ -80,7 +80,7 @@
     // [游戏译名,根据语言版本翻译]
     "nickName": '空洞骑士',
     // 游戏存档目录名
-    "gameDocDir": 'Hollow Knight',
+    "gameDocDir": 'Team Cherry|sHollow Knight',
     // [游戏开发公司/团队]
     "gameCompany": 'Team Cherry',
     // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
@@ -100,7 +100,7 @@
       // [游戏译名,根据语言版本翻译]
   "nickName": '空洞骑士',
   // 游戏存档目录名
-  "gameDocDir": 'Hollow Knight',
+  "gameDocDir": 'Team Cherry|sHollow Knight',
   // [游戏开发公司/团队]
   "gameCompany": 'Team Cherry',
   // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
