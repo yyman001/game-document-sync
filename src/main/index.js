@@ -1,7 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
-
+import '../utils/eventMessage'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -20,9 +20,14 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    id: 1,
+    height: 760,
+    width: 1520,
     useContentSize: true,
-    width: 1000
+    webPreferences: {
+      // 设置为true就可以在这个渲染进程中调用Node.js
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(winURL)
@@ -32,7 +37,9 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
