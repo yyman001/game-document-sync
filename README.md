@@ -228,3 +228,7 @@ npm run lint
  - [Bootstrap Vue](https://bootstrap-vue.org/)
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+
+### 参考资料
+ - [游戏名称列表](https://www.gamesave-manager.com/?s=support&c=supported_games)
+ - [获取游戏平台安装游戏列表](https://indienova.com/u/hangacs/blogread/27792)
