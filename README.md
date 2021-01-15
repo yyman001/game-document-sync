@@ -14,11 +14,12 @@
    - `C:\Users\${用户名}\AppData\Local\${游戏名}`
    - `C:\Users\${用户名}\AppData\LocalLow\${游戏名}`
    - `C:\Users\${用户名}\AppData\LocalLow\${游戏厂商}\${游戏名}`
-     - Team Cherry
+     - Team Cherry (空洞骑士)
      - Southpaw Games
      - Rebuilt Games
      - Ninja Kiwi
    - `C:\Users\${用户名}\AppData\Roaming\${游戏名}`
+     - StardewValley => Stardew Valley(星谷物语), 这个单词中间是没有空格的
    - `C:\Users\${用户名}\Documents\${游戏名}`
    - `X:\Steam\userdata\steam_id\app_id\remote` steam部分类型游戏存档位置
   - 扫描配置文件, 记录游戏存档相关信息
