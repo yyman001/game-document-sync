@@ -30,5 +30,9 @@ module.exports.scanList = [
         "nickName": "独立日2",
         "gameDocDir": "PAYDAY 2",
         "gameCompany": ""
+    },
+    {
+        "gameName": "Poly Bridge",
+        "gameDocDir": "Dry Cactus"
     }
 ] 

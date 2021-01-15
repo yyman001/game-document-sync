@@ -30,7 +30,7 @@ async function move (src, dest, is_overwrite = true) {
  * @param {*} [file_path=__dirname]
  * @param {string} [file_content='file_conetent']
  */
-export async function outputFile (file_path = __dirname, file_content = 'file_conetent') {
+async function outputFile (file_path = __dirname, file_content = 'file_conetent') {
   try {
     await fs.outputFile(file_path, file_content)
 
@@ -69,7 +69,7 @@ async function outputJson (file_path, file_buffer) {
 
     const data = await fs.readJson(file_path)
 
-    console.log(data.name) // => JP
+    console.log(`文件: ${file_path} 写入成功!`) // => JP
   } catch (err) {
     console.error(err)
   }
@@ -110,4 +110,14 @@ async function copy (copy_path, save_path, filter_funtion) {
     console.error(err)
     return [err, false]
   }
+}
+
+
+module.exports = {
+  move,
+  readJson,
+  outputJson,
+  outputFile,
+  readdirSync,
+  copy
 }
