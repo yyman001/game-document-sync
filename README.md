@@ -229,6 +229,35 @@ npm run lint
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
+### steam 相关
+steam 游戏预览图
+https://cdn.cloudflare.steamstatic.com/steam/apps/457140/capsule_184x69.jpg
+大图
+https://cdn.cloudflare.steamstatic.com/steam/apps/294100/header.jpg?t=1594308831
+
+获取全部steam 游戏列表(app-id,app-name)
+https://api.steampowered.com/ISteamApps/GetAppList/v2/
+
+获取详细游戏资料
+https://store.steampowered.com/api/appdetails?appids=1030300
+
+
 ### 参考资料
  - [游戏名称列表](https://www.gamesave-manager.com/?s=support&c=supported_games)
  - [获取游戏平台安装游戏列表](https://indienova.com/u/hangacs/blogread/27792)
+ - [steam 云同步](https://partner.steamgames.com/doc/features/cloud)
+
+### 注册表分析
+ steam
+ 该注册表路径 包含当前用户账号下的 `HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\Apps` 的游戏列表(运行过的), 有4个关键值, `Installed`,`Name`,`Running`,`Updating`
+ 
+ 卸载信息
+ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 413150
+
+ 读取注册表工具
+ https://github.com/fresc81/node-winreg
+ https://github.com/ironSource/node-regedit
+
+ 获取进程
+ https://www.npmjs.com/package/ps-list
+ 
