@@ -84,16 +84,20 @@
 ```js
 [
   {
-    // [游戏名]
+    // [游戏名] 自动裁剪文件夹名
     "gameName": 'Hollow Knight',
     // [游戏译名,根据语言版本翻译]
     "nickName": '空洞骑士',
-    // 游戏存档目录名
-    "gameDocDir": 'Team Cherry|sHollow Knight',
+    // 游戏存档目录名 自动裁剪文件夹名
+    "gameDocDir": 'Team Cherry|Hollow Knight',
     // [游戏开发公司/团队]
     "gameCompany": 'Team Cherry',
-    // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
-    "gameDocPath": '/Team Cherry/Hollow Knight'
+    // 完整路径 = 游戏存档完整路径
+    "gameDocFullPath": "",
+    // [游戏存档路径] 自动计算,由 game_absolute_path 获取
+    "gameDocPath": '/Team Cherry/Hollow Knight',
+    // 系统类型,  window = 1, mac = 2, linux = 3
+    "systemType": "" 
   }
 ]
 
@@ -109,7 +113,7 @@
       // [游戏译名,根据语言版本翻译]
   "nickName": '空洞骑士',
   // 游戏存档目录名
-  "gameDocDir": 'Team Cherry|sHollow Knight',
+  "gameDocDir": 'Team Cherry|Hollow Knight',
   // [游戏开发公司/团队]
   "gameCompany": 'Team Cherry',
   // [游戏存档路径] 自动计算?后面跟进大数据尝试识别
