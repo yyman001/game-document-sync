@@ -5,12 +5,12 @@
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \game-document-sync\src\utils\index.js
- */ 
+ */
 
 const fs = require('fs')
 const rd = require('rd')
 const md5 = require('md5')
-const path = require("path")
+const path = require('path')
 
 /**
  * 初始化扫描路径
@@ -21,16 +21,16 @@ const path = require("path")
  * @returns
  */
 
-function initScanPath(scanList = [], configList = [], userName = '') {
-    let keyMap = Object.create(null)
-    scanList.forEach(({ gameDocDir }) => {
-        keyMap[gameDocDir] = configList.map((scanPath) => {
-            const temp_path = scanPath.replace(/{userName}/, userName).replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
-            return path.join(temp_path) 
-        })
+function initScanPath (scanList = [], configList = [], userName = '') {
+  let keyMap = Object.create(null)
+  scanList.forEach(({ gameDocDir }) => {
+    keyMap[gameDocDir] = configList.map((scanPath) => {
+      const temp_path = scanPath.replace(/{userName}/, userName).replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
+      return path.join(temp_path)
     })
+  })
 
-    return keyMap
+  return keyMap
 }
 
 /**
@@ -40,25 +40,22 @@ function initScanPath(scanList = [], configList = [], userName = '') {
  * @param {Object} scanPath 路径集合对象
  * @returns {Object} 返回有效的路径集合对象
  */
-function filterInvalidPath(scanList = [], scanPath = {}) {
-    return scanList.reduce((gather, { gameDocDir }) => {
+function filterInvalidPath (scanList = [], scanPath = {}) {
+  return scanList.reduce((gather, { gameDocDir }) => {
+    let configList = scanPath[gameDocDir] || []
 
-        let configList = scanPath[gameDocDir] || []
+    configList.some((gameDocPath) => {
+      if (fs.existsSync(gameDocPath)) {
+        gather[gameDocDir] = gameDocPath
+        return true
+      }
 
-        configList.some((gameDocPath) => {
+      return false
+    })
 
-            if (fs.existsSync(gameDocPath)) {
-                gather[gameDocDir] = gameDocPath
-                return true
-            }
-
-            return false
-        })
-
-        return gather
-    }, Object.create(null))
+    return gather
+  }, Object.create(null))
 }
-
 
 /**
  * 获取有效路径
@@ -68,26 +65,25 @@ function filterInvalidPath(scanList = [], scanPath = {}) {
  * @returns 返回有效路径数组
  */
 function getInvalidPath (scanList = [], scanPath = {}) {
-    return scanList.reduce((gather, item) => {
-        let { gameDocDir } = item
-        let configList = scanPath[gameDocDir] || []
+  return scanList.reduce((gather, item) => {
+    let { gameDocDir } = item
+    let configList = scanPath[gameDocDir] || []
 
-        configList.some((gameDocPath) => {
-
-            if (fs.existsSync(gameDocPath)) {
-                gather[gameDocDir] = gameDocPath
-                gather.push({
-                    ...item,
-                    gameDocPath
-                })
-                return true
-            }
-
-            return false
+    configList.some((gameDocPath) => {
+      if (fs.existsSync(gameDocPath)) {
+        gather[gameDocDir] = gameDocPath
+        gather.push({
+          ...item,
+          gameDocPath
         })
+        return true
+      }
 
-        return gather
-    }, [])
+      return false
+    })
+
+    return gather
+  }, [])
 }
 
 /**
@@ -97,38 +93,37 @@ function getInvalidPath (scanList = [], scanPath = {}) {
  * @returns
  */
 function createGameDocDetailed (validPathList) {
+  return validPathList.map((item) => {
+    let {gameDocPath} = item
+    let fileDetailedList = []
 
-    return validPathList.map((item) => {
-      let {gameDocPath} = item
-      let fileDetailedList = []
-      
-      rd.eachSync(gameDocPath, function (fileFillPath, stats) {
-        // 每找到一个文件都会调用一次此函数
-        // 参数s是通过 fs.stat() 获取到的文件属性值
-        let isFile = stats.isFile()
-        let md5Key = ''
-        if (isFile){
-          md5Key = md5(fs.readFileSync(fileFillPath))
-        }
-        
-        fileDetailedList.push({
-          isFile,
-          path: fileFillPath,
-          md5: md5Key,
-          size: stats.size
-        })
-      })
-  
-      return {
-        ...item,
-        fileDetailedList
+    rd.eachSync(gameDocPath, function (fileFillPath, stats) {
+      // 每找到一个文件都会调用一次此函数
+      // 参数s是通过 fs.stat() 获取到的文件属性值
+      let isFile = stats.isFile()
+      let md5Key = ''
+      if (isFile) {
+        md5Key = md5(fs.readFileSync(fileFillPath))
       }
+
+      fileDetailedList.push({
+        isFile,
+        path: fileFillPath,
+        md5: md5Key,
+        size: stats.size
+      })
     })
-  }
+
+    return {
+      ...item,
+      fileDetailedList
+    }
+  })
+}
 
 module.exports = {
-    initScanPath,
-    filterInvalidPath,
-    getInvalidPath,
-    createGameDocDetailed
+  initScanPath,
+  filterInvalidPath,
+  getInvalidPath,
+  createGameDocDetailed
 }
