@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-06 12:07:55
- * @LastEditTime: 2021-06-12 18:35:18
+ * @LastEditTime: 2021-06-13 21:41:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \game-document-sync\src\renderer\components\new-scan.vue
@@ -10,7 +10,7 @@
 创建扫描配置
  -->
 <template>
-    <el-dialog title="创建扫描游戏配置" :show-close="false" :visible="value">
+    <el-dialog :append-to-body="true" title="创建扫描游戏配置" :show-close="false" :visible="value">
         <el-form ref="form" :model="form" label-width="80px">
             <el-input placeholder="自动识别" v-model="form.gameName" style="margin-bottom: 20px;">
                 <template slot="prepend">游戏名</template>
@@ -56,9 +56,9 @@
           gameDocPath: ''
         },
         systemTypeOptions: {
-          'Windows_NT': 1, // Windows
-          'Darwin': 2, // Mac
-          'Linux': 3
+          'Windows_NT': 'Windows',
+          'Darwin': 'Mac',
+          'Linux': 'Linux'
         }
       }
     },

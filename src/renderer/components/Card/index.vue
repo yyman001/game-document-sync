@@ -154,6 +154,7 @@ export default {
     font-weight: bold;
     font-size: 1.2em;
     text-align: justify;
+    word-break: break-all;
   }
   &__buttons {
     padding: 0.8em 0;

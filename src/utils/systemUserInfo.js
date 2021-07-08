@@ -13,7 +13,7 @@ const os = require('os')
     shell: null
   }
  */
-function getSystemUserInfo() {
+function getSystemUserInfo () {
   return os.userInfo()
 }
 
