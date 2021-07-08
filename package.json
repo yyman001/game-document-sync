@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "yyman001 <yyman001@qq.com>",
   "description": "An electron-vue project",
-  "license": null,
+  "license": "null",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js",
@@ -28,6 +28,8 @@
     "element-ui": "^2.12.0",
     "fs-extra": "^8.1.0",
     "md5": "^2.2.1",
+    "nedb": "^1.8.0",
+    "nedb-promises": "^5.0.0",
     "normalize.css": "^8.0.1",
     "rd": "^2.0.1",
     "regedit": "^3.0.3",
@@ -40,6 +42,7 @@
     "wired-elements": "^1.0.0"
   },
   "devDependencies": {
+    "vue-devtools": "^5.1.4",
     "ajv": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
