@@ -84,8 +84,17 @@
     mounted () {
     },
     methods: {
+      onReset () {
+        this.gameDocFullPath = ''
+        this.form = {
+          nickName: '',
+          gameDocDir: '',
+          gameDocPath: ''
+        }
+      },
       onSubmit () {
         this.$emit('handelSubmit', {...this.form, systemType: this.systemTypeOptions[this.systemType]})
+        this.onReset()
       },
       handleExit () {
         this.$emit('handleExit', this.form)

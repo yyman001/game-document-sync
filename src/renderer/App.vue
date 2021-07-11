@@ -1,5 +1,5 @@
 <!--
- * @Author: your name
+ * @Author: yyman001
  * @Date: 2020-07-22 20:22:17
  * @LastEditTime: 2021-06-12 19:16:09
  * @LastEditors: Please set LastEditors
@@ -8,14 +8,20 @@
 -->
 <template>
   <div id="app">
+  <el-container>
+    <!-- 导航 -->
+    <Menu/>
     <router-view></router-view>
+  </el-container>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'game-document-sync'
-  }
+import Menu from './components/Menu'
+export default {
+  name: 'game-document-sync',
+  components: {Menu}
+}
 </script>
 
 <style>

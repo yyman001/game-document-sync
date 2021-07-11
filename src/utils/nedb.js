@@ -57,6 +57,35 @@ export async function updateDocRecord (gameDocDir, data) {
   return null
 }
 
+// 查询列表
+export async function getDocs (keywords) {
+  const seachParams = {}
+  if (keywords) {
+    seachParams.$where = function () {
+      const {gameName, nickName} = this
+      const regExp = new RegExp(keywords, 'i')
+      return regExp.test(gameName) || regExp.test(nickName)
+    }
+  }
+  try {
+    return await docDB.find(seachParams)
+  } catch (error) {
+    console.error('getGames::', error)
+  }
+
+  return null
+}
+
+export async function removeDocs (gameName) {
+  try {
+    return await docDB.remove({gameName})
+  } catch (error) {
+    console.error('removeGame::', error)
+  }
+
+  return null
+}
+
 // 添加游戏列表
 export async function addGame (data) {
   try {
