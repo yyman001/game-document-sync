@@ -18,7 +18,7 @@
             <el-input placeholder="eg:空洞骑士" v-model="form.nickName" style="margin-bottom: 20px;">
                 <template slot="prepend">游戏名别名</template>
             </el-input>
-            <el-input placeholder="eg: C:/Team Cherry/Hollow Knight" v-model="form.gameDocFullPath" style="margin-bottom: 20px;">
+            <el-input placeholder="eg: C:/Team Cherry/Hollow Knight" v-model="gameDocFullPath" style="margin-bottom: 20px;">
                 <template slot="prepend">存档路径</template>
             </el-input>
             <el-input disabled placeholder="自动识别" v-model="form.gameDocPath" style="margin-bottom: 20px;">
@@ -52,9 +52,9 @@
         form: {
           nickName: '',
           gameDocDir: '',
-          gameDocFullPath: '',
           gameDocPath: ''
         },
+        gameDocFullPath: '',
         systemTypeOptions: {
           'Windows_NT': 'Windows',
           'Darwin': 'Mac',
@@ -63,12 +63,13 @@
       }
     },
     watch: {
-      'form.gameDocFullPath' (path) {
+      gameDocFullPath (path) {
         console.log('path', path) // C:\Users\Administrator\Documents\Klei\OxygenNotIncluded
         console.log('homedir', this.homedir) // C:\Users\Administrator
         if (this.systemType === 'Windows_NT') {
           const gameDocDir = path.split('\\').slice(-1)[0]
-          this.form.gameDocPath = path.replace(this.homedir, '')
+          // 表达式: \w+:\\users\\\w+?\\ 替换 C:\Users\???\
+          this.form.gameDocPath = path.replace(/\w+:\\users\\\w+?\\/ig, '\\')
           this.form.gameDocDir = gameDocDir
           this.form.gameName = gameDocDir.replace(/_/ig, ' ')
         }
