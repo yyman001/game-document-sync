@@ -25,6 +25,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "compressing": "^1.4.0",
+    "dayjs": "^1.10.6",
     "element-ui": "^2.15.3",
     "fs-extra": "^8.1.0",
     "md5": "^2.2.1",
