@@ -6,57 +6,51 @@ const compressing = require('compressing')
 /**
  * 压缩文件
  *
- * @param entry_path
- * @param out_path
- * @param type
- * @returns {Promise.<*>}
+ * @param entryPath - 输入压缩文件路径
+ * @param outPath - 输出文件路径
+ * @param type - 压缩文件类型
+ * @returns {Promise.<Array<string|null, null| object>>}
  */
-async function compress_dir (entry_path, out_path = 'untitled', type = 'tar') {
-  // eg:
-  // await compressing.tar.compressDir('nodejs-compressing-demo',
-  //   'nodejs-compressing-demo.tar');
-  // await compressing.gzip.compressFile('nodejs-compressing-demo.tar',
-  //   'nodejs-compressing-demo.tgz');
-  if (typeof entry_path !== 'string') {
-    console.warn(`must input 'entry_path' & type is string!`)
-    return false
+async function compressDir (entryPath, outPath = 'untitled', type = 'tar') {
+  if (typeof entryPath !== 'string') {
+    console.warn(`must input 'entryPath' & type is string!`)
+    return [`must input 'entryPath' & type is string!`, null]
   }
 
   try {
     if (type === 'tar') {
-      await compressing.tar.compressDir(entry_path,
-        `${out_path}.tar`)
-      await compressing.gzip.compressFile(`${out_path}.tar`,
-        `${out_path}.tgz`)
+      await compressing.tar.compressDir(entryPath, `${outPath}.tar`)
+      await compressing.gzip.compressFile(`${outPath}.tar`, `${outPath}.tgz`)
     } else if (type === 'zip') {
-      return await compressing.zip.compressDir(entry_path, `${out_path}.zip`)
+      await compressing.zip.compressDir(entryPath, `${outPath}.zip`)
     }
 
-    console.log('compress: success', out_path + type)
-    return true
+    return [null, {
+      entryPath,
+      outPath,
+      type
+    }]
   } catch (err) {
-    console.error(err)
-    return false
+    return [err, null]
   }
 }
 
 /**
  * 解压文件
  *
- * @param entry_path
- * @param un_compress_file_path
+ * @param entryPath - 待解压输入文件路径
+ * @param unCompressFilePath - 解压输出文件路径
  * @returns {Promise.<boolean>}
  */
-async function un_compress (entry_path, un_compress_file_path) {
-  // 解压缩
+async function unCompress (entryPath, unCompressFilePath) {
   try {
-    if (entry_path.indexOf('.tar') > -1) {
-      await compressing.tar.uncompress(entry_path, un_compress_file_path)
-    } else if (entry_path.indexOf('.tgz') > -1) {
-      await compressing.gzip.uncompress(`${entry_path}.tgz`, `${un_compress_file_path}.tar`)
-      await compressing.tar.uncompress(`${un_compress_file_path}.tar`, `${un_compress_file_path}`)
-    } else if (entry_path.indexOf('.zip') > -1) {
-      await compressing.zip.uncompress(entry_path, un_compress_file_path)
+    if (entryPath.indexOf('.tar') > -1) {
+      await compressing.tar.uncompress(entryPath, unCompressFilePath)
+    } else if (entryPath.indexOf('.tgz') > -1) {
+      await compressing.gzip.uncompress(`${entryPath}.tgz`, `${unCompressFilePath}.tar`)
+      await compressing.tar.uncompress(`${unCompressFilePath}.tar`, `${unCompressFilePath}`)
+    } else if (entryPath.indexOf('.zip') > -1) {
+      await compressing.zip.uncompress(entryPath, unCompressFilePath)
     }
 
     console.log('un_compress: success')
@@ -67,7 +61,7 @@ async function un_compress (entry_path, un_compress_file_path) {
   }
 }
 
-module.exports = {
-  compress_dir,
-  un_compress
+export default {
+  compressDir,
+  unCompress
 }
