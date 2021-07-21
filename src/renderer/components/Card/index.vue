@@ -33,7 +33,7 @@
         </div>
         <div class="card__label-time">
           <span>备份时间:</span>
-          <i>2021-07-08 16:29:32</i>
+          <i>{{formatTimestamp(item.lastBackTime)}}</i>
         </div>
       </div>
     </div>
@@ -41,9 +41,11 @@
 </template>
 
 <script>
+import formatTime from '../../mixins/formatTime'
 export default {
   name: 'card',
   components: {},
+  mixins: [formatTime],
   props: {
     item: Object
   },
