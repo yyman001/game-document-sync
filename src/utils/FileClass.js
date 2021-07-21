@@ -81,7 +81,7 @@ async function outputJson (file_path, file_buffer) {
  * @param {*} dir_path
  * @returns
  */
-function readdirSync (dir_path) {
+ function readdirSync (dir_path) {
   try {
     return fs.readdirSync(dir_path)
   } catch (error) {
@@ -112,12 +112,24 @@ async function copy (copy_path, save_path, filter_funtion) {
   }
 }
 
+/* 
+  确保写入文件夹
+* @param {string} directory - 文件夹路径
+*/
+async function ensureDir (directory) {
+  try {
+    await fs.ensureDir(directory)
+  } catch (err) {
+    console.error(err)
+  }
+}
 
-module.exports = {
+export default {
   move,
   readJson,
   outputJson,
   outputFile,
   readdirSync,
-  copy
+  copy,
+  ensureDir
 }
