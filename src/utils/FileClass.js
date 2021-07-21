@@ -124,6 +124,19 @@ async function ensureDir (directory) {
   }
 }
 
+
+async function remove (src, dest) {
+  try {
+    await fs.remove(src)
+    console.log('success!')
+    return true
+  } catch (err) {
+    console.error(err)
+  }
+
+  return false
+}
+
 export default {
   move,
   readJson,
@@ -131,5 +144,6 @@ export default {
   outputFile,
   readdirSync,
   copy,
-  ensureDir
+  ensureDir,
+  remove
 }
