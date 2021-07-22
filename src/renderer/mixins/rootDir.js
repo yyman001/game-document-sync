@@ -9,7 +9,7 @@ export default {
         return path.split('node_modules')[0]
       }
 
-      return path
+      return path.replace('game-document-sync.exe', '')
     }
   }
 }
