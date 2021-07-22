@@ -63,6 +63,8 @@
           <el-popconfirm @confirm="handleDelete(scope.$index, scope.row)" title="删除无法恢复,确定删除吗？">
             <el-button slot="reference" size="mini" type="danger">删除</el-button>
           </el-popconfirm>
+          <el-button icon="el-icon-folder-opened" size="mini" title="打开文件所在" @click="handleOpenDir(scope.row.filePath)"></el-button>
+          <el-button icon="el-icon-setting" size="mini" title="打开文件" @click="handleOpenFile(scope.row)"></el-button>
         </template>
       </el-table-column>
       </el-table>
@@ -104,6 +106,13 @@ export default {
       }
 
       this.tableData = list
+    },
+    handleOpenDir (path) {
+      this.$electron.shell.showItemInFolder(path)
+    },
+    handleOpenFile ({filePath, fileType}) {
+      const path = `${filePath}.${fileType}`
+      this.$electron.shell.openItem(path)
     }
   }
 }

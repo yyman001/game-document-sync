@@ -39,7 +39,7 @@
         </el-input>
         <el-input placeholder="" v-model="backPatch" style="margin-bottom: 20px;">
           <template slot="prepend">备份路径</template>
-          <!-- <el-button slot="append" icon="el-icon-search" @click.stop="handleOpenDir(backPatch)"></el-button> -->
+          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir(backPatch)"></el-button>
         </el-input>
         <el-input type="text" v-model="remask" maxlength="20" show-word-limit >
           <template slot="prepend">备注</template>
@@ -58,15 +58,17 @@
 import card from '../components/Card'
 import newScan from '../components/doc-dialog.vue'
 import eventMessage from '../mixins/eventMessage'
+import dirMixin from '../mixins/rootDir'
 const path = require('path')
 const {copy, ensureDir} = require('../../utils/FileClass').default
 const {compressDir} = require('../../utils/compressClass').default
+
 export default {
   components: {
     card,
     newScan
   },
-  mixins: [eventMessage],
+  mixins: [eventMessage, dirMixin],
   data () {
     return {
       dialogVisible: false,
@@ -87,7 +89,6 @@ export default {
   created () {
     this.getGamesList()
   },
-  mounted () {},
   methods: {
     onShowDialog () {
       this.dialogVisible = true
@@ -100,6 +101,7 @@ export default {
     },
     async handleClick ([type, game]) {
       console.log(type, game)
+      const rootDir = this.rootDir
       const {gameName, gameDocDir, gameDocPath} = game
       if (type === 'editor') {
 
@@ -117,9 +119,8 @@ export default {
         this.targetDir = gameDocDir
         this.targetName = gameName
         this.targetPatch = this.homedir + gameDocPath
-        this.backPatch = path.join('./', 'backup', gameDocDir)
-        this.tempPatch = path.join('./', 'temp', gameDocDir)
-        console.log('patch:', this.homedir + game.gameDocPath)
+        this.backPatch = path.join(rootDir, 'backup', gameDocDir)
+        this.tempPatch = path.join(rootDir, 'temp', gameDocDir)
       }
     },
     async handleSearchGames (keywords) {
