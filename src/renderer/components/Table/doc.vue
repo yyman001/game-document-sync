@@ -61,8 +61,6 @@
 
 <script>
 import DocDialog from '../doc-dialog.vue'
-import {insterDocRecord, getDocs, removeDocs, addGame} from '../../../utils/nedb'
-
 export default {
   components: {
     DocDialog
@@ -86,7 +84,7 @@ export default {
     },
     async handelSubmit (fromData, isCreateGame) {
       // todo: 判断是否再添加游戏,同时更新 游戏扫描列表
-      const message = await insterDocRecord(fromData)
+      const message = await this.$docs.add(fromData)
       if (message === null) {
         this.$message.error('创建存档信息失败!')
         return
@@ -94,7 +92,7 @@ export default {
 
       // 如果勾选同时创建对象游戏存档
       if (isCreateGame) {
-        const game = await addGame({
+        const game = await this.$games.add({
           ...fromData,
           gamePlatform: [],
           createTime: Date.now(),
@@ -108,7 +106,7 @@ export default {
       this.$message.success('创建存档信息成功!')
     },
     async getTableData () {
-      this.tableData = await getDocs()
+      this.tableData = await this.$docs.find({sort: {gameDocDir: 1}})
     },
     tableRowClassName ({row, rowIndex}) {
       if (rowIndex === 1) {
@@ -120,7 +118,7 @@ export default {
     },
     async handleCreate (index, {gameName, nickName, gameDocDir, gameDocPath, systemType}) {
       console.log(index, gameName)
-      const result = await addGame({
+      const result = await this.$games.add({
         gameName,
         nickName,
         gameDocDir,
@@ -140,10 +138,11 @@ export default {
     },
     handleEdit (index, row) {
       console.log(index, row)
+      // this.$docs.updateGameName(row.gameName)
     },
     async handleDelete (index, row) {
       console.log(index, row)
-      const x = await removeDocs(row.gameName)
+      const x = await this.$docs.remove({gameName: row.gameName})
       if (x === null) {
         this.$message.error('删除失败!')
         return
