@@ -33,7 +33,7 @@
         </div>
         <div class="card__label-time">
           <span>备份时间:</span>
-          <i>{{formatTimestamp(item.lastBackTime)}}</i>
+          <i>{{item.lastBackTime === null ? '无' : formatTimestamp(item.lastBackTime)}}</i>
         </div>
       </div>
     </div>
