@@ -35,11 +35,11 @@
       <el-dialog :append-to-body="true" :title="`存档备份:${targetName}`" :show-close="false" :visible="dialogVisible">
         <el-input disabled v-model="targetPatch" style="margin-bottom: 20px;">
           <template slot="prepend">存档路径</template>
-          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir(targetPatch)"></el-button>
+          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir('doc', targetPatch)"></el-button>
         </el-input>
         <el-input placeholder="" v-model="backPatch" style="margin-bottom: 20px;">
           <template slot="prepend">备份路径</template>
-          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir(backPatch)"></el-button>
+          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir('back', backPatch)"></el-button>
         </el-input>
         <el-input type="text" v-model="remask" maxlength="20" show-word-limit >
           <template slot="prepend">备注</template>
@@ -101,7 +101,6 @@ export default {
     },
     async handleClick ([type, game]) {
       console.log(type, game)
-      const rootDir = this.rootDir
       const {gameName, gameDocDir, gameDocPath} = game
       if (type === 'editor') {
 
@@ -119,8 +118,8 @@ export default {
         this.targetDir = gameDocDir
         this.targetName = gameName
         this.targetPatch = this.homedir + gameDocPath
-        this.backPatch = path.join(rootDir, 'backup', gameDocDir)
-        this.tempPatch = path.join(rootDir, 'temp', gameDocDir)
+        this.backPatch = path.join('./', 'backup', gameDocDir)
+        this.tempPatch = path.join('./', 'temp', gameDocDir)
       }
     },
     async handleSearchGames (keywords) {
@@ -128,7 +127,6 @@ export default {
     },
     async handleBackup () {
       this.isLoading = true
-      console.log('开始备份')
       const platform = this.systemType === 'Windows_NT' ? 'zip' : 'tar'
       // 复制存档到 当前软件运行目录下的 <temp>目录
       const [error, isCopySuccess] = await copy(this.targetPatch, this.tempPatch)
@@ -145,7 +143,6 @@ export default {
       const fileName = `${this.targetName}_t${timeStamp}`
       // 保存文件路径
       const savePath = path.join(this.backPatch, fileName)
-      console.log('savePath:', savePath)
       // 压缩存档
       const [compressError] = await compressDir(this.tempPatch, savePath, platform)
       if (compressError) {
@@ -158,7 +155,7 @@ export default {
         gameName: this.targetName,
         gameDocDir: this.targetDir,
         fileName: fileName,
-        filePath: savePath,
+        filePath: `${savePath}.${platform}`,
         platformTye: this.systemType,
         fileType: platform,
         timeStamp: timeStamp,
@@ -172,8 +169,7 @@ export default {
       }
 
       // 更新游戏列表中显示的 时间字段
-      const isUpdate = await this.$games.update(this.targetDir, {$set: {lastBackTime: timeStamp}})
-      console.log('isUpdate?:', isUpdate)
+      await this.$games.update(this.targetDir, {$set: {lastBackTime: timeStamp}})
       // 刷新游戏列表(单个或整个列表)
       await this.getGamesList()
       this.$message.success('备份成功!')
@@ -181,8 +177,9 @@ export default {
       this.dialogVisible = false
       this.remask = ''
     },
-    handleOpenDir (patch) {
-      this.$electron.shell.showItemInFolder(patch)
+    handleOpenDir (type, dirPath) {
+      const fullPath = type === 'back' ? path.join(this.rootDir, dirPath) : dirPath
+      this.$electron.shell.showItemInFolder(fullPath)
     }
   }
 }

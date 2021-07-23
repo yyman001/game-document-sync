@@ -16,7 +16,7 @@
             <span>{{ props.row.gameDocDir }}</span>
           </el-form-item>
           <el-form-item label="文件名:">
-            <span>{{ props.row.fileName }}</span>
+            <span>{{ props.row.fileName }}.{{props.row.fileType}}</span>
           </el-form-item>
           <el-form-item label="文件路径:">
             <span>{{ props.row.filePath }}</span>
@@ -74,10 +74,12 @@
 
 <script>
 import formatTime from '../mixins/formatTime'
+import dirMixin from '../mixins/rootDir'
 const {remove} = require('../../utils/FileClass').default
+const path = require('path')
 
 export default {
-  mixins: [formatTime],
+  mixins: [formatTime, dirMixin],
   data () {
     return {
       tableData: []
@@ -87,13 +89,11 @@ export default {
     this.getTableList()
   },
   methods: {
-    async handleDelete (index, row) {
-      console.log(index, row)
-      const isDel = await this.$backup.remove({fileName: row.fileName})
+    async handleDelete (index, {fileName, filePath}) {
+      const isDel = await this.$backup.remove({fileName})
       if (isDel === null) {
         this.$message.error('删除失败!')
       }
-      const filePath = `${row.filePath}.${row.fileType}`
       await remove(filePath)
       this.getTableList()
       this.$message.success('删除成功!')
@@ -107,12 +107,13 @@ export default {
 
       this.tableData = list
     },
-    handleOpenDir (path) {
-      this.$electron.shell.showItemInFolder(path)
+    handleOpenDir (dirPath) {
+      const fullPath = path.join(this.rootDir, dirPath)
+      this.$electron.shell.showItemInFolder(fullPath)
     },
-    handleOpenFile ({filePath, fileType}) {
-      const path = `${filePath}.${fileType}`
-      this.$electron.shell.openItem(path)
+    handleOpenFile ({filePath}) {
+      const fullPath = path.join(this.rootDir, filePath)
+      this.$electron.shell.openItem(fullPath)
     }
   }
 }
