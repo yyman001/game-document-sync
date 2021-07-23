@@ -174,7 +174,7 @@ export default {
       }
 
       // 更新游戏列表中显示的 时间字段
-      await this.$games.update(this.targetDir, {$set: {lastBackTime: timeStamp}})
+      await this.$games.update({gameDocDir: this.targetDir}, {$set: {lastBackTime: timeStamp}})
       // 刷新游戏列表(单个或整个列表)
       await this.getGamesList()
       this.$message.success('备份成功!')
