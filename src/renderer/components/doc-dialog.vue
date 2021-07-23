@@ -39,68 +39,62 @@
 </template>
 
 <script>
-  export default {
-    name: 'new-scan',
-    components: {},
-    props: ['value', 'userInfo'],
-    data () {
-      return {
-        // 系统类型 在 Linux 上返回 'Linux'，在 macOS 上返回 'Darwin'，在 Windows 上返回 'Windows_NT'。
-        systemType: require('os').type(),
-        homedir: require('os').homedir(),
-        dialogFormVisible: false,
-        form: {
-          nickName: '',
-          gameDocDir: '',
-          gameDocPath: ''
-        },
-        gameDocFullPath: '',
-        systemTypeOptions: {
-          'Windows_NT': 'Windows',
-          'Darwin': 'Mac',
-          'Linux': 'Linux'
-        }
-      }
-    },
-    watch: {
-      gameDocFullPath (path) {
-        console.log('path', path) // C:\Users\Administrator\Documents\Klei\OxygenNotIncluded
-        console.log('homedir', this.homedir) // C:\Users\Administrator
-        if (this.systemType === 'Windows_NT') {
-          const gameDocDir = path.split('\\').slice(-1)[0]
-          // 表达式: \w+:\\users\\\w+?\\ 替换 C:\Users\???\
-          this.form.gameDocPath = path.replace(/\w+:\\users\\\w+?\\/ig, '\\')
-          this.form.gameDocDir = gameDocDir
-          this.form.gameName = gameDocDir.replace(/_/ig, ' ')
-        }
-      }
-    },
-    computed: {
-    },
-    created () {
-    },
-    beforeDestroy () {
-    },
-    mounted () {
-    },
-    methods: {
-      onReset () {
-        this.gameDocFullPath = ''
-        this.form = {
-          nickName: '',
-          gameDocDir: '',
-          gameDocPath: ''
-        }
+import homeDirMixin from '../mixins/homedir'
+export default {
+  name: 'new-scan',
+  mixins: [homeDirMixin],
+  components: {},
+  props: ['value', 'userInfo'],
+  data () {
+    return {
+      dialogFormVisible: false,
+      form: {
+        nickName: '',
+        gameDocDir: '',
+        gameDocPath: ''
       },
-      onSubmit () {
-        this.$emit('handelSubmit', {...this.form, systemType: this.systemTypeOptions[this.systemType]})
-        this.onReset()
-      },
-      handleExit () {
-        this.$emit('handleExit', this.form)
+      gameDocFullPath: ''
+    }
+  },
+  watch: {
+    gameDocFullPath (path) {
+      console.log('path', path) // C:\Users\Administrator\Documents\Klei\OxygenNotIncluded
+      console.log('homedir', this.homedir) // C:\Users\Administrator
+      if (this.systemType === 'Windows_NT') {
+        const gameDocDir = path.split('\\').slice(-1)[0]
+        // 表达式: \w+:\\users\\\w+?\\ 替换 C:\Users\???\
+        this.form.gameDocPath = path.replace(/\w+:\\users\\\w+?\\/ig, '\\')
+        this.form.gameDocDir = gameDocDir
+        this.form.gameName = gameDocDir.replace(/_/ig, ' ')
       }
     }
+  },
+  computed: {
+  },
+  created () {
+  },
+  beforeDestroy () {
+  },
+  mounted () {
+  },
+  methods: {
+    onReset () {
+      this.gameDocFullPath = ''
+      this.form = {
+        nickName: '',
+        gameDocDir: '',
+        gameDocPath: ''
+      }
+    },
+    onSubmit () {
+      this.$emit('handelSubmit', {...this.form, systemType: this.systemTypeOptions[this.systemType]})
+      this.onReset()
+    },
+    handleExit () {
+      this.$emit('handleExit', this.form)
+    }
   }
+}
 </script>
 
 <style scoped type="text/scss" lang="scss">

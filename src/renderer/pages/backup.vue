@@ -75,16 +75,16 @@
 <script>
 import formatTime from '../mixins/formatTime'
 import dirMixin from '../mixins/rootDir'
+import homeDirMixin from '../mixins/homedir'
 const {remove} = require('../../utils/FileClass').default
 const path = require('path')
 const {unCompress} = require('../../utils/compressClass').default
 
 export default {
-  mixins: [formatTime, dirMixin],
+  mixins: [formatTime, dirMixin, homeDirMixin],
   data () {
     return {
-      tableData: [],
-      homedir: require('os').homedir()
+      tableData: []
     }
   },
   created () {

@@ -59,6 +59,7 @@ import card from '../components/Card'
 import newScan from '../components/doc-dialog.vue'
 import eventMessage from '../mixins/eventMessage'
 import dirMixin from '../mixins/rootDir'
+import homeDirMixin from '../mixins/homedir'
 const path = require('path')
 const {copy, ensureDir, remove} = require('../../utils/FileClass').default
 const {compressDir} = require('../../utils/compressClass').default
@@ -68,7 +69,7 @@ export default {
     card,
     newScan
   },
-  mixins: [eventMessage, dirMixin],
+  mixins: [eventMessage, dirMixin, homeDirMixin],
   data () {
     return {
       dialogVisible: false,
@@ -81,8 +82,6 @@ export default {
       gameDocPath: '',
       scanList: [],
       searchKeyword: '',
-      systemType: require('os').type(),
-      homedir: require('os').homedir(),
       isLoading: false,
       remask: ''
     }
