@@ -59,7 +59,7 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini">还原</el-button>
+          <el-button size="mini" @click="handleR(scope.row)">还原</el-button>
           <el-popconfirm @confirm="handleDelete(scope.$index, scope.row)" title="删除无法恢复,确定删除吗？">
             <el-button slot="reference" size="mini" type="danger">删除</el-button>
           </el-popconfirm>
@@ -77,12 +77,14 @@ import formatTime from '../mixins/formatTime'
 import dirMixin from '../mixins/rootDir'
 const {remove} = require('../../utils/FileClass').default
 const path = require('path')
+const {unCompress} = require('../../utils/compressClass').default
 
 export default {
   mixins: [formatTime, dirMixin],
   data () {
     return {
-      tableData: []
+      tableData: [],
+      homedir: require('os').homedir()
     }
   },
   created () {
@@ -114,6 +116,17 @@ export default {
     handleOpenFile ({filePath}) {
       const fullPath = path.join(this.rootDir, filePath)
       this.$electron.shell.openItem(fullPath)
+    },
+    async handleR ({gameName, gameDocDir, gameDocPath, filePath}) {
+      const restorePath = path.join(this.homedir, gameDocPath.replace(gameDocDir, ''))
+      console.log('restorePath:', restorePath)
+      const isRestore = await unCompress(filePath, restorePath)
+      if (!isRestore) {
+        this.$message.error('还原失败!')
+        return
+      }
+
+      this.$message.success('还原成功!')
     }
   }
 }

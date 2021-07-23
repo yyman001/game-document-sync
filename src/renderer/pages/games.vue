@@ -78,6 +78,7 @@ export default {
       targetDir: '',
       backPatch: '',
       tempPatch: '',
+      gameDocPath: '',
       scanList: [],
       searchKeyword: '',
       systemType: require('os').type(),
@@ -117,7 +118,8 @@ export default {
         this.onShowDialog()
         this.targetDir = gameDocDir
         this.targetName = gameName
-        this.targetPatch = this.homedir + gameDocPath
+        this.gameDocPath = gameDocPath
+        this.targetPatch = path.join(this.homedir, gameDocPath)
         this.backPatch = path.join('./', 'backup', gameDocDir)
         this.tempPatch = path.join('./', 'temp', gameDocDir)
       }
@@ -157,6 +159,7 @@ export default {
       const isAddHistory = await this.$backup.add({
         gameName: this.targetName,
         gameDocDir: this.targetDir,
+        gameDocPath: this.gameDocPath,
         fileName: fileName,
         filePath: `${savePath}.${platform}`,
         platformTye: this.systemType,
