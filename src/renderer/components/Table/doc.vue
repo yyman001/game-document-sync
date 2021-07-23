@@ -83,22 +83,10 @@ export default {
       this.dialogFormVisible = false
     },
     async handelSubmit (fromData, isCreateGame) {
-      // todo: 判断是否再添加游戏,同时更新 游戏扫描列表
       const message = await this.$docs.add(fromData)
       if (message === null) {
         this.$message.error('创建存档信息失败!')
         return
-      }
-
-      // 如果勾选同时创建对象游戏存档
-      if (isCreateGame) {
-        const game = await this.$games.add({
-          ...fromData,
-          gamePlatform: [],
-          createTime: Date.now(),
-          lastBackTime: null
-        })
-        console.log('插入成功!!', game)
       }
 
       await this.getTableData()
