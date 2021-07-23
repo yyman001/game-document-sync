@@ -60,7 +60,7 @@ import newScan from '../components/doc-dialog.vue'
 import eventMessage from '../mixins/eventMessage'
 import dirMixin from '../mixins/rootDir'
 const path = require('path')
-const {copy, ensureDir} = require('../../utils/FileClass').default
+const {copy, ensureDir, remove} = require('../../utils/FileClass').default
 const {compressDir} = require('../../utils/compressClass').default
 
 export default {
@@ -128,6 +128,7 @@ export default {
     async handleBackup () {
       this.isLoading = true
       const platform = this.systemType === 'Windows_NT' ? 'zip' : 'tar'
+
       // 复制存档到 当前软件运行目录下的 <temp>目录
       const [error, isCopySuccess] = await copy(this.targetPatch, this.tempPatch)
       console.log('isCopySuccess:', isCopySuccess)
@@ -150,6 +151,8 @@ export default {
         this.isLoading = false
         return
       }
+
+      await remove(this.tempPatch)
       // TODO: 备份信息录入 数据库(games-back.db)
       const isAddHistory = await this.$backup.add({
         gameName: this.targetName,
