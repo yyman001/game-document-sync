@@ -265,3 +265,8 @@ https://store.steampowered.com/api/appdetails?appids=1030300
  获取进程
  https://www.npmjs.com/package/ps-list
  
+
+ #### 参考资料
+ 查询到存档位置: https://www.pcgamingwiki.com/wiki/Stardew_Valley
+
+查询预览图: https://steamdb.info/app/413150/info/
