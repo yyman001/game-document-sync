@@ -12,30 +12,32 @@
 <template>
   <div class="card__wrap">
     <div class="card">
-      <a class="card__editor" title="编辑" @click.stop="onClick('editor')"
-        ><i class="el-icon-setting"></i
-      ></a>
-      <a class="card__del" title="删除" @click.stop="onClick('del')"
-        ><i class="el-icon-close"></i
-      ></a>
 
-      <div class="card__head" :class="modeStyle"></div>
+      <div class="card__head" :class="modeStyle" :style="{ backgroundImage: `url(${verticalCover(item.steamId)})`}"></div>
       <div class="card__body">
-        <div class="card__name">{{ item.gameName }}</div>
-
-        <div class="card__buttons">
-          <el-button type="danger" size="small" @click.stop="onClick('restore')"
-            >还原</el-button
-          >
-          <el-button type="primary" size="small" @click.stop="onClick('backup')"
-            >备份</el-button
-          >
-        </div>
-        <div class="card__label-time">
-          <span>备份时间:</span>
-          <i>{{item.lastBackTime === null ? '无' : formatTimestamp(item.lastBackTime)}}</i>
+        <div class="card__info">
+          <div class="card__name">{{ item.gameName }}</div>
+          <div class="card__buttons">
+            <el-button type="danger" size="small" @click.stop="onClick('restore')"
+              >还原</el-button
+            >
+            <el-button type="primary" size="small" @click.stop="onClick('backup')"
+              >备份</el-button
+            >
+          </div>
+          <div class="card__label-time">
+            <span>备份时间:</span>
+            <i>{{item.lastBackTime === null ? '无' : formatTimestamp(item.lastBackTime)}}</i>
+          </div>
         </div>
       </div>
+
+      <a class="card__editor" title="编辑" @click.stop="onClick('editor')">
+        <i class="el-icon-setting"></i></a>
+      <a class="card__del" title="删除" @click.stop="onClick('del')">
+        <i class="el-icon-close"></i>
+      </a>
+
     </div>
   </div>
 </template>
@@ -66,6 +68,16 @@ export default {
   methods: {
     onClick (type) {
       this.$emit('handleClick', [type, this.item])
+    },
+    horizontalCover (steamId) {
+      if (!steamId) return ''
+      // eg: https://media.st.dl.pinyuncloud.com/steam/apps/588650/extras/Header2.jpg?t=1613038574
+      return `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamId}/header.jpg?t=1445525035`
+    },
+    verticalCover (steamId) {
+      if (!steamId) return ''
+      // eg https://cdn.cloudflare.steamstatic.com/steam/apps/413150/library_600x900.jpg?t=1560535131
+      return `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamId}/library_600x900.jpg?t=1560535131`
     }
   }
 }
@@ -123,44 +135,60 @@ export default {
       opacity: 1;
       right: 0;
     }
-    // .card__body {
-    //     bottom: 0;
-    //     opacity: 1;
-    // }
+    .card__body {
+        top: 0;
+        opacity: .9;
+    }
   }
 
   &__head {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100% auto;
+
     .is-horizontal {
       padding-top: 56%;
     }
     &.is-vertical {
-      padding-top: 125%;
+      padding-top: 150%;
     }
   }
 
   &__body {
     box-sizing: border-box;
     position: absolute;
+    top: 100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    color: #ffffff;
+    transition: top .6s ,opacity .5s;
+  }
+
+  &__info {
+    position: absolute;
+    box-sizing: border-box;
     left: 0;
     bottom: 0;
-    // bottom: -100%;
+
     padding: 6% 9%;
     width: 100%;
-    // opacity: .5;
-    color: #ffffff;
     background: linear-gradient(315deg, #213c55 5%, #016968 95%);
-    // transition: bottom .6s ,opacity .5s;
   }
+
   &__name {
-    margin-bottom: 0.3em;
+    padding-bottom: 0.3em;
     font-weight: bold;
     font-size: 1.2em;
     text-align: justify;
     word-break: break-all;
   }
+
   &__buttons {
     padding: 0.8em 0;
   }
+
   &__label-time {
     color: #959595;
     font-size: 12px;
