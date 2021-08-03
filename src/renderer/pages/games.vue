@@ -7,7 +7,7 @@
             placeholder="请输入游戏名称"
             prefix-icon="el-icon-search"
             v-model.trim="searchKeyword"
-            @change="handleSearchGames"
+            @input="handleSearchGames"
           >
           </el-input>
         </div>
@@ -96,8 +96,8 @@ export default {
     handleExit () {
       this.dialogVisible = false
     },
-    async getGamesList () {
-      this.scanList = await this.$games.searchGames()
+    async getGamesList (keywords = '') {
+      this.scanList = await this.$games.searchGames(keywords)
     },
     async handleClick ([type, game]) {
       console.log(type, game)
