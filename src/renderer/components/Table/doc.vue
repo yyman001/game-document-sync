@@ -104,9 +104,10 @@ export default {
       }
       return ''
     },
-    async handleCreate (index, {gameName, nickName, gameDocDir, gameDocPath, systemType}) {
+    async handleCreate (index, {gameName, nickName, gameDocDir, gameDocPath, systemType, steamId}) {
       console.log(index, gameName)
       const result = await this.$games.add({
+        steamId,
         gameName,
         nickName,
         gameDocDir,
