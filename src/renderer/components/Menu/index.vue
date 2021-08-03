@@ -2,7 +2,7 @@
   <el-aside width="200px">
       <el-menu
       :router="true"
-      default-active="games"
+      :default-active="activeIndex"
       text-color="#909399"
       background-color="#24282f"
       active-text-color="#ffd04b">
@@ -23,7 +23,13 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      activeIndex: this.$route.name
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

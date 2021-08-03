@@ -6,6 +6,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: 'games'
+    },
+    {
       path: '/games',
       name: 'games',
       component: require('@/pages/games.vue').default
@@ -19,15 +23,6 @@ export default new Router({
       path: '/doc',
       name: 'doc',
       component: require('@/components/Table/doc.vue').default
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: require('@/pages/404.vue').default
-    },
-    {
-      path: '*',
-      redirect: '/404'
     }
   ]
 })
