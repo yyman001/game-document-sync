@@ -7,7 +7,7 @@
  * @FilePath: \game-document-sync\src\renderer\App.vue
 -->
 <template>
-  <div id="app">
+  <div id="app" class="themes themes--back">
   <el-container>
     <!-- 导航 -->
     <Menu/>
@@ -24,8 +24,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   /* CSS */
+  @import './assets/fonts/index.css';
+
   body, html {
     padding: 0;
     margin: 0;
@@ -38,4 +40,8 @@ export default {
     height: 100%;
     overflow-y: hidden;
   }
+  p {
+    margin: 0;
+  }
+  @import './sass/themes.scss';
 </style>

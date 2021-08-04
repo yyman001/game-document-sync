@@ -1,0 +1,188 @@
+@charset "utf-8";
+
+@mixin doc() {
+  @at-root {
+    @content;
+  }
+}
+
+//左右居中
+@mixin margin-center() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+//清除浮动
+@mixin clear() {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+//文字溢出
+@mixin text-overflow($line:1) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+//垂直居中
+@mixin transform-center() {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// 选择器范围的混合宏
+@mixin select-range($start, $end) {
+  &:nth-child(n+#{$start}):nth-child(-n+#{$end}) {
+    @content;
+  }
+}
+
+// 取模查询的混合宏
+@mixin mod-list($mod, $remainder) {
+  &:nth-last-child(#{$mod}n+#{$remainder}):first-child,
+  &:nth-last-child(#{$mod}n+#{$remainder}):first-child ~ li {
+    @content;
+  }
+}
+
+//px to rem
+@mixin px2rem($property,$px-values,$baseline-px:16px,$support-for-ie:false) {
+  //Conver the baseline into rems
+  $baseline-rem: $baseline-px / 1rem * 1;
+  //Print the first line in pixel values
+  @if $support-for-ie {
+    #{$property}: $px-values;
+  }
+  //if there is only one (numeric) value, return the property/value line for it.
+  @if type-of($px-values) == "number" {
+    #{$property}: $px-values / $baseline-rem;
+  } @else {
+    //Create an empty list that we can dump values into
+    $rem-values: ();
+    @each $value in $px-values {
+      // If the value is zero or not a number, return it
+      @if $value == 0 or type-of($value) != "number" {
+        $rem-values: append($rem-values, $value / $baseline-rem);
+      }
+    }
+    // Return the property and its list of converted values
+    #{$property}: $rem-values;
+  }
+}
+
+// close button
+@mixin close-button($button-name: '', $color:#828c99, $size:30px, $top:0, $right:0, $border: true, $border-radius:0, $border-color: #fff, $background-color: transparent) {
+  .#{$button-name}__close-button {
+    position: absolute;
+    top: $top;
+    right: $right;
+    width: $size;
+    height: $size;
+    z-index: 9;
+    border-radius: $border-radius;
+    cursor: pointer;
+    background-size: 20px;
+    @if $border == true {
+      border: 1px solid $border-color;
+    } @else {
+      border: none;
+    }
+    background-color: $background-color;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      top: 49%;
+      left: 0;
+      background-color: $color;
+      height: 2px;
+    }
+    &:before {
+      transform: rotate(45deg) scale(.6);
+    }
+    &:after {
+      transform: rotate(-45deg) scale(.6);
+    }
+    &:hover {
+      //border: 1px solid #ccc;
+      //background-color: #ccc;
+      &:before,
+      &:after {
+        background-color: #333;
+      }
+    }
+    &:active {
+      @if $border == true {
+        border: 1px solid #fff;
+        background-color: $border-color;
+      }
+
+      &:before,
+      &:after {
+        background-color: #333;
+      }
+    }
+
+  }
+}
+
+// 字体加粗
+@mixin font-weight($blur:0, $x:0, $y:0, $color: #fff) {
+  text-shadow: $x $y $blur $color, $x $y $blur $color;
+}
+
+// 滚动条
+@mixin scroll(
+  $border-width: 4px,
+  $width: 14px,
+  $height: 8px,
+  $border-radius: 10px,
+  $scrollbar-background-color: #fff,
+  $scrollbar-thumb-background-color:#c1c1c1,
+  $scrollbar-thumb-hover-background-color: #9f9f9f) {
+  /* 滚动条 */
+
+  // 一直显示的滚动条背景色
+  &::-webkit-scrollbar-track-piece {
+    /*滚动条的背景颜色*/
+    // background-color: $scrollbar-background-color;
+    /*滚动条的圆角宽度*/
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar {
+    width: $width; /*滚动条的宽度*/
+    height: $height; /*滚动条的高度*/
+  }
+
+  &::-webkit-scrollbar:hover {
+    //background-color: $scrollbar-background-color;
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb:vertical,
+  &::-webkit-scrollbar-thumb:horizontal{ /*垂直滚动条的样式*/
+    background-color: $scrollbar-thumb-background-color;
+    border-radius: $border-radius;
+    border: $border-width solid $scrollbar-background-color;
+  }
+  &::-webkit-scrollbar-thumb:hover { /*滚动条的hover样式*/
+    background-color: $scrollbar-thumb-hover-background-color;
+    border-radius: $border-radius;
+  }
+}
+
+/* 背景网格 */
+@mixin background-gird () {
+  background-color: #f2f2f5;
+  background-image: linear-gradient(to top, transparent 40px, #e1e1e1 40px), linear-gradient(to right, #f3f3f3 40px, #e1e1e1 40px);
+  background-size: 41px 41px;
+}

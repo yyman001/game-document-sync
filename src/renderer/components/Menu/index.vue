@@ -2,10 +2,7 @@
   <el-aside width="200px">
       <el-menu
       :router="true"
-      :default-active="activeIndex"
-      text-color="#909399"
-      background-color="#24282f"
-      active-text-color="#ffd04b">
+      :default-active="activeIndex">
       <el-menu-item index="games">
         <i class="el-icon-menu"></i>
         <span slot="title">游戏存档管理</span>
@@ -33,13 +30,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-aside {
-  background-color: #24282f;
-  color: #6d727d;
-  text-align: left;
-  line-height: 200px;
-    .el-menu {
-    border-right: none;
-  }
-}
+
 </style>

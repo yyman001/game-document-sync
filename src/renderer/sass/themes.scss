@@ -1,0 +1,81 @@
+@charset "utf-8";
+/* 
+主题配置
+*/
+@import './tools';
+
+// 主色
+$main-backrond-color: #333840;
+// 副色
+$aside-backround-color: #2a2d34;
+
+$menu-text-color:#656568;
+
+$active-text-color: rgba(242, 246, 252, 0.8);
+
+$box-backround-color: #323232;
+
+$border-color: #4a4a4a;
+
+.themes {
+  &--back {
+    // 左侧栏
+    .el-aside {
+      background-color: $aside-backround-color;
+      text-align: left;
+      line-height: 200px;
+      // border-right: 1px solid #17191b;
+    }
+
+    .el-menu {
+      border-right: none;
+    }
+
+    .el-menu-item {
+      font-weight: 700;
+      color: $menu-text-color;
+      background-color: $aside-backround-color;
+      &.is-active,
+      &:hover {
+        color: $active-text-color;
+        background-color: $main-backrond-color;
+      }
+
+      i {
+        color: inherit;
+      }
+    }
+
+    // 右侧
+    .el-container {
+      background-color: $main-backrond-color;
+    }
+
+    .el-main {
+      @include scroll($scrollbar-background-color: $main-backrond-color);
+    }
+
+    .el-header {
+      box-shadow: 0px 1px 10px 5px #282c34;;
+    }
+
+    .search-header {
+      .el-input__inner {
+        border: 1px solid $border-color;
+        background-color: #31353c;
+      }
+    }
+
+    .el-table {
+      border: 1px solid $border-color;
+    }
+
+    .el-table,
+    .el-table th,
+    .el-table tr,
+    .el-table td {
+      border-color: $border-color!important;
+      background-color: $aside-backround-color;
+    }
+  }
+}

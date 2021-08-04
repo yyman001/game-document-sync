@@ -1,16 +1,8 @@
 <template>
       <el-container>
       <!-- 右侧栏  -->
-      <el-header class="x-header">
-        <div class="search-header">
-          <el-input
-            placeholder="请输入游戏名称"
-            prefix-icon="el-icon-search"
-            v-model.trim="searchKeyword"
-            @input="handleSearchGames"
-          >
-          </el-input>
-        </div>
+      <el-header>
+        <searchHeader></searchHeader>
       </el-header>
 
       <el-main>
@@ -55,6 +47,7 @@
 </template>
 
 <script>
+import searchHeader from '../components/searchHeader.vue'
 import card from '../components/Card'
 import newScan from '../components/doc-dialog.vue'
 import eventMessage from '../mixins/eventMessage'
@@ -67,7 +60,8 @@ const {compressDir} = require('../../utils/compressClass').default
 export default {
   components: {
     card,
-    newScan
+    newScan,
+    searchHeader
   },
   mixins: [eventMessage, dirMixin, homeDirMixin],
   data () {
@@ -191,21 +185,9 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss">
+ @import './../sass/_tools.scss';
 .el-main {
-  background-color: #1b2838;
-  color: #fff;
   text-align: center;
-}
-
-.x-header {
-  background-color: #2f3b50;
-}
-
-.search-header {
-  padding: 10px;
-  .el-input__inner {
-    background-color: #23252a;
-  }
 }
 
 .card-box {

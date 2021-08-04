@@ -1,5 +1,8 @@
 <template>
   <el-container>
+    <el-header>
+      <searchHeader></searchHeader>  
+    </el-header> 
     <el-main>
       <el-table
       :data="tableData"
@@ -73,6 +76,7 @@
 </template>
 
 <script>
+import searchHeader from '../components/searchHeader.vue'
 import formatTime from '../mixins/formatTime'
 import dirMixin from '../mixins/rootDir'
 import homeDirMixin from '../mixins/homedir'
@@ -81,6 +85,7 @@ const path = require('path')
 const {unCompress} = require('../../utils/compressClass').default
 
 export default {
+  components: {searchHeader},
   mixins: [formatTime, dirMixin, homeDirMixin],
   data () {
     return {
