@@ -15,6 +15,10 @@
         <i class="el-icon-setting"></i>
         <span slot="title">配置存档管理</span>
       </el-menu-item>
+      <el-menu-item index="config">
+        <i class="el-icon-setting"></i>
+        <span slot="title">配置信息</span>
+      </el-menu-item>
     </el-menu>
   </el-aside>
 </template>

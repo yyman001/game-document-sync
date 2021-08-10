@@ -23,6 +23,11 @@ export default new Router({
       path: '/doc',
       name: 'doc',
       component: require('@/components/Table/doc.vue').default
+    },
+    {
+      path: '/config',
+      name: 'config',
+      component: require('@/pages/config.vue').default
     }
   ]
 })

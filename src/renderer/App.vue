@@ -7,7 +7,7 @@
  * @FilePath: \game-document-sync\src\renderer\App.vue
 -->
 <template>
-  <div id="app" class="themes themes--back">
+  <div id="app" class="themes" :class="[`themes--${vx_themeName}`]">
   <el-container>
     <!-- 导航 -->
     <Menu/>
@@ -18,9 +18,15 @@
 
 <script>
 import Menu from './components/Menu'
+import {mapGetters} from 'vuex'
 export default {
   name: 'game-document-sync',
-  components: {Menu}
+  components: {Menu},
+  computed: {
+    ...mapGetters({
+      vx_themeName: 'getThemeName'
+    })
+  }
 }
 </script>
 
