@@ -1,13 +1,13 @@
 <template>
   <div class="config-page">
-    主题: <el-select v-model="activeThemeName" placeholder="请选择" @change="handleSwitchTheme">
+    <!-- 主题: <el-select v-model="activeThemeName" placeholder="请选择" @change="handleSwitchTheme">
     <el-option
       v-for="themeItem in themeOptions"
       :key="themeItem.value"
       :label="themeItem.label"
       :value="themeItem.value">
     </el-option>
-  </el-select>
+  </el-select> -->
   </div>
 </template>
 
