@@ -1,84 +1,76 @@
-# game-document-sync
+# 游戏存档管理器
 
-> 一款游戏存档备份软件,支持steam游戏
-
-
-## 开发需要
- - [x] 需要用户名,用户目录
- - 游戏默认存档路径
- - 支持自定义路径
- - 支持steam游戏列表
- - 机器码
- - 游戏存在位置,不同游戏厂商的游戏存档位置是不一样的
-   - `C:\Users\${用户名}\Saved Games\${游戏名}`
-   - `C:\Users\${用户名}\AppData\Local\${游戏名}`
-   - `C:\Users\${用户名}\AppData\LocalLow\${游戏名}`
-   - `C:\Users\${用户名}\AppData\LocalLow\${游戏厂商}\${游戏名}`
-     - Team Cherry (空洞骑士)
-     - Southpaw Games
-     - Rebuilt Games
-     - Ninja Kiwi
-   - `C:\Users\${用户名}\AppData\Roaming\${游戏名}`
-     - StardewValley => Stardew Valley(星谷物语), 这个单词中间是没有空格的
-   - `C:\Users\${用户名}\Documents\${游戏名}`
-   - `X:\Steam\userdata\steam_id\app_id\remote` steam部分类型游戏存档位置
-  - 扫描配置文件, 记录游戏存档相关信息
+## 项目简介
+> 一款用于管理游戏存档备份软件,主要针对无云备份游戏或云备份不可靠的游戏.
 
 
-## 功能
- - 语言
-   - 中文
-   - 英文
-   - 自定义配置语言
+
+
+## 功能列表
+
+ - [ x ] 多语言
  - 存档备份
     - 备份方式
-      - 全量, 全文件备份
-      - 变动, 只备份变动文件
-      - 不判断重复,备份文件数 + 1 ?
-      - 备份比较MD5 ?
-    - 过滤指定类型文件or路径目录
-    - 指定`路径目录`or`文件`进行备份
-    - 备份到多个指定位置(默认点为当前软件目录下)
-    - 备份文件带版本号? 只支持能获取游戏版本的游戏
-    - 备份文件列表清单 + MD5
-    - 备份文件名
-      - 游戏名
-      - 版本号
-      - 时间
-      - 平台
-      - 备份次数
-      - 机器码
+      - [ √ ] 全量, 全文件备份
+      - [ x ] 变动, 只备份变动文件
+      - [ x ] 备份比较MD5
+    - [ x ] 过滤指定类型文件or路径目录
+    - [ √ ] 备份当前软件目录下backup
+    - [ x ] 自定义备份路径
+    - [ x ] 备份文件带版本号
+    - [ x ] 备份文件列表清单 + MD5
+    - 备份信息
+      - [ √ ] 游戏名
+      - [ √ ] 文件名
+      - [ √ ] 存档文件夹名
+      - [ x ] 版本号
+      - [ √ ] 时间
+      - [ √ ] 平台
+      - [ x ] 备份次数
+      - [ x ] 机器码
+      - [ √ ] 文件类型
+      - [ √ ] 文件路径
+      - [ √ ] 备注
  - 存档还原
-    - 指定文件or路径进行还原
-    - 支持多路径还原
+    - [ √ ] 备份列表选中还原
+    - [ x ] 指定文件or路径进行还原
+    - [ x ] 支持多路径还原
+    - [ √ ] 删除备份存档
+    - [ √ ] 打开存档位置
+    - [ √ ] 打开存档
  - 云操作   
-   - 云备份
-   - 云还原
+   - [ x ] 云备份
+   - [ x ] 云还原
  - 支持云备份的方式
-   - 私有网络服务器
-   - oss
-   - github ?
-   - 谷歌网盘?
+   - [ x ] 私有网络服务器
+   - [ x ] oss
+   - [ x ] github
+   - [ x ] 谷歌网盘
  - 启动游戏
-   - 某种单机
-   - steam
-   - epic  
- - 备份文档列表展示
-   - 扫描游戏存档
-   - 以游戏为基准(主) + 游戏文档数据(副) 
-   - ~~以存档为基准(主) + 游戏信息(副)~~ 
+   - [ x ] 某种单机
+   - [ x ] steam
+   - [ x ] epic  
+
  - 创建存档游戏
-    - 选中游戏主程序or游戏存档文件夹方式创建
-    - 拖拽文件夹
-    - file选中文件
- - 列表展示
-     - 大图/缩略图
-     - 分类排列
-     - 搜索
-     
+    - [ √ ] 配置存档管理中选择创建
+    - [ x ] 扫描游戏存档
+    - [ x ] 选中/拖拽游戏存档文件夹方式创建
+
+ - 游戏存档列表
+     - [ √ ] 大图
+     - [ x ] 缩略图
+     - [ x ] 分类排列
+     - [ √ ] 搜索
+     - [ √ ] 删除
+
+  - [ x ] UI重构
+  - [ x ] 日志
+  - [ x ] 在线更新
+  - [ x ] 任务栏图标
+  - [ x ] 软件图标logo
 
 
-## 数据结构
+## 数据结构设计
  #### 文档扫描配置 `scan.json`
     这个文件暂时需要用户手动配置, 暂时没找到对应数据能识别游戏的存档,以后找到这个扫描就可以全自动了
 ```js
@@ -146,7 +138,6 @@
 ```
 
 ### 列表展示
-   多个游戏版本?
 ```js
 {
     // [游戏名]
@@ -205,10 +196,25 @@
 ### 还原记录
   本地还原和云还原,数据跟上面一致
 
-### 操作流程
- 扫描配置 --> 生成存档配置 --> ?[创建游戏配置] --> 合并为 <列表展示> --> 生成备份记录
+### 游戏存档位置
 
-#### Build Setup
+ - 游戏存在位置,不同游戏厂商的游戏存档位置是不一样的
+   - `C:\Users\${用户名}\Saved Games\${游戏名}`
+   - `C:\Users\${用户名}\AppData\Local\${游戏名}`
+   - `C:\Users\${用户名}\AppData\LocalLow\${游戏名}`
+   - `C:\Users\${用户名}\AppData\LocalLow\${游戏厂商}\${游戏名}`
+     - Team Cherry (空洞骑士)
+     - Southpaw Games
+     - Rebuilt Games
+     - Ninja Kiwi
+   - `C:\Users\${用户名}\AppData\Roaming\${游戏名}`
+     - StardewValley => Stardew Valley(星谷物语), 这个单词中间是没有空格的
+   - `C:\Users\${用户名}\Documents\${游戏名}`
+   - `X:\Steam\userdata\steam_id\app_id\remote` steam部分类型游戏存档位置
+  - 扫描配置文件, 记录游戏存档相关信息
+
+
+## 如何运行项目
 
 ``` bash
 # install dependencies
@@ -228,7 +234,7 @@ npm run lint
 
 ---
 
-### 依赖资源
+## 依赖资源
  - [Bootstrap Vue](https://bootstrap-vue.org/)
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
@@ -246,7 +252,7 @@ https://api.steampowered.com/ISteamApps/GetAppList/v2/
 https://store.steampowered.com/api/appdetails?appids=1030300
 
 
-### 参考资料
+## 参考资料
  - [游戏名称列表](https://www.gamesave-manager.com/?s=support&c=supported_games)
  - [获取游戏平台安装游戏列表](https://indienova.com/u/hangacs/blogread/27792)
  - [steam 云同步](https://partner.steamgames.com/doc/features/cloud)
@@ -270,3 +276,7 @@ https://store.steampowered.com/api/appdetails?appids=1030300
  查询到存档位置: https://www.pcgamingwiki.com/wiki/Stardew_Valley
 
 查询预览图: https://steamdb.info/app/413150/info/
+
+## 协议
+MIT © Richard Littauer
+
