@@ -32,8 +32,6 @@ export default {
 
 <style lang="scss">
   /* CSS */
-  @import './assets/fonts/index.css';
-
   body, html {
     padding: 0;
     margin: 0;
