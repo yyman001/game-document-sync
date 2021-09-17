@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import homeDirMixin from '../mixins/homedir'
+import homeDirMixin from '../../mixins/homedir'
 export default {
   name: 'new-scan',
   mixins: [homeDirMixin],

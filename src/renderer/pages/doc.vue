@@ -68,8 +68,8 @@
 </template>
 
 <script>
-import {horizontalCover} from '../../../utils/steamPrivew'
-import DocDialog from '../doc-dialog.vue'
+import {horizontalCover} from '../../utils/steamPrivew'
+import DocDialog from '../components/Dialog/doc.vue'
 export default {
   components: {
     DocDialog

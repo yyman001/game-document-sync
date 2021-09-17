@@ -49,7 +49,7 @@
 <script>
 import searchHeader from '../components/searchHeader.vue'
 import card from '../components/Card'
-import newScan from '../components/doc-dialog.vue'
+import newScan from '../components/Dialog/doc.vue'
 import eventMessage from '../mixins/eventMessage'
 import dirMixin from '../mixins/rootDir'
 import homeDirMixin from '../mixins/homedir'
