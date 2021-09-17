@@ -23,6 +23,7 @@
     "postinstall": "npm run lint:fix"
   },
   "dependencies": {
+    "@vue/composition-api": "^1.1.5",
     "axios": "^0.18.1",
     "compressing": "^1.4.0",
     "dayjs": "^1.10.6",
