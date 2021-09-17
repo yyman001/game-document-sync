@@ -12,6 +12,9 @@
 <template>
     <el-dialog :append-to-body="true" title="创建扫描游戏配置" :show-close="false" :visible="value">
         <el-form ref="form" :model="form" label-width="80px">
+            <el-input placeholder="steamId" v-model="form.steamId" style="margin-bottom: 20px;">
+                <template slot="prepend">SteamId</template>
+            </el-input>
             <el-input placeholder="自动识别" v-model="form.gameName" style="margin-bottom: 20px;">
                 <template slot="prepend">游戏名</template>
             </el-input>
@@ -49,6 +52,7 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
+        steamId: '',
         nickName: '',
         gameDocDir: '',
         gameDocPath: ''
@@ -81,6 +85,7 @@ export default {
     onReset () {
       this.gameDocFullPath = ''
       this.form = {
+        steamId: '',
         nickName: '',
         gameDocDir: '',
         gameDocPath: ''

@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <searchHeader></searchHeader>  
+      <searchHeader :action="action" :list="filterList" @change="handleSelect"></searchHeader>  
     </el-header> 
     <el-main>
       <el-table
@@ -89,7 +89,11 @@ export default {
   mixins: [formatTime, dirMixin, homeDirMixin],
   data () {
     return {
-      tableData: []
+      tableData: [],
+      filterList: [
+        {name: '全部'}
+      ],
+      action: ''
     }
   },
   created () {
@@ -132,6 +136,10 @@ export default {
       }
 
       this.$message.success('还原成功!')
+    },
+    handleSelect (item) {
+      console.log('handleSelect', item)
+      this.action = item.name
     }
   }
 }

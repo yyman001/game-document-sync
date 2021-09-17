@@ -2,17 +2,7 @@
   <div class="search-header">
     <slot></slot>
     <!--  排序方式 -->
-    <div class="sort-type">
-      <p>游戏名</p>
-      <div class="sort-select">
-        <ul class="sort-ul">
-          <li><p>游戏名</p></li>
-          <li><p>更新时间</p></li>
-          <li><p>已安装</p></li>
-          <li><p>未安装</p></li>
-        </ul>
-      </div>
-    </div>
+    <Select title="名称" :width="120" v-bind="$attrs" v-on="$listeners"></Select>
     
     <el-input
       placeholder="搜索..."
@@ -25,9 +15,14 @@
 </template>
 
 <script>
+import Select from './Select'
 export default {
+  components: {
+    Select
+  },
   data () {
     return {
+
       searchKeyword: ''
     }
   },
@@ -46,50 +41,9 @@ export default {
   padding: 10px;
   height: 100%;
 
-  .sort-type {
-    display: inline-flex;
-    align-items: center;
-    // flex: 1;
-    
-    position: relative;
-    z-index: 1;
-
-    padding: 0 15px;
-
-    color: #ccc;
-    background-color: #4c515a;
-  }
-
   .el-input {
     flex: 1;
     box-shadow: inset 0px 0 10px 1px #000000;
   }
-
-  .sort-select {
-    display: none;
-    position: absolute;
-    top: 100%;
-
-    width: 100%;
-    
-    background-color: #31353c;
-    box-shadow: 0px 5px 10px -4px #000000;
-    ul {
-      margin: 0;
-      padding-left: 0;
-      list-style: none;
-    }
-    li {
-      padding: 5px;
-      line-height: 24px;
-      &:hover {
-        color: #31353c;
-        background-color: #ccc;
-      }
-    }
-
-  }
 }
-
-
 </style>

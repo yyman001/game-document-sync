@@ -88,6 +88,11 @@ export default {
   position: relative;
   background-color: #ccc;
   overflow: hidden;
+  
+  // 无存档显示灰色图
+  &.is-empty {
+    filter: grayscale(100%);
+  }
 
   &__editor {
     position: absolute;

@@ -2,7 +2,7 @@
       <el-container>
       <!-- 右侧栏  -->
       <el-header>
-        <searchHeader></searchHeader>
+        <searchHeader :action="action" :list="sortList" @change="handleSelect"></searchHeader>
       </el-header>
 
       <el-main>
@@ -77,7 +77,16 @@ export default {
       scanList: [],
       searchKeyword: '',
       isLoading: false,
-      remask: ''
+      remask: '',
+      sortList: [
+        {
+          name: '游戏名'
+        },
+        {
+          name: '最后更新'
+        }
+      ],
+      action: ''
     }
   },
   created () {
@@ -179,6 +188,10 @@ export default {
     handleOpenDir (type, dirPath) {
       const fullPath = type === 'back' ? path.join(this.rootDir, dirPath) : dirPath
       this.$electron.shell.showItemInFolder(fullPath)
+    },
+    handleSelect (item) {
+      console.log('handleSelect', item)
+      this.action = item.name
     }
   }
 }

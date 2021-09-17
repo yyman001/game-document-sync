@@ -21,6 +21,14 @@
       width="180">
     </el-table-column>
     <el-table-column
+      prop="steamId"
+      label="预览图"
+      width="180">
+      <template slot-scope="scope">
+        <img class="horizontalCover" :src="horizontalCover(scope.row.steamId)" alt="">
+      </template>
+    </el-table-column>
+    <el-table-column
       prop="gameDocDir"
       label="文件夹">
     </el-table-column>
@@ -60,6 +68,7 @@
 </template>
 
 <script>
+import {horizontalCover} from '../../../utils/steamPrivew'
 import DocDialog from '../doc-dialog.vue'
 export default {
   components: {
@@ -76,6 +85,9 @@ export default {
     this.getTableData()
   },
   methods: {
+    horizontalCover (steamid) {
+      return horizontalCover(steamid)
+    },
     onShowDocDialog () {
       this.dialogFormVisible = true
     },
@@ -147,5 +159,8 @@ export default {
 <style lang="scss" scoped>
 .doc-header {
   padding: 20px 0;
+}
+.horizontalCover {
+  max-height: 80px;
 }
 </style>
