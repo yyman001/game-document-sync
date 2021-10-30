@@ -1,6 +1,8 @@
 import Vue from 'vue'
-import Nedb from './nedbClass'
+import docsDB from '../renderer/utils/docsDB'
+import gamesDB from '../renderer/utils/gamesDB'
+import backupDB from '../renderer/utils/backupDB'
 
-Vue.prototype.$docs = new Nedb({filename: './docs.db', ensureIndex: ['gameDocDir']})
-Vue.prototype.$games = new Nedb({filename: './games.db', ensureIndex: ['gameDocDir']})
-Vue.prototype.$backup = new Nedb({filename: './backup.db', ensureIndex: ['fileName']})
+Vue.prototype.$docs = docsDB
+Vue.prototype.$games = gamesDB
+Vue.prototype.$backup = backupDB
