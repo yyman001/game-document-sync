@@ -4,20 +4,20 @@
       <el-header>
         <searchHeader :action="action" :list="sortList" @change="handleSelect"></searchHeader>
       </el-header>
-
       <el-main>
         <div class="x-main">
           <div class="card-content">
             <div class="card-box">
-              <div v-if="!scanList.length" class="card-empt">
+              <div v-if="!gameList.length" class="card-empt">
                 暂无游戏记录
               </div>
               <card
+                :hasDoc="docMap.includes(item.gameDocDir)"
                 :key="item.gameName"
-                v-for="item in scanList"
+                v-for="item in gameList"
                 :item="item"
-                @handleClick="handleClick"
-              />
+                @handleClick="handleClick">
+              </card>
             </div>
           </div>
 
@@ -47,12 +47,16 @@
 </template>
 
 <script>
+import { watch } from '@vue/composition-api'
 import searchHeader from '../components/searchHeader.vue'
 import card from '../components/Card'
 import newScan from '../components/Dialog/doc.vue'
 import eventMessage from '../mixins/eventMessage'
 import dirMixin from '../mixins/rootDir'
 import homeDirMixin from '../mixins/homedir'
+import useCheckDocs from '../comApi/useCheckDocs'
+import useGames from '../comApi/useGames'
+
 const path = require('path')
 const {copy, ensureDir, remove} = require('../../utils/FileClass').default
 const {compressDir} = require('../../utils/compressClass').default
@@ -64,6 +68,23 @@ export default {
     searchHeader
   },
   mixins: [eventMessage, dirMixin, homeDirMixin],
+  setup () {
+    const { docMap, loadCheck, isLoadCheck } = useCheckDocs()
+    const { gameList, handleSearchGame } = useGames()
+
+    handleSearchGame()
+    watch(gameList, (gameList) => {
+      loadCheck(gameList)
+    })
+
+    return {
+      docMap,
+      isLoadCheck,
+      loadCheck,
+      gameList,
+      handleSearchGame
+    }
+  },
   data () {
     return {
       dialogVisible: false,
@@ -89,9 +110,7 @@ export default {
       action: ''
     }
   },
-  created () {
-    this.getGamesList()
-  },
+  created () { },
   methods: {
     onShowDialog () {
       this.dialogVisible = true

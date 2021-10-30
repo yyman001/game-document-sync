@@ -11,19 +11,22 @@
  -->
 <template>
   <div class="card__wrap">
-    <div class="card">
+    <div class="card" :class="{'is-empty': !hasDoc}">
 
       <div class="card__head" :class="modeStyle" :style="{ backgroundImage: `url(${verticalCover(item.steamId)})`}"></div>
       <div class="card__body">
         <div class="card__info">
           <div class="card__name">{{ item.gameName }}</div>
           <div class="card__buttons">
-            <el-button type="danger" size="small" @click.stop="onClick('restore')"
+            <el-button :disabled="!hasDoc" type="danger" size="small" @click.stop="onClick('restore')"
               >还原</el-button
             >
-            <el-button type="primary" size="small" @click.stop="onClick('backup')"
+            <el-button :disabled="!hasDoc" type="primary" size="small" @click.stop="onClick('backup')"
               >备份</el-button
             >
+          </div>
+          <div>
+            <slot></slot>
           </div>
           <div class="card__label-time">
             <span>备份时间:</span>
@@ -49,6 +52,10 @@ export default {
   components: {},
   mixins: [formatTime],
   props: {
+    hasDoc: {
+      type: Boolean,
+      default: false
+    },
     item: Object
   },
   data () {
