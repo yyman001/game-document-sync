@@ -2,7 +2,7 @@
 <el-container>
   <el-header height="auto">
     <div class="doc-header">
-      <el-button type="primary" icon="el-icon-circle-plus" @click="onShowDocDialog">添加</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus" @click="onModelOpen">添加</el-button>
     </div>
   </el-header>
   <el-main>
@@ -14,27 +14,32 @@
       prop="gameName"
       label="游戏名"
       width="180">
+      <template slot-scope="scope">
+        <img class="horizontalCover" :src="horizontalCover(scope.row.steamId)" alt="">
+        <p>{{scope.row.gameName}}</p>
+        <p>{{scope.row.nickName}}</p>
+      </template>
     </el-table-column>
-    <el-table-column
+    <!-- <el-table-column
       prop="nickName"
       label="游戏别名"
       width="180">
-    </el-table-column>
-    <el-table-column
+    </el-table-column> -->
+    <!-- <el-table-column
       prop="steamId"
       label="预览图"
       width="180">
       <template slot-scope="scope">
         <img class="horizontalCover" :src="horizontalCover(scope.row.steamId)" alt="">
       </template>
+    </el-table-column> -->
+    <el-table-column
+      prop="gameDocPath"
+      label="存档路径">
     </el-table-column>
     <el-table-column
       prop="gameDocDir"
       label="文件夹">
-    </el-table-column>
-    <el-table-column
-      prop="gameDocPath"
-      label="存档路径">
     </el-table-column>
     <el-table-column
       prop="systemType"
@@ -59,8 +64,8 @@
   </el-main>
   <!-- 弹窗  -->
   <DocDialog
-    v-model.sync="dialogFormVisible"
-    @handleExit="onHideDocDialog"
+    v-model.sync="isVisible"
+    @handleExit="onModelClose"
     @handelSubmit="handelSubmit"
   />
 </el-container>
@@ -68,16 +73,28 @@
 </template>
 
 <script>
-import {horizontalCover} from '../../utils/steamPrivew'
+import { horizontalCover } from '../../utils/steamPrivew'
 import DocDialog from '../components/Dialog/doc.vue'
+import useModel from '../comApi/useModel'
+
 export default {
   components: {
     DocDialog
   },
   data () {
     return {
-      tableData: [],
-      dialogFormVisible: false
+      tableData: []
+    }
+  },
+
+  setup (props) {
+    const { isVisible, onModelOpen, onModelClose } = useModel()
+
+    return {
+      isVisible,
+      onModelOpen,
+      onModelClose,
+      horizontalCover
     }
   },
 
@@ -85,15 +102,9 @@ export default {
     this.getTableData()
   },
   methods: {
-    horizontalCover (steamid) {
-      return horizontalCover(steamid)
-    },
-    onShowDocDialog () {
-      this.dialogFormVisible = true
-    },
-    onHideDocDialog () {
-      this.dialogFormVisible = false
-    },
+    // horizontalCover (steamid) {
+    //   return horizontalCover(steamid)
+    // },
     async handelSubmit (fromData, isCreateGame) {
       const message = await this.$docs.add(fromData)
       if (message === null) {

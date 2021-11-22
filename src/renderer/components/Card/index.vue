@@ -47,6 +47,8 @@
 
 <script>
 import formatTime from '../../mixins/formatTime'
+import { horizontalCover, verticalCover } from '../../../utils/steamPrivew'
+
 export default {
   name: 'card',
   components: {},
@@ -63,7 +65,14 @@ export default {
       mode: 'vertical'
     }
   },
-  watch: {},
+
+  setup (props) {
+    return {
+      horizontalCover,
+      verticalCover
+    }
+  },
+
   computed: {
     modeStyle () {
       return `is-${this.mode}`
@@ -75,16 +84,6 @@ export default {
   methods: {
     onClick (type) {
       this.$emit('handleClick', [type, this.item])
-    },
-    horizontalCover (steamId) {
-      if (!steamId) return ''
-      // eg: https://media.st.dl.pinyuncloud.com/steam/apps/588650/extras/Header2.jpg?t=1613038574
-      return `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamId}/header.jpg?t=1445525035`
-    },
-    verticalCover (steamId) {
-      if (!steamId) return ''
-      // eg https://cdn.cloudflare.steamstatic.com/steam/apps/413150/library_600x900.jpg?t=1560535131
-      return `https://cdn.cloudflare.steamstatic.com/steam/apps/${steamId}/library_600x900.jpg?t=1560535131`
     }
   }
 }
