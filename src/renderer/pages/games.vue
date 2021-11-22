@@ -118,9 +118,6 @@ export default {
     handleExit () {
       this.dialogVisible = false
     },
-    async getGamesList (keywords = '') {
-      this.scanList = await this.$games.searchGames(keywords)
-    },
     async handleClick ([type, game]) {
       console.log(type, game)
       const {gameName, gameDocDir, gameDocPath} = game
@@ -132,8 +129,7 @@ export default {
           this.$message.error('删除失败!')
           return
         }
-
-        this.scanList = await this.$games.searchGames()
+        this.handleSearchGame()
         this.$message.success('删除成功!')
       } else if (type === 'backup') {
         this.onShowDialog()
@@ -144,9 +140,6 @@ export default {
         this.backPatch = path.join('./', 'backup', gameDocDir)
         this.tempPatch = path.join('./', 'temp', gameDocDir)
       }
-    },
-    async handleSearchGames (keywords) {
-      this.getGamesList(keywords)
     },
     async handleBackup () {
       this.isLoading = true
@@ -198,7 +191,7 @@ export default {
       // 更新游戏列表中显示的 时间字段
       await this.$games.update({gameDocDir: this.targetDir}, {$set: {lastBackTime: timeStamp}})
       // 刷新游戏列表(单个或整个列表)
-      await this.getGamesList()
+      this.handleSearchGame()
       this.$message.success('备份成功!')
       this.isLoading = false
       this.dialogVisible = false
