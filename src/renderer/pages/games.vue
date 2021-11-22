@@ -24,7 +24,7 @@
         </div>
       </el-main>
       <!-- 备份窗口  -->
-      <el-dialog :append-to-body="true" :title="`存档备份:${targetName}`" :show-close="false" :visible="dialogVisible">
+      <el-dialog :append-to-body="true" :title="`存档备份:${targetName}`" :show-close="false" :visible="isVisible">
         <el-input disabled v-model="targetPatch" style="margin-bottom: 20px;">
           <template slot="prepend">存档路径</template>
           <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir('doc', targetPatch)"></el-button>
@@ -39,7 +39,7 @@
 
         <div class="el-buttons-gorund">
           <el-button type="primary" @click.stop="handleBackup" :loading="isLoading">立即备份</el-button>
-          <el-button :disabled="isLoading" @click.stop="handleExit">取消</el-button>
+          <el-button :disabled="isLoading" @click.stop="onModelClose">取消</el-button>
         </div>
 
       </el-dialog>
@@ -56,6 +56,7 @@ import dirMixin from '../mixins/rootDir'
 import homeDirMixin from '../mixins/homedir'
 import useCheckDocs from '../comApi/useCheckDocs'
 import useGames from '../comApi/useGames'
+import useModel from '../comApi/useModel'
 
 const path = require('path')
 const {copy, ensureDir, remove} = require('../../utils/FileClass').default
@@ -71,6 +72,7 @@ export default {
   setup () {
     const { docMap, loadCheck, isLoadCheck } = useCheckDocs()
     const { gameList, handleSearchGame } = useGames()
+    const { isVisible, onModelOpen, onModelClose } = useModel()
 
     handleSearchGame()
     watch(gameList, (gameList) => {
@@ -82,13 +84,14 @@ export default {
       isLoadCheck,
       loadCheck,
       gameList,
-      handleSearchGame
+      handleSearchGame,
+      isVisible,
+      onModelOpen,
+      onModelClose
     }
   },
   data () {
     return {
-      dialogVisible: false,
-      isVisable: false,
       targetName: '',
       targetPatch: '',
       targetDir: '',
@@ -112,12 +115,6 @@ export default {
   },
   created () { },
   methods: {
-    onShowDialog () {
-      this.dialogVisible = true
-    },
-    handleExit () {
-      this.dialogVisible = false
-    },
     async handleClick ([type, game]) {
       console.log(type, game)
       const {gameName, gameDocDir, gameDocPath} = game
@@ -132,7 +129,7 @@ export default {
         this.handleSearchGame()
         this.$message.success('删除成功!')
       } else if (type === 'backup') {
-        this.onShowDialog()
+        this.onModelOpen()
         this.targetDir = gameDocDir
         this.targetName = gameName
         this.gameDocPath = gameDocPath
@@ -194,8 +191,8 @@ export default {
       this.handleSearchGame()
       this.$message.success('备份成功!')
       this.isLoading = false
-      this.dialogVisible = false
       this.remask = ''
+      this.onModelClose()
     },
     handleOpenDir (type, dirPath) {
       const fullPath = type === 'back' ? path.join(this.rootDir, dirPath) : dirPath
