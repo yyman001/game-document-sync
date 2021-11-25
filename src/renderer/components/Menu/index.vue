@@ -1,38 +1,41 @@
 <template>
-  <el-aside width="200px">
-      <el-menu
-      :router="true"
-      :default-active="activeIndex">
-      <el-menu-item index="games">
-        <i class="el-icon-menu"></i>
-        <span slot="title">游戏存档管理</span>
-      </el-menu-item>
-      <el-menu-item index="backup">
-        <i class="el-icon-document"></i>
-        <span slot="title">存档备份管理</span>
-      </el-menu-item>
-      <el-menu-item index="doc">
-        <i class="el-icon-setting"></i>
-        <span slot="title">配置存档管理</span>
-      </el-menu-item>
-      <el-menu-item index="config">
-        <i class="el-icon-setting"></i>
-        <span slot="title">配置信息</span>
-      </el-menu-item>
-    </el-menu>
-  </el-aside>
+  <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
+    <a-menu-item v-for="item in menuList" :key="item.key">
+      <a-icon :type="item.icon" />
+      <span class="nav-text">{{item.name}}</span>
+    </a-menu-item>
+  </a-menu>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      activeIndex: this.$route.name
+      menuList: [
+        {
+          key: 'games-list',
+          icon: 'home',
+          name: '游戏存档管理'
+        },
+        {
+          key: 'back-list',
+          icon: 'save',
+          name: '存档备份管理'
+        },
+        {
+          key: 'docs-config',
+          icon: 'appstore',
+          name: '配置存档管理'
+        },
+        {
+          key: 'config',
+          icon: 'setting',
+          name: '配置信息'
+        }
+      ]
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

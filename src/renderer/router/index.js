@@ -7,7 +7,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'games'
+      redirect: 'home'
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: require('@/pages/index.vue').default
     },
     {
       path: '/games',
