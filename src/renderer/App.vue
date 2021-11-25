@@ -8,20 +8,16 @@
 -->
 <template>
   <div id="app" class="themes" :class="[`themes--${vx_themeName}`]">
-  <el-container>
-    <!-- 导航 -->
-    <Menu/>
-    <router-view></router-view>
-  </el-container>
+    <Layout></Layout>
   </div>
 </template>
 
 <script>
-import Menu from './components/Menu'
+import Layout from './components/Layout'
 import {mapGetters} from 'vuex'
 export default {
   name: 'game-document-sync',
-  components: {Menu},
+  components: { Layout },
   computed: {
     ...mapGetters({
       vx_themeName: 'getThemeName'
