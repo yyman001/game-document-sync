@@ -236,6 +236,8 @@ npm run lint
 
 ## 依赖资源
  - [Bootstrap Vue](https://bootstrap-vue.org/)
+ - [dexie](https://github.com/dfahlander/Dexie.js)
+ - [localForage](https://github.com/localForage/localForage)
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
@@ -256,7 +258,7 @@ https://store.steampowered.com/api/appdetails?appids=1030300
  - [游戏名称列表](https://www.gamesave-manager.com/?s=support&c=supported_games)
  - [获取游戏平台安装游戏列表](https://indienova.com/u/hangacs/blogread/27792)
  - [steam 云同步](https://partner.steamgames.com/doc/features/cloud)
-
+ - [electron-api-demos](https://github.com/electron/electron-api-demos)
 ### 注册表分析
  steam
  该注册表路径 包含当前用户账号下的 `HKEY_CURRENT_USER\SOFTWARE\Valve\Steam\Apps` 的游戏列表(运行过的), 有4个关键值, `Installed`,`Name`,`Running`,`Updating`
