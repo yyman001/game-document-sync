@@ -94,6 +94,7 @@ export default {
 
 <style lang="scss">
 @import "../../sass/_var.scss";
+@import "../../sass/_tools.scss";
 
 #components-layout-demo-responsive .logo {
   height: 32px;
@@ -130,7 +131,7 @@ export default {
   .ant-menu-item:hover {
     color: $color-font-selected;
     background-color: $color-side;
-    font-weight: bold;
+    @include font-weight($color: $color-font-selected);
     &::after {
       content: none;
     }
