@@ -237,7 +237,7 @@ npm run lint
 ## 依赖资源
  - [Bootstrap Vue](https://bootstrap-vue.org/)
  - [新版UI 设计稿](https://dribbble.com/shots/16271760-Sidebar-navigation-for-Dashboard)
- 
+ - [box-shadow-demo](https://getcssscan.com/css-box-shadow-examples)
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
 ### steam 相关

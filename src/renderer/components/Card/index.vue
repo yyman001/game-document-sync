@@ -11,7 +11,7 @@
  -->
 <template>
   <div class="card__wrap">
-    <div class="card" :class="{'is-empty': !hasDoc}">
+    <div class="card" :class="cardStyle">
 
       <div class="card__head" :class="modeStyle" :style="{ backgroundImage: `url(${verticalCover(item.steamId)})`}"></div>
       <div class="card__body">
@@ -52,7 +52,7 @@ import { horizontalCover, verticalCover } from '../../../utils/steamPrivew'
 export default {
   name: 'card',
   components: {},
-  mixins: [formatTime],
+  mixins: [ formatTime ],
   props: {
     hasDoc: {
       type: Boolean,
@@ -76,6 +76,9 @@ export default {
   computed: {
     modeStyle () {
       return `is-${this.mode}`
+    },
+    cardStyle () {
+      return [ this.hasDoc ? '' : 'is-empty', `card--border-shadow${this.hasDoc ? '' : '__empty'}` ]
     }
   },
   created () {},
@@ -90,11 +93,23 @@ export default {
 </script>
 
 <style type="text/scss" lang="scss">
+// box-shadow-demo: https://getcssscan.com/css-box-shadow-examples
 .card {
   position: relative;
   background-color: #ccc;
   overflow: hidden;
-  
+
+  &--border-shadow {
+    box-shadow: #fcfcfc 0px 0px 0px 2px, #141416 0px 0px 0px 4px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  }
+
+  &--border-shadow__empty {
+    box-shadow: #fcfcfc 0px 0px 0px 2px, #d9d9d9 0px 0px 0px 4px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  }
+
+  &--normal-shadow {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  }
   // 无存档显示灰色图
   &.is-empty {
     filter: grayscale(100%);
@@ -133,7 +148,7 @@ export default {
   &__wrap {
     box-sizing: border-box;
     width: 25%;
-    padding: 0 0.5em 1em;
+    padding: 0.5em 1em;
     overflow: hidden;
   }
 
