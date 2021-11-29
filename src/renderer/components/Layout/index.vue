@@ -4,7 +4,6 @@
     <!-- 左侧栏 -->
     <a-layout-sider
       class="layout-sider"
-      theme="light"
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
@@ -107,6 +106,7 @@ export default {
     background-color: $color-bg;
   }
 
+  .ant-layout-sider,
   .ant-layout-header { 
     background-color: $color-master;
   }

@@ -1,5 +1,9 @@
 <template>
-  <a-menu mode="inline" :default-selected-keys="['1']">
+  <a-menu 
+   mode="inline"
+   v-model="selectedKeys"
+   @select="onMenuSelected"
+   >
     <a-menu-item v-for="item in menuList" :key="item.key">
       <a-icon :type="item.icon" />
       <span class="nav-text">{{item.name}}</span>
@@ -11,6 +15,7 @@
 export default {
   data () {
     return {
+      selectedKeys: ['games-list'],
       menuList: [
         {
           key: 'games-list',
@@ -33,6 +38,12 @@ export default {
           name: '配置信息'
         }
       ]
+    }
+  },
+  methods: {
+    onMenuSelected (selectedItem) {
+      console.log('onMenuSelected:', selectedItem)
+      console.log('selectedKeys:', this.selectedKeys)
     }
   }
 }

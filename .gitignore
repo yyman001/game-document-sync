@@ -83,3 +83,5 @@ thumbs.db
 /.idea/watcherTasks.xml
 /__test__/untitled.tar
 /__test__/SniperGhostWarrior2.version1.tar
+
+/backup/*
