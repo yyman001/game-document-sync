@@ -1,19 +1,25 @@
 <template>
   <a-layout id="components-layout-demo-responsive">
+    
     <!-- 左侧栏 -->
     <a-layout-sider
-      breakpoint="lg"
+      class="layout-sider"
+      theme="light"
       collapsed-width="0"
       @collapse="onCollapse"
       @breakpoint="onBreakpoint"
     >
+    
     <div class="logo" />
-    <Menu/>
+    
+    <div class="layout-menu-wrap">
+      <Menu/>
+    </div>
     </a-layout-sider>
 
     <!-- 右侧栏 -->
     <a-layout>
-      <a-layout-header :style="{ background: '#fff', padding: 0 }" >
+      <a-layout-header>
         <div class="div">
           <a-space :size="8">
           <a-select
@@ -45,22 +51,22 @@
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div
-          :style="{ padding: '24px', background: '#fff', minHeight: '360px' }"
+          class="layout-content"
+          :style="{ padding: '24px', minHeight: '360px' }"
         >
-          content
+          <Table/>
         </div>
       </a-layout-content>
-      <a-layout-footer style="textalign: center">
-        Ant Design ©2018 Created by Ant UED
-      </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
 import Menu from '../Menu/'
+import Table from '../Table'
+
 export default {
-  components: { Menu },
+  components: { Menu, Table },
   methods: {
     onCollapse (collapsed, type) {
       console.log(collapsed, type)
@@ -87,10 +93,65 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "../../sass/_var.scss";
+
 #components-layout-demo-responsive .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
 }
+
+.themes {
+
+  .ant-layout {
+    background-color: $color-bg;
+  }
+
+  .ant-layout-header { 
+    background-color: $color-master;
+  }
+
+  .layout-menu-wrap {
+    padding: 0 15px;
+  }
+
+  .ant-menu {
+    color: $color-font;
+  }
+
+  .ant-menu-inline {
+    border-right: none;
+    .ant-menu-item {
+      border-radius: 10px;
+    }
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected,
+  .ant-menu-item:hover {
+    color: $color-font-selected;
+    background-color: $color-side;
+    font-weight: bold;
+    &::after {
+      content: none;
+    }
+  }
+
+  .layout-content {
+    background-color: $color-master;
+  }
+  
+   // 搜索框
+   .ant-input:focus,
+   .ant-input:hover {
+     border-color: $color-font-selected !important;
+     box-shadow: 0 0 0 2px $color-side;
+   }
+
+}
+
+.layout-sider-wrap {
+  border-radius: 5px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+
 </style>
