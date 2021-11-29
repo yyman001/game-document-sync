@@ -76,6 +76,7 @@ const data = [
 ]
 
 export default {
+  name: 'x-table',
   data () {
     return {
       data,

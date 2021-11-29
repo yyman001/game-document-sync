@@ -15,25 +15,25 @@
 export default {
   data () {
     return {
-      selectedKeys: ['games-list'],
+      selectedKeys: ['games-mod'],
       menuList: [
         {
-          key: 'games-list',
+          key: 'games-mod',
           icon: 'home',
           name: '游戏存档管理'
         },
         {
-          key: 'back-list',
+          key: 'back-mod',
           icon: 'save',
           name: '存档备份管理'
         },
         {
-          key: 'docs-config',
+          key: 'docs-mod',
           icon: 'appstore',
           name: '配置存档管理'
         },
         {
-          key: 'config',
+          key: 'config-mod',
           icon: 'setting',
           name: '配置信息'
         }
@@ -42,8 +42,7 @@ export default {
   },
   methods: {
     onMenuSelected (selectedItem) {
-      console.log('onMenuSelected:', selectedItem)
-      console.log('selectedKeys:', this.selectedKeys)
+      this.$emit('onMenuChange', selectedItem.key)
     }
   }
 }
