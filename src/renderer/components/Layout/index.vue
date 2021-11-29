@@ -5,14 +5,12 @@
     <a-layout-sider
       class="layout-sider"
       collapsed-width="0"
-      @collapse="onCollapse"
-      @breakpoint="onBreakpoint"
     >
     
     <div class="logo" />
     
     <div class="layout-menu-wrap">
-      <Menu/>
+      <Menu @onMenuChange="onSwitch"/>
     </div>
     </a-layout-sider>
 
@@ -49,11 +47,8 @@
         </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
-        <div
-          class="layout-content"
-          :style="{ padding: '24px', minHeight: '360px' }"
-        >
-          <Table/>
+        <div class="layout-content" >
+          <component :is="activeComponentName"/>
         </div>
       </a-layout-content>
     </a-layout>
@@ -62,18 +57,24 @@
 
 <script>
 import Menu from '../Menu/'
-import Table from '../Table'
+import gamesMod from '../Games'
+import docsMod from '../Doc'
+import configMod from '../Config'
+import backMod from '../Back'
 
 export default {
-  components: { Menu, Table },
+  components: {
+    Menu,
+    gamesMod,
+    docsMod,
+    configMod,
+    backMod },
+  data () {
+    return {
+      activeComponentName: 'games-mod'
+    }
+  },
   methods: {
-    onCollapse (collapsed, type) {
-      console.log(collapsed, type)
-    },
-    onBreakpoint (broken) {
-      console.log(broken)
-    },
-
     handleChange (value) {
       console.log(`selected ${value}`)
     },
@@ -87,6 +88,10 @@ export default {
       return (
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
+    },
+    onSearch () {},
+    onSwitch (actvieName) {
+      this.activeComponentName = actvieName
     }
   }
 }
@@ -110,6 +115,7 @@ export default {
   .ant-layout-sider,
   .ant-layout-header { 
     background-color: $color-master;
+    box-shadow: #f4f4f4 0px 0px 0px 2px;
   }
 
   .layout-menu-wrap {
@@ -138,6 +144,7 @@ export default {
   }
 
   .layout-content {
+    padding: 24px 12px;
     background-color: $color-master;
   }
   
@@ -152,7 +159,6 @@ export default {
 
 .layout-sider-wrap {
   border-radius: 5px;
-  // box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
 </style>
