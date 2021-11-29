@@ -241,6 +241,8 @@ npm run lint
  - [导出和导入数据库](https://dexie.org/docs/ExportImport/dexie-export-import)
  - [export/import for IndexedDB](https://github.com/Polarisation/indexeddb-export-import)
 
+ - [新版UI 设计稿](https://dribbble.com/shots/16271760-Sidebar-navigation-for-Dashboard)
+ 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
 ### steam 相关

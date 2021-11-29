@@ -1,5 +1,5 @@
 <template>
-  <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
+  <a-menu mode="inline" :default-selected-keys="['1']">
     <a-menu-item v-for="item in menuList" :key="item.key">
       <a-icon :type="item.icon" />
       <span class="nav-text">{{item.name}}</span>
