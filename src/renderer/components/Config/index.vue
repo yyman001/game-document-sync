@@ -5,25 +5,64 @@
       <a-checkbox @change="onChange">
         随开机启动
       </a-checkbox>
-
-      <field-set-group title="界面">
-        <a-checkbox>
-          测试内容随开机启动
-        </a-checkbox>
-        <p>哈哈哈是的</p>
-      </field-set-group>
       
     </a-tab-pane>
-    <a-tab-pane key="2" tab="备份设置">
-      Content of Tab Pane 2
+
+    <a-tab-pane key="2" tab="备份/还原设置">
+
+      <field-set-group title="临时操作路径">
+        <div style="margin-bottom: 16px">
+          <a-input addon-before="目录:" default-value="C:\Users\yyman001\AppData\Roaming\Electron">
+            <a-icon slot="addonAfter" type="setting" />
+          </a-input>
+        </div>
+
+        <a-button type="primary">
+            恢复默认
+        </a-button>
+      </field-set-group>
+
+      <field-set-group title="备份路径">
+        <div style="margin-bottom: 16px">
+          <a-input addon-before="目录:" default-value=".\backup">
+            <a-icon slot="addonAfter" type="setting" />
+          </a-input>
+        </div>
+
+        <a-button type="primary">
+            恢复默认
+        </a-button>
+      </field-set-group>
     </a-tab-pane>
+
     <a-tab-pane key="3" tab="云同步设置">
-      Content of Tab Pane 3
+
+      <field-set-group title="oss账号配置">
+
+        <div style="margin-bottom: 16px">
+          <a-input default-value="C:\Users\yyman001\AppData\Roaming\Electron\ali-oss.config.js">
+            <a-select slot="addonBefore" default-value="阿里云" style="width: 90px">
+              <a-select-option value="ali-oss">
+                阿里云
+              </a-select-option>
+              <a-select-option value="七牛oss">
+                七牛
+              </a-select-option>
+            </a-select>
+            <a-icon slot="addonAfter" type="setting" />
+          </a-input>
+        </div>
+
+      </field-set-group>
+
     </a-tab-pane>
+
     <a-tab-pane key="4" tab="关于">
       这是一个免费开源程序
     </a-tab-pane>
+
   </a-tabs>
+
 </template>
 
 <script>
