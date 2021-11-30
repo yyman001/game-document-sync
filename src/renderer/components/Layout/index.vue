@@ -124,6 +124,7 @@ export default {
 
   .ant-menu {
     color: $color-font;
+    background-color: transparent;
   }
 
   .ant-menu-inline {
