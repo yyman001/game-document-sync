@@ -238,6 +238,8 @@ npm run lint
  - [Bootstrap Vue](https://bootstrap-vue.org/)
  - [dexie](https://github.com/dfahlander/Dexie.js)
  - [localForage](https://github.com/localForage/localForage)
+ - [导出和导入数据库](https://dexie.org/docs/ExportImport/dexie-export-import)
+ - [export/import for IndexedDB](https://github.com/Polarisation/indexeddb-export-import)
 
 This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 
