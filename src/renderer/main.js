@@ -7,7 +7,6 @@ import store from './store'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import '../utils/db'
 import './utils/DexieDB'
 import VueCompositionAPI from '@vue/composition-api'
 import antDesignVue from 'ant-design-vue'

@@ -32,8 +32,6 @@
     "element-ui": "^2.15.3",
     "fs-extra": "^8.1.0",
     "md5": "^2.2.1",
-    "nedb": "^1.8.0",
-    "nedb-promises": "^5.0.0",
     "normalize.css": "^8.0.1",
     "rd": "^2.0.1",
     "regedit": "^3.0.3",
