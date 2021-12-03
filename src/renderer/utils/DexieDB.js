@@ -3,10 +3,10 @@ import Dexie from 'dexie'
 export const db = new Dexie('electronGames')
 
 db.version(1).stores({
-  backup: '++id, steam_id, game_name, nick_name, game_doc_dir',
-  docs: 'game_doc_dir, steam_id, game_name, nick_name, game_doc_dir',
-  gamesInfo: 'game_doc_dir, steam_id, game_name, nick_name, game_doc_dir, system_type',
-  steamApp: 'steam_id, game_name'
+  backupTable: '++id, steamId, gameName, nickName, gameDocDir',
+  docsTable: 'gameDocDir, steamId, gameName, nickName',
+  gamesTable: 'gameDocDir, steamId, gameName, nickName, systemType',
+  steamApp: 'appid, name'
 })
 
 db.open().catch(function (err) {
