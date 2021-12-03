@@ -8,3 +8,7 @@ db.version(1).stores({
   gamesInfo: 'game_doc_dir, steam_id, game_name, nick_name, game_doc_dir, system_type',
   steamApp: 'steam_id, game_name'
 })
+
+db.open().catch(function (err) {
+  console.error(err.stack || err)
+})
