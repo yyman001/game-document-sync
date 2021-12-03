@@ -213,10 +213,10 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/composition-api@^1.1.5":
-  version "1.4.0"
-  resolved "https://registry.npmmirror.com/@vue/composition-api/download/@vue/composition-api-1.4.0.tgz#784450d0da1ecfd82f4094053ca593849cbd2e37"
-  integrity sha512-fanqJw1cqhkfS1dcpFY52CeR0aWDBr7ub/0ObPWqMnNPdRsMi1gX04Q3aLeRtJEuVeCFewNbqvkPskkSPTVaXQ==
+"@vue/composition-api@^1.4.0":
+  version "1.4.1"
+  resolved "https://registry.npmmirror.com/@vue/composition-api/download/@vue/composition-api-1.4.1.tgz#2b4a6bfabc5e8277c4b890e0c9ca55d1252ca5b8"
+  integrity sha512-ZTat9ru/rwecveRnFzlO2mduOBpGfnBdXn+WtBcFLV9UsL/D+6nX47RWuLiVdNxNDX0qphGZRC+JDjwt+YTnRA==
   dependencies:
     tslib "^2.3.1"
 
@@ -3227,6 +3227,11 @@ devtron@^1.4.0:
     highlight.js "^9.3.0"
     humanize-plus "^1.8.1"
 
+dexie@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmmirror.com/dexie/download/dexie-3.2.0.tgz#a1b0267b111f9422c4126da90d6b121b1deabeab"
+  integrity sha512-OpS8ss1CLHYAhxRu6hT+/Gt1uLhKCf0O18xHBdRGlemOWXXRiiOZ0ty1/bACIJzGt1DGmvarzrPwYYt9EkRZfw==
+
 diffie-hellman@^5.0.0:
   version "5.0.3"
   resolved "https://registry.nlark.com/diffie-hellman/download/diffie-hellman-5.0.3.tgz#40e8ee98f55a2149607146921c63e1ae5f3d2875"
@@ -3529,7 +3534,7 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
   resolved "https://registry.npmmirror.com/electron-to-chromium/download/electron-to-chromium-1.4.4.tgz#57311918524c1a26878c330537f967804d43788a"
   integrity sha512-teHtgwcmVcL46jlFvAaqjyiTLWuMrUQO1JqV303JKB4ysXG6m8fXSFhbjal9st0r9mNskI22AraJZorb1VcLVg==
 
-electron@^2.0.4:
+electron@^2.0.18:
   version "2.0.18"
   resolved "https://registry.npmmirror.com/electron/download/electron-2.0.18.tgz#52f1b248c3cc013b5a870094de3b6ba5de313a0f"
   integrity sha1-UvGySMPMATtahwCU3jtrpd4xOg8=
