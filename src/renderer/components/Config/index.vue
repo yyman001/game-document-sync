@@ -9,7 +9,6 @@
     </a-tab-pane>
 
     <a-tab-pane key="2" tab="备份/还原设置">
-
       <field-set-group title="临时操作路径">
         <div style="margin-bottom: 16px">
           <a-input addon-before="目录:" default-value="C:\Users\yyman001\AppData\Roaming\Electron">
@@ -34,8 +33,22 @@
         </a-button>
       </field-set-group>
     </a-tab-pane>
+  
+    <a-tab-pane key="3" tab="数据库设置">
+      <field-set-group title="数据库备份路径">
+        <div style="margin-bottom: 16px">
+          <a-input addon-before="目录:" default-value=".\backup">
+            <a-icon slot="addonAfter" type="setting" />
+          </a-input>
+        </div>
 
-    <a-tab-pane key="3" tab="云同步设置">
+        <a-button :disabled="isLoading" type="primary" @click="saveDatabaseToJson">
+            导出数据库
+        </a-button>
+      </field-set-group>
+    </a-tab-pane>
+
+    <a-tab-pane key="4" tab="云同步设置">
 
       <field-set-group title="oss账号配置">
 
@@ -57,7 +70,7 @@
 
     </a-tab-pane>
 
-    <a-tab-pane key="4" tab="关于">
+    <a-tab-pane key="5" tab="关于">
       这是一个免费开源程序
     </a-tab-pane>
 
@@ -67,10 +80,26 @@
 
 <script>
 import fieldSetGroup from '../FieldSetGroup'
-
+import { useDB } from '../../comApi/useDB'
+console.log('useDB', useDB)
 export default {
   name: 'config-mod',
   components: { fieldSetGroup },
+  setup () {
+    const {
+      progress,
+      isLoading,
+      saveDatabaseToJson,
+      improtDatabaseByJson
+    } = useDB()
+
+    return {
+      progress,
+      isLoading,
+      saveDatabaseToJson,
+      improtDatabaseByJson
+    }
+  },
   data () {
     return {}
   },
