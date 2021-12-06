@@ -1,0 +1,780 @@
+{
+  "formatName": "dexie",
+  "formatVersion": 1,
+  "data": {
+    "databaseName": "electronGames",
+    "databaseVersion": 1,
+    "tables": [
+      {
+        "name": "backupTable",
+        "schema": "++id,steamId,gameName,nickName,gameDocDir",
+        "rowCount": 19
+      },
+      {
+        "name": "docsTable",
+        "schema": "gameDocDir,steamId,gameName,nickName",
+        "rowCount": 38
+      },
+      {
+        "name": "gamesTable",
+        "schema": "gameDocDir,steamId,gameName,nickName,systemType",
+        "rowCount": 18
+      },
+      {
+        "name": "steamApp",
+        "schema": "appid,name",
+        "rowCount": 0
+      }
+    ],
+    "data": [{
+      "tableName": "backupTable",
+      "inbound": true,
+      "rows": [
+        {
+          "gameName": "Terraria",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "fileName": "Terraria_t1628658173305",
+          "filePath": "backup\\Terraria\\Terraria_t1628658173305.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1628658173305,
+          "remask": "在水里面",
+          "steamId": "105600"
+        },
+        {
+          "gameName": "torchlight 2",
+          "gameDocDir": "torchlight 2",
+          "gameDocPath": "\\Documents\\My Games\\runic games\\torchlight 2",
+          "fileName": "torchlight 2_t1628915843842",
+          "filePath": "backup\\torchlight 2\\torchlight 2_t1628915843842.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1628915843842,
+          "remask": "",
+          "steamId": "200710"
+        },
+        {
+          "gameName": "X-Morph Defense",
+          "gameDocDir": "X-Morph Defense",
+          "gameDocPath": "\\Documents\\X-Morph Defense",
+          "fileName": "X-Morph Defense_t1628915864492",
+          "filePath": "backup\\X-Morph Defense\\X-Morph Defense_t1628915864492.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1628915864492,
+          "remask": "",
+          "steamId": "408410"
+        },
+        {
+          "gameName": "Graveyard Keeper",
+          "gameDocDir": "Graveyard Keeper",
+          "gameDocPath": "\\AppData\\LocalLow\\Lazy Bear Games\\Graveyard Keeper",
+          "fileName": "Graveyard Keeper_t1631009988205",
+          "filePath": "backup\\Graveyard Keeper\\Graveyard Keeper_t1631009988205.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631009988205,
+          "remask": "",
+          "steamId": "599140"
+        },
+        {
+          "gameName": "Factorio",
+          "gameDocDir": "Factorio",
+          "gameDocPath": "\\AppData\\Roaming\\Factorio",
+          "fileName": "Factorio_t1631009992467",
+          "filePath": "backup\\Factorio\\Factorio_t1631009992467.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631009992467,
+          "remask": "",
+          "steamId": "427520"
+        },
+        {
+          "gameName": "Hollow Knight",
+          "gameDocDir": "Hollow Knight",
+          "gameDocPath": "\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+          "fileName": "Hollow Knight_t1631010005539",
+          "filePath": "backup\\Hollow Knight\\Hollow Knight_t1631010005539.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010005539,
+          "remask": "",
+          "steamId": "367520"
+        },
+        {
+          "gameName": "Dyson Sphere Program",
+          "gameDocDir": "Dyson Sphere Program",
+          "gameDocPath": "\\Documents\\Dyson Sphere Program",
+          "fileName": "Dyson Sphere Program_t1631010012438",
+          "filePath": "backup\\Dyson Sphere Program\\Dyson Sphere Program_t1631010012438.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010012438,
+          "remask": "",
+          "steamId": "1366540"
+        },
+        {
+          "gameName": "DoNotStarveTogether",
+          "gameDocDir": "DoNotStarveTogether",
+          "gameDocPath": "\\Documents\\Klei\\DoNotStarveTogether",
+          "fileName": "DoNotStarveTogether_t1631010028378",
+          "filePath": "backup\\DoNotStarveTogether\\DoNotStarveTogether_t1631010028378.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010028378,
+          "remask": "",
+          "steamId": "322330"
+        },
+        {
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1631010065840",
+          "filePath": "backup\\Aragami\\Aragami_t1631010065840.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010065840,
+          "remask": "",
+          "steamId": "280160"
+        },
+        {
+          "gameName": "guigubahuang",
+          "gameDocDir": "guigubahuang",
+          "gameDocPath": "\\AppData\\LocalLow\\guigugame\\guigubahuang\\Steam\\CacheData",
+          "fileName": "guigubahuang_t1631010077698",
+          "filePath": "backup\\guigubahuang\\guigubahuang_t1631010077698.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010077698,
+          "remask": "",
+          "steamId": "1468810"
+        },
+        {
+          "gameName": "The Messenger",
+          "gameDocDir": "The Messenger",
+          "gameDocPath": "\\AppData\\LocalLow\\Sabotage Studio\\The Messenger",
+          "fileName": "The Messenger_t1631010082014",
+          "filePath": "backup\\The Messenger\\The Messenger_t1631010082014.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010082014,
+          "remask": "",
+          "steamId": "764790"
+        },
+        {
+          "gameName": "X-Morph Defense",
+          "gameDocDir": "X-Morph Defense",
+          "gameDocPath": "\\Documents\\X-Morph Defense",
+          "fileName": "X-Morph Defense_t1631010084064",
+          "filePath": "backup\\X-Morph Defense\\X-Morph Defense_t1631010084064.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010084064,
+          "remask": "",
+          "steamId": "408410"
+        },
+        {
+          "gameName": "Moonlighter",
+          "gameDocDir": "Moonlighter",
+          "gameDocPath": "\\AppData\\LocalLow\\11BitStudios\\Moonlighter",
+          "fileName": "Moonlighter_t1631010095313",
+          "filePath": "backup\\Moonlighter\\Moonlighter_t1631010095313.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631010095313,
+          "remask": "",
+          "steamId": "606150"
+        },
+        {
+          "gameName": "Crashlands",
+          "gameDocDir": "Crashlands",
+          "gameDocPath": "\\AppData\\Local\\Crashlands",
+          "fileName": "Crashlands_t1631536936057",
+          "filePath": "backup\\Crashlands\\Crashlands_t1631536936057.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631536936057,
+          "remask": "",
+          "steamId": "391730"
+        },
+        {
+          "gameName": "Grim Dawn",
+          "gameDocDir": "Grim Dawn",
+          "gameDocPath": "\\Documents\\My Games\\Grim Dawn",
+          "fileName": "Grim Dawn_t1631538124921",
+          "filePath": "backup\\Grim Dawn\\Grim Dawn_t1631538124921.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631538124921,
+          "remask": "",
+          "steamId": "219990"
+        },
+        {
+          "gameName": "StarCraft",
+          "gameDocDir": "StarCraft",
+          "gameDocPath": "\\Documents\\StarCraft",
+          "fileName": "StarCraft_t1631539164124",
+          "filePath": "backup\\StarCraft\\StarCraft_t1631539164124.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1631539164124,
+          "remask": "",
+          "steamId": ""
+        },
+        {
+          "gameName": "DoNotStarveTogether",
+          "gameDocDir": "DoNotStarveTogether",
+          "gameDocPath": "\\Documents\\Klei\\DoNotStarveTogether",
+          "fileName": "DoNotStarveTogether_t1637585241730",
+          "filePath": "backup\\DoNotStarveTogether\\DoNotStarveTogether_t1637585241730.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1637585241730,
+          "remask": "测试",
+          "steamId": "322330"
+        },
+        {
+          "gameName": "DoNotStarveTogether",
+          "gameDocDir": "DoNotStarveTogether",
+          "gameDocPath": "\\Documents\\Klei\\DoNotStarveTogether",
+          "fileName": "DoNotStarveTogether_t1637586020642",
+          "filePath": "backup\\DoNotStarveTogether\\DoNotStarveTogether_t1637586020642.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1637586020642,
+          "remask": "阿22",
+          "steamId": "322330"
+        },
+        {
+          "gameName": "StardewValley",
+          "gameDocDir": "StardewValley",
+          "gameDocPath": "\\AppData\\Roaming\\StardewValley",
+          "fileName": "StardewValley_t1637586076315",
+          "filePath": "backup\\StardewValley\\StardewValley_t1637586076315.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1637586076315,
+          "remask": "测试",
+          "steamId": "413150"
+        }
+      ]
+    },{
+      "tableName": "docsTable",
+      "inbound": true,
+      "rows": [
+        {
+          "nickName": "20XX-洛克人",
+          "gameDocDir": "20XX",
+          "gameDocPath": "\\Documents\\20XX",
+          "gameName": "20XX",
+          "systemType": "Windows",
+          "steamId": "322110"
+        },
+        {
+          "nickName": "荒神",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "gameName": "Aragami",
+          "systemType": "Windows",
+          "steamId": "280160"
+        },
+        {
+          "nickName": "渎神",
+          "gameDocDir": "Blasphemous",
+          "gameDocPath": "\\AppData\\LocalLow\\TheGameKitchen\\Blasphemous",
+          "gameName": "Blasphemous",
+          "systemType": "Windows",
+          "steamId": "774361"
+        },
+        {
+          "nickName": "神鸭特攻/炽热鸟喙",
+          "gameDocDir": "BlazingBeaks",
+          "gameDocPath": "\\AppData\\Local\\BlazingBeaks",
+          "gameName": "BlazingBeaks",
+          "systemType": "Windows",
+          "steamId": "585710"
+        },
+        {
+          "steamId": "391730",
+          "nickName": "奔溃大陆",
+          "gameDocDir": "Crashlands",
+          "gameDocPath": "\\AppData\\Local\\Crashlands",
+          "gameName": "Crashlands",
+          "systemType": "Windows"
+        },
+        {
+          "nickName": "茶杯头",
+          "gameDocDir": "Cuphead",
+          "gameDocPath": "\\AppData\\Roaming\\Cuphead",
+          "gameName": "Cuphead",
+          "systemType": "Windows",
+          "steamId": "268910"
+        },
+        {
+          "nickName": "暗黑血统：创世",
+          "gameDocDir": "Darksiders Genesis",
+          "gameDocPath": "\\AppData\\Local\\THQ Nordic\\Darksiders Genesis",
+          "gameName": "Darksiders Genesis",
+          "systemType": "Windows",
+          "steamId": "710920"
+        },
+        {
+          "nickName": "暗黑血统III",
+          "gameDocDir": "Darksiders3",
+          "gameDocPath": "\\AppData\\Local\\Darksiders3",
+          "gameName": "Darksiders3",
+          "systemType": "Windows",
+          "steamId": "606280"
+        },
+        {
+          "nickName": "饥荒-联机版",
+          "gameDocDir": "DoNotStarveTogether",
+          "gameDocPath": "\\Documents\\Klei\\DoNotStarveTogether",
+          "gameName": "DoNotStarveTogether",
+          "systemType": "Windows",
+          "steamId": "322330"
+        },
+        {
+          "nickName": "戴森球计划",
+          "gameDocDir": "Dyson Sphere Program",
+          "gameDocPath": "\\Documents\\Dyson Sphere Program",
+          "gameName": "Dyson Sphere Program",
+          "systemType": "Windows",
+          "steamId": "1366540"
+        },
+        {
+          "nickName": "异星工厂",
+          "gameDocDir": "Factorio",
+          "gameDocPath": "\\AppData\\Roaming\\Factorio",
+          "gameName": "Factorio",
+          "systemType": "Windows",
+          "steamId": "427520"
+        },
+        {
+          "nickName": "守墓人",
+          "gameDocDir": "Graveyard Keeper",
+          "gameDocPath": "\\AppData\\LocalLow\\Lazy Bear Games\\Graveyard Keeper",
+          "gameName": "Graveyard Keeper",
+          "systemType": "Windows",
+          "steamId": "599140"
+        },
+        {
+          "steamId": "219990",
+          "nickName": "恐怖黎明",
+          "gameDocDir": "Grim Dawn",
+          "gameDocPath": "\\Documents\\My Games\\Grim Dawn",
+          "gameName": "Grim Dawn",
+          "systemType": "Windows"
+        },
+        {
+          "nickName": "哈迪斯",
+          "gameDocDir": "Hades",
+          "gameDocPath": "\\Documents\\Saved Games\\Hades",
+          "gameName": "Hades",
+          "systemType": "Windows",
+          "steamId": "1145360"
+        },
+        {
+          "nickName": "空洞骑士",
+          "gameDocDir": "Hollow Knight",
+          "gameDocPath": "\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+          "gameName": "Hollow Knight",
+          "systemType": "Windows",
+          "steamId": "367520"
+        },
+        {
+          "nickName": "光明旅者",
+          "gameDocDir": "HyperLightDrifter",
+          "gameDocPath": "\\AppData\\Local\\HyperLightDrifter",
+          "gameName": "HyperLightDrifter",
+          "systemType": "Windows",
+          "steamId": "257850"
+        },
+        {
+          "nickName": "不朽星球",
+          "gameDocDir": "Immortal_Planet",
+          "gameDocPath": "\\AppData\\Local\\Immortal_Planet",
+          "gameName": "Immortal Planet",
+          "systemType": "Windows",
+          "steamId": "631980"
+        },
+        {
+          "nickName": "夜勤人",
+          "gameDocDir": "Moonlighter",
+          "gameDocPath": "\\AppData\\LocalLow\\11BitStudios\\Moonlighter",
+          "gameName": "Moonlighter",
+          "systemType": "Windows",
+          "steamId": "606150"
+        },
+        {
+          "nickName": "",
+          "gameDocDir": "OpenTTD",
+          "gameDocPath": "\\Documents\\OpenTTD",
+          "gameName": "OpenTTD",
+          "systemType": "Windows",
+          "steamId": "1536610"
+        },
+        {
+          "nickName": "奥日和黑暗森林",
+          "gameDocDir": "Ori and the Blind Forest DE",
+          "gameDocPath": "\\AppData\\Local\\Ori and the Blind Forest DE",
+          "gameName": "Ori and the Blind Forest DE",
+          "systemType": "Windows",
+          "steamId": "387290"
+        },
+        {
+          "nickName": "缺氧",
+          "gameDocDir": "OxygenNotIncluded",
+          "gameDocPath": "\\Documents\\Klei\\OxygenNotIncluded",
+          "gameName": "OxygenNotIncluded",
+          "systemType": "Windows",
+          "steamId": "457140"
+        },
+        {
+          "nickName": "独立日2",
+          "gameDocDir": "PAYDAY 2",
+          "gameDocPath": "\\AppData\\Local\\PAYDAY 2",
+          "gameName": "PAYDAY 2",
+          "systemType": "Windows",
+          "steamId": "218620"
+        },
+        {
+          "steamId": "1037020",
+          "nickName": "灾厄逆刃",
+          "gameDocDir": "ScourgeBringer",
+          "gameDocPath": "\\AppData\\LocalLow\\Flying Oak Games\\ScourgeBringer",
+          "gameName": "ScourgeBringer",
+          "systemType": "Windows"
+        },
+        {
+          "nickName": "暗影觉醒",
+          "gameDocDir": "Shadows Awakening",
+          "gameDocPath": "\\AppData\\LocalLow\\Games Farm\\Shadows_ Awakening",
+          "gameName": "Shadows  Awakening",
+          "systemType": "Windows",
+          "steamId": "585450"
+        },
+        {
+          "steamId": "",
+          "nickName": "星际争霸",
+          "gameDocDir": "StarCraft",
+          "gameDocPath": "\\Documents\\StarCraft",
+          "gameName": "StarCraft",
+          "systemType": "Windows"
+        },
+        {
+          "nickName": "星谷物语",
+          "gameDocDir": "StardewValley",
+          "gameDocPath": "\\AppData\\Roaming\\StardewValley",
+          "gameName": "StardewValley",
+          "systemType": "Windows",
+          "steamId": "413150"
+        },
+        {
+          "nickName": "虚实之间：军团崛起",
+          "gameDocDir": "Synthetik",
+          "gameDocPath": "\\AppData\\Local\\Synthetik",
+          "gameName": "Synthetik",
+          "systemType": "Windows",
+          "steamId": "528230"
+        },
+        {
+          "nickName": "泰拉瑞亚",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "gameName": "Terraria",
+          "systemType": "Windows",
+          "steamId": "105600"
+        },
+        {
+          "nickName": "逃脱者2",
+          "gameDocDir": "The Escapists 2",
+          "gameDocPath": "\\AppData\\LocalLow\\Team 17 Digital ltd_\\The Escapists 2",
+          "gameName": "The Escapists 2",
+          "systemType": "Windows",
+          "steamId": "641990"
+        },
+        {
+          "nickName": "信使",
+          "gameDocDir": "The Messenger",
+          "gameDocPath": "\\AppData\\LocalLow\\Sabotage Studio\\The Messenger",
+          "gameName": "The Messenger",
+          "systemType": "Windows",
+          "steamId": "764790"
+        },
+        {
+          "nickName": "岛屿生存者",
+          "gameDocDir": "The Survivalists",
+          "gameDocPath": "\\AppData\\LocalLow\\Team17 Digital Ltd_\\The Survivalists",
+          "gameName": "The Survivalists",
+          "systemType": "Windows",
+          "steamId": "897450"
+        },
+        {
+          "nickName": "巫师3：狂猎",
+          "gameDocDir": "The Witcher 3",
+          "gameDocPath": "\\Documents\\The Witcher 3",
+          "gameName": "The Witcher 3",
+          "systemType": "Windows",
+          "steamId": "292030"
+        },
+        {
+          "nickName": "未成战士",
+          "gameDocDir": "Unsung Warriors Prologue",
+          "gameDocPath": "\\AppData\\LocalLow\\Osarion\\Unsung Warriors Prologue",
+          "gameName": "Unsung Warriors Prologue",
+          "systemType": "Windows",
+          "steamId": "959080"
+        },
+        {
+          "nickName": "维京人:人中之狼",
+          "gameDocDir": "Vikings_ Wolves of Midgard",
+          "gameDocPath": "\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard",
+          "gameName": "Vikings  Wolves of Midgard",
+          "systemType": "Windows",
+          "steamId": "404590"
+        },
+        {
+          "nickName": "巫师2",
+          "gameDocDir": "Witcher 2",
+          "gameDocPath": "\\Documents\\Witcher 2",
+          "gameName": "Witcher 2",
+          "systemType": "Windows",
+          "steamId": "20920"
+        },
+        {
+          "nickName": "X变体：防御",
+          "gameDocDir": "X-Morph Defense",
+          "gameDocPath": "\\Documents\\X-Morph Defense",
+          "gameName": "X-Morph Defense",
+          "systemType": "Windows",
+          "steamId": "408410"
+        },
+        {
+          "nickName": "鬼谷八荒",
+          "gameDocDir": "guigubahuang",
+          "gameDocPath": "\\AppData\\LocalLow\\guigugame\\guigubahuang\\Steam\\CacheData",
+          "gameName": "guigubahuang",
+          "systemType": "Windows",
+          "steamId": "1468810"
+        },
+        {
+          "nickName": "火炬之光2",
+          "gameDocDir": "torchlight 2",
+          "gameDocPath": "\\Documents\\My Games\\runic games\\torchlight 2",
+          "gameName": "torchlight 2",
+          "systemType": "Windows",
+          "steamId": "200710"
+        }
+      ]
+    },{
+      "tableName": "gamesTable",
+      "inbound": true,
+      "rows": [
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "nickName": "荒神",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979168366,
+          "lastBackTime": 1631010065840
+        },
+        {
+          "steamId": "774361",
+          "gameName": "Blasphemous",
+          "nickName": "渎神",
+          "gameDocDir": "Blasphemous",
+          "gameDocPath": "\\AppData\\LocalLow\\TheGameKitchen\\Blasphemous",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1632924526706,
+          "lastBackTime": null
+        },
+        {
+          "steamId": "391730",
+          "gameName": "Crashlands",
+          "nickName": "奔溃大陆",
+          "gameDocDir": "Crashlands",
+          "gameDocPath": "\\AppData\\Local\\Crashlands",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1631536918873,
+          "lastBackTime": 1631536936057
+        },
+        {
+          "steamId": "322330",
+          "gameName": "DoNotStarveTogether",
+          "nickName": "饥荒-联机版",
+          "gameDocDir": "DoNotStarveTogether",
+          "gameDocPath": "\\Documents\\Klei\\DoNotStarveTogether",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1637585661945,
+          "lastBackTime": 1637586020642
+        },
+        {
+          "steamId": "1366540",
+          "gameName": "Dyson Sphere Program",
+          "nickName": "戴森球计划",
+          "gameDocDir": "Dyson Sphere Program",
+          "gameDocPath": "\\Documents\\Dyson Sphere Program",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979179352,
+          "lastBackTime": 1631010012438
+        },
+        {
+          "steamId": "427520",
+          "gameName": "Factorio",
+          "nickName": "异星工厂",
+          "gameDocDir": "Factorio",
+          "gameDocPath": "\\AppData\\Roaming\\Factorio",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979180418,
+          "lastBackTime": 1631009992467
+        },
+        {
+          "steamId": "599140",
+          "gameName": "Graveyard Keeper",
+          "nickName": "守墓人",
+          "gameDocDir": "Graveyard Keeper",
+          "gameDocPath": "\\AppData\\LocalLow\\Lazy Bear Games\\Graveyard Keeper",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979181834,
+          "lastBackTime": 1631009988205
+        },
+        {
+          "steamId": "219990",
+          "gameName": "Grim Dawn",
+          "nickName": "恐怖黎明",
+          "gameDocDir": "Grim Dawn",
+          "gameDocPath": "\\Documents\\My Games\\Grim Dawn",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1631538105783,
+          "lastBackTime": 1631538124921
+        },
+        {
+          "steamId": "367520",
+          "gameName": "Hollow Knight",
+          "nickName": "空洞骑士",
+          "gameDocDir": "Hollow Knight",
+          "gameDocPath": "\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979184938,
+          "lastBackTime": 1631010005539
+        },
+        {
+          "steamId": "606150",
+          "gameName": "Moonlighter",
+          "nickName": "夜勤人",
+          "gameDocDir": "Moonlighter",
+          "gameDocPath": "\\AppData\\LocalLow\\11BitStudios\\Moonlighter",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979188216,
+          "lastBackTime": 1631010095313
+        },
+        {
+          "steamId": "457140",
+          "gameName": "OxygenNotIncluded",
+          "nickName": "缺氧",
+          "gameDocDir": "OxygenNotIncluded",
+          "gameDocPath": "\\Documents\\Klei\\OxygenNotIncluded",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979192536,
+          "lastBackTime": null
+        },
+        {
+          "steamId": "",
+          "gameName": "StarCraft",
+          "nickName": "星际争霸",
+          "gameDocDir": "StarCraft",
+          "gameDocPath": "\\Documents\\StarCraft",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1631539156383,
+          "lastBackTime": 1631539164124
+        },
+        {
+          "steamId": "413150",
+          "gameName": "StardewValley",
+          "nickName": "星谷物语",
+          "gameDocDir": "StardewValley",
+          "gameDocPath": "\\AppData\\Roaming\\StardewValley",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627968120573,
+          "lastBackTime": 1637586076315
+        },
+        {
+          "steamId": "105600",
+          "gameName": "Terraria",
+          "nickName": "泰拉瑞亚",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627976864999,
+          "lastBackTime": 1628658173305
+        },
+        {
+          "steamId": "764790",
+          "gameName": "The Messenger",
+          "nickName": "信使",
+          "gameDocDir": "The Messenger",
+          "gameDocPath": "\\AppData\\LocalLow\\Sabotage Studio\\The Messenger",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979217301,
+          "lastBackTime": 1631010082014
+        },
+        {
+          "steamId": "408410",
+          "gameName": "X-Morph Defense",
+          "nickName": "X变体：防御",
+          "gameDocDir": "X-Morph Defense",
+          "gameDocPath": "\\Documents\\X-Morph Defense",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979225896,
+          "lastBackTime": 1631010084064
+        },
+        {
+          "steamId": "1468810",
+          "gameName": "guigubahuang",
+          "nickName": "鬼谷八荒",
+          "gameDocDir": "guigubahuang",
+          "gameDocPath": "\\AppData\\LocalLow\\guigugame\\guigubahuang\\Steam\\CacheData",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1627979226725,
+          "lastBackTime": 1631010077698
+        },
+        {
+          "steamId": "200710",
+          "gameName": "torchlight 2",
+          "nickName": "火炬之光2",
+          "gameDocDir": "torchlight 2",
+          "gameDocPath": "\\Documents\\My Games\\runic games\\torchlight 2",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1632925775342,
+          "lastBackTime": null
+        }
+      ]
+    },{
+      "tableName": "steamApp",
+      "inbound": true,
+      "rows": []
+    }]
+  }
+}

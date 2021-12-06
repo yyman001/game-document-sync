@@ -35,6 +35,17 @@
     </a-tab-pane>
   
     <a-tab-pane key="3" tab="数据库设置">
+
+      <field-set-group title="数据库恢复">
+        <a-checkbox @change="handleDeleteDatabse">
+         导入前删除旧数据库
+        </a-checkbox>
+        <!-- TODO: 自定义导入文件 -->
+        <a-button :disabled="isLoading" type="primary" @click="improtDatabaseByJson">
+        导入数据库
+        </a-button>
+      </field-set-group>  
+
       <field-set-group title="数据库备份路径">
         <div style="margin-bottom: 16px">
           <a-input addon-before="目录:" default-value=".\backup">
@@ -46,6 +57,9 @@
             导出数据库
         </a-button>
       </field-set-group>
+
+
+
     </a-tab-pane>
 
     <a-tab-pane key="4" tab="云同步设置">
@@ -81,7 +95,7 @@
 <script>
 import fieldSetGroup from '../FieldSetGroup'
 import { useDB } from '../../comApi/useDB'
-console.log('useDB', useDB)
+
 export default {
   name: 'config-mod',
   components: { fieldSetGroup },
@@ -89,6 +103,8 @@ export default {
     const {
       progress,
       isLoading,
+      isDeleteOldDatabse,
+      handleDeleteDatabse,
       saveDatabaseToJson,
       improtDatabaseByJson
     } = useDB()
@@ -96,8 +112,10 @@ export default {
     return {
       progress,
       isLoading,
+      isDeleteOldDatabse,
       saveDatabaseToJson,
-      improtDatabaseByJson
+      improtDatabaseByJson,
+      handleDeleteDatabse
     }
   },
   data () {

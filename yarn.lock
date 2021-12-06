@@ -8802,6 +8802,11 @@ stream-slicer@0.0.6:
   resolved "https://registry.nlark.com/stream-slicer/download/stream-slicer-0.0.6.tgz#f86b2ac5c2440b7a0a87b71f33665c0788046138"
   integrity sha1-+GsqxcJEC3oKh7cfM2ZcB4gEYTg=
 
+stream-to-blob@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.nlark.com/stream-to-blob/download/stream-to-blob-2.0.1.tgz#59ab71d7a7f0bfb899570e886e44d39f4ac4381a"
+  integrity sha1-Watx16fwv7iZVw6IbkTTn0rEOBo=
+
 streamifier@^0.1.1:
   version "0.1.1"
   resolved "https://registry.nlark.com/streamifier/download/streamifier-0.1.1.tgz#97e98d8fa4d105d62a2691d1dc07e820db8dfc4f"
