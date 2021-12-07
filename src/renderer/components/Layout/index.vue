@@ -40,7 +40,7 @@
               </a-select-option>
             </a-select>
 
-            <a-input-search placeholder="input search text" style="width: 200px" @search="onSearch" />
+            <a-input-search :value="searchText" placeholder="input search text" style="width: 200px" @change="onSearch" @pressEnter="onSearch" />
           </a-space>
 
 
@@ -48,7 +48,7 @@
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div class="layout-content" >
-          <component :is="activeComponentName"/>
+          <component :is="activeComponentName" :searchText="searchText"/>
         </div>
       </a-layout-content>
     </a-layout>
@@ -61,6 +61,7 @@ import gamesMod from '../Games'
 import docsMod from '../Doc'
 import configMod from '../Config'
 import backMod from '../Back'
+import useSearch from '../../comApi/useSearch'
 
 export default {
   components: {
@@ -72,6 +73,14 @@ export default {
   data () {
     return {
       activeComponentName: 'games-mod'
+    }
+  },
+  setup () {
+    const { searchText, onSearch } = useSearch()
+
+    return {
+      searchText,
+      onSearch
     }
   },
   methods: {
@@ -89,7 +98,6 @@ export default {
         option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       )
     },
-    onSearch () {},
     onSwitch (actvieName) {
       this.activeComponentName = actvieName
     }

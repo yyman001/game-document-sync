@@ -1,20 +1,13 @@
-import { ref, computed } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 
-export default {
-  setup (props) {
-    const filtersParams = ref('')
-    const filtersLsit = ref([])
-    const searchText = ref('')
-    const result = ref([])
+export default function () {
+  const searchText = ref('')
+  const onSearch = ($event) => {
+    searchText.value = $event.target.value
+  }
 
-    const onSelected = () => {
-
-    }
-
-    return {
-      searchText,
-      result,
-      onSelected
-    }
+  return {
+    searchText,
+    onSearch
   }
 }
