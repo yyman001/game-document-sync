@@ -8,8 +8,8 @@
 
     <span slot="action" slot-scope="record">
       <a-button-group>
-        <a-button type="primary" icon="add" />
-        <a-button type="danger" icon="delete" />
+        <a-button icon="plus" />
+        <a-button icon="delete" @click="onDelDoc(record.gameName)"/>
         <a-button icon="file" :data-name="record.gameName"/>
       </a-button-group>
     </span>
@@ -56,7 +56,7 @@ export default {
   },
   setup (props) {
     const { searchText } = toRefs(props)
-    const { result, handleSearch } = useDocs()
+    const { result, handleSearch, onDelDoc } = useDocs()
     handleSearch()
     // 搜索游戏
     watch(searchText, (newSearchText) => {
@@ -65,7 +65,8 @@ export default {
 
     return {
       result,
-      horizontalCover
+      horizontalCover,
+      onDelDoc
     }
   }
 }
