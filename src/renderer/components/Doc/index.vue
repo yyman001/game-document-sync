@@ -1,5 +1,5 @@
 <template>
-  <a-table rowKey="gameName" :columns="columns" :data-source="result">
+  <a-table rowKey="gameName" :columns="columns" :data-source="list">
     
     <span slot="gameInfo" slot-scope="record">
         <img class="horizontalCover" :src="horizontalCover(record.steamId)" alt="">
@@ -19,7 +19,7 @@
 
 <script>
 import useDocs from '../../comApi/useDocs'
-import { watch, toRefs } from '@vue/composition-api'
+import { toRefs } from '@vue/composition-api'
 import { horizontalCover } from '../../../utils/steamPrivew'
 
 export default {
@@ -54,14 +54,20 @@ export default {
       ]
     }
   },
+  computed: {
+    list () {
+      if (!Array.isArray(this.result)) return
+
+      return this.result.filter((game) => {
+        const regExp = new RegExp(this.searchText, 'i')
+        return regExp.test(game.gameName) || regExp.test(game.nickName)
+      })
+    }
+  },
   setup (props) {
+    // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
-    const { result, handleSearch, onDelDoc } = useDocs()
-    handleSearch()
-    // 搜索游戏
-    watch(searchText, (newSearchText) => {
-      handleSearch(newSearchText)
-    })
+    const { result, onDelDoc } = useDocs()
 
     return {
       result,
