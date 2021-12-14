@@ -1,16 +1,16 @@
 
 <template>
-  <a-table rowKey="gameName" :columns="columns" :data-source="result" :expandRowByClick="true">
+  <a-table rowKey="gameName" :columns="columns" :data-source="list" :expandRowByClick="true">
     <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
       {{ record }}
     </div>
 
     <span slot="action" slot-scope="record">
       <a-button-group>
-        <a-button type="primary" icon="rollback" />
-        <a-button type="danger" icon="delete" />
+        <a-button icon="rollback" />
+        <a-button icon="delete" @click="delBackup(record.gameName)"/>
         <a-button icon="folder-open" />
-        <a-button icon="file" :data-name="record.gameName"/>
+        <a-button icon="file"/>
       </a-button-group>
     </span>
 
@@ -19,11 +19,10 @@
 
 <script>
 import useBackup from '../../comApi/useBackup'
-import { watch, toRefs } from '@vue/composition-api'
+import { toRefs } from '@vue/composition-api'
 
 export default {
   name: 'back-mod',
-  components: { },
   props: {
     searchText: String
   },
@@ -53,16 +52,23 @@ export default {
       ]
     }
   },
+  computed: {
+    list () {
+      if (!Array.isArray(this.result)) return
+
+      return this.result.filter((game) => {
+        const regExp = new RegExp(this.searchText, 'i')
+        return regExp.test(game.gameName) || regExp.test(game.nickName)
+      })
+    }
+  },
   setup (props) {
+    // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
-    const { result, handleSearchBackup } = useBackup()
-    handleSearchBackup()
-    // 搜索游戏
-    watch(searchText, (newSearchText) => {
-      handleSearchBackup(newSearchText)
-    })
+    const { result, delBackup } = useBackup()
 
     return {
+      delBackup,
       result
     }
   }

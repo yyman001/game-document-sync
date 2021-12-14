@@ -1,25 +1,42 @@
 
-import { ref } from '@vue/composition-api'
 import { db } from '../utils/DexieDB'
+import { useObservable } from '@vueuse/rxjs'
+import { liveQuery } from 'dexie'
 
 export default function () {
-  // 过滤条件
-  let result = ref([])
+  // backupTable
+  const addBackup = async (object) => {
+    try {
+      return await db.backupTable.add(object)
+    } catch (error) {
+      return null
+    }
+  }
 
-  const handleSearchBackup = async (keywords) => {
-    if (keywords) {
-      const regExp = new RegExp(keywords, 'i')
-      result.value = await db.backupTable.filter(game => {
-        // TODO: 缺失 nickName 数据
-        return regExp.test(game.gameName) || regExp.test(game.nickName)
-      }).toArray()
-    } else {
-      result.value = await db.backupTable.toArray()
+  const updateBackup = async (object) => {
+    try {
+      // return await db.backupTable.update(object)
+    } catch (error) {
+      return null
+    }
+  }
+
+  const delBackup = async (gameName) => {
+    try {
+      return await db.backupTable.delete(gameName)
+    } catch (error) {
+      return null
     }
   }
 
   return {
-    handleSearchBackup,
-    result
+    addBackup,
+    updateBackup,
+    delBackup,
+    result: useObservable(
+      liveQuery(() => {
+        return db.gamesTable.toArray()
+      })
+    )
   }
 }
