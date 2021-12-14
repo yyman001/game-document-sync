@@ -1,27 +1,40 @@
-import { ref } from '@vue/composition-api'
 import { db } from '../utils/DexieDB'
+import { useObservable } from '@vueuse/rxjs'
+import { liveQuery } from 'dexie'
 
 export default function useGames () {
-  // 过滤条件
-  let gameList = ref([])
-
-  const handleSearchGame = async (keywords) => {
-    let result = []
-
-    if (keywords) {
-      const regExp = new RegExp(keywords, 'i')
-      result = await db.gamesTable.filter(game => {
-        return regExp.test(game.gameName) || regExp.test(game.nickName)
-      }).toArray()
-    } else {
-      result = await db.gamesTable.toArray()
+  const addGame = async (object) => {
+    try {
+      return await db.gamesTable.add(object)
+    } catch (error) {
+      return null
     }
+  }
 
-    gameList.value = result
+  const updateGame = async (object) => {
+    try {
+      // return await db.gamesTable.update(object)
+    } catch (error) {
+      return null
+    }
+  }
+
+  const delGame = async (gameName) => {
+    try {
+      return await db.gamesTable.delete(gameName)
+    } catch (error) {
+      return null
+    }
   }
 
   return {
-    handleSearchGame,
-    gameList
+    addGame,
+    updateGame,
+    delGame,
+    gameList: useObservable(
+      liveQuery(() => {
+        return db.gamesTable.toArray()
+      })
+    )
   }
 }

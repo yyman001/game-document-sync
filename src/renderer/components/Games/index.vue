@@ -1,7 +1,13 @@
 <template>
   <div class="card-content">
     <div class="card-box">
-      <Card :hasDoc="docMap.includes(item.gameDocDir)" :key="item.gameName" v-for="item in gameList" :item="item"></Card>
+      <Card
+        :hasDoc="docMap.includes(item.gameDocDir)"
+        :key="item.gameName"
+        v-for="item in list"
+        :item="item"
+        @handleClick="handleClick"
+      ></Card>
     </div>
   </div>
 </template>
@@ -19,18 +25,37 @@ export default {
   props: {
     searchText: String
   },
+  computed: {
+    list () {
+      if (!Array.isArray(this.gameList)) return
+
+      return this.gameList.filter((game) => {
+        const regExp = new RegExp(this.searchText, 'i')
+        return regExp.test(game.gameName) || regExp.test(game.nickName)
+      })
+    }
+  },
   setup (props) {
+    // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
     const { docMap, loadCheck, isLoadCheck } = useCheckDocs()
-    const { gameList, handleSearchGame } = useGames()
+    const { gameList, delGame } = useGames()
     const { isVisible, onModelOpen, onModelClose } = useModel()
-    // init
-    handleSearchGame()
-    // 搜索游戏
-    watch(searchText, (newSearchText) => {
-      console.log('newSearchText', newSearchText)
-      handleSearchGame(newSearchText)
-    })
+    const handleClick = ([type, data]) => {
+      switch (type) {
+        case 'restore':
+          break
+        case 'backup':
+          break
+        case 'editor':
+          break
+        case 'del':
+          delGame(data.gameName)
+          break
+        default:
+          break
+      }
+    }
     // 游戏列表更新,刷新判断是否有存档
     watch(gameList, (newGameList) => {
       loadCheck(newGameList)
@@ -41,16 +66,12 @@ export default {
       isLoadCheck,
       loadCheck,
       gameList,
-      handleSearchGame,
+      handleClick,
       isVisible,
       onModelOpen,
       onModelClose
     }
-  },
-  data () {
-    return {}
   }
-
 }
 </script>
 
