@@ -240,7 +240,7 @@ npm run lint
  - [localForage](https://github.com/localForage/localForage)
  - [导出和导入数据库](https://dexie.org/docs/ExportImport/dexie-export-import)
  - [export/import for IndexedDB](https://github.com/Polarisation/indexeddb-export-import)
-
+ - [pinia](https://pinia.esm.dev/introduction.html#why-should-i-use-pinia)
  - [新版UI 设计稿](https://dribbble.com/shots/16271760-Sidebar-navigation-for-Dashboard)
  - [box-shadow-demo](https://getcssscan.com/css-box-shadow-examples)
  - [electron-vue](https://github.com/SimulatedGREG/electron-vue)

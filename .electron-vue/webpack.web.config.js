@@ -19,6 +19,11 @@ let webConfig = {
   module: {
     rules: [
       {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
+      {
         test: /\.(js|vue)$/,
         enforce: 'pre',
         exclude: /node_modules/,
