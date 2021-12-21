@@ -8,7 +8,7 @@
 
     <span slot="action" slot-scope="record">
       <a-button-group>
-        <a-button icon="plus" />
+        <a-button icon="plus" @click="onAdd(record)"/>
         <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameName)">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a-button icon="delete"/>
@@ -25,6 +25,7 @@ import useDocs from '../../comApi/useDocs'
 import { toRefs } from '@vue/composition-api'
 import { horizontalCover } from '../../../utils/steamPrivew'
 import useMessage from '../../comApi/useMessage'
+import useGames from '../../comApi/useGames'
 
 export default {
   name: 'doc-mod',
@@ -73,6 +74,13 @@ export default {
     const { searchText } = toRefs(props)
     const { result, onDelDoc } = useDocs()
     const { message } = useMessage()
+    const { addGame } = useGames()
+
+    const onAdd = async (gameItem) => {
+      const game = await addGame(gameItem)
+      const text = game === null ? '添加失败,游戏可能已经存在!' : '添加成功!'
+      message(game !== null, text)
+    }
 
     const onDel = async (gameName) => {
       const isNull = await onDelDoc(gameName)
@@ -81,6 +89,7 @@ export default {
     }
 
     return {
+      onAdd,
       onDel,
       result,
       horizontalCover
