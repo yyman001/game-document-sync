@@ -9,7 +9,10 @@
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="plus" />
-        <a-button icon="delete" @click="onDelDoc(record.gameName)"/>
+        <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameName)">
+          <a-icon slot="icon" type="question-circle-o" style="color: red" />
+          <a-button icon="delete"/>
+        </a-popconfirm>
         <a-button icon="file" :data-name="record.gameName"/>
       </a-button-group>
     </span>
@@ -21,6 +24,7 @@
 import useDocs from '../../comApi/useDocs'
 import { toRefs } from '@vue/composition-api'
 import { horizontalCover } from '../../../utils/steamPrivew'
+import useMessage from '../../comApi/useMessage'
 
 export default {
   name: 'doc-mod',
@@ -68,11 +72,18 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
     const { result, onDelDoc } = useDocs()
+    const { message } = useMessage()
+
+    const onDel = async (gameName) => {
+      const isNull = await onDelDoc(gameName)
+      const text = isNull === null ? '删除失败!' : '删除成功!'
+      message(isNull !== null, text)
+    }
 
     return {
+      onDel,
       result,
-      horizontalCover,
-      onDelDoc
+      horizontalCover
     }
   }
 }
