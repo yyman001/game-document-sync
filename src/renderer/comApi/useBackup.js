@@ -25,6 +25,7 @@ export default function () {
     try {
       return await db.backupTable.delete(gameName)
     } catch (error) {
+      console.error(error)
       return null
     }
   }
@@ -35,7 +36,7 @@ export default function () {
     delBackup,
     result: useObservable(
       liveQuery(() => {
-        return db.gamesTable.toArray()
+        return db.backupTable.toArray()
       })
     )
   }

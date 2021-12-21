@@ -35,7 +35,10 @@
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="rollback" />
-        <a-button icon="delete" @click="delBackup(record.gameName)"/>
+        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record.gameName)">
+          <a-icon slot="icon" type="question-circle-o" style="color: red" />
+          <a-button icon="delete"/>
+        </a-popconfirm>
         <a-button icon="folder-open" />
         <a-button icon="file"/>
       </a-button-group>
@@ -45,8 +48,9 @@
 </template>
 
 <script>
-import useBackup from '../../comApi/useBackup'
 import { toRefs } from '@vue/composition-api'
+import useBackup from '../../comApi/useBackup'
+import useMessage from '../../comApi/useMessage'
 
 export default {
   name: 'back-mod',
@@ -89,14 +93,27 @@ export default {
       })
     }
   },
+
   setup (props) {
     // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
     const { result, delBackup } = useBackup()
+    const { messageSuccess, messageError } = useMessage()
+
+    const onDelBackFile = async (gameName) => {
+      const isNull = await delBackup(gameName)
+      if (isNull === null) {
+        messageError(`删除${gameName}备份文件失败!`)
+        return
+      }
+
+      messageSuccess('删除成功!')
+    }
 
     return {
       delBackup,
-      result
+      result,
+      onDelBackFile
     }
   }
 }
