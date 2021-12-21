@@ -2,8 +2,35 @@
 <template>
   <a-table rowKey="gameName" :columns="columns" :data-source="list" :expandRowByClick="true">
     <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-      {{ record }}
-    </div>
+
+      <a-descriptions bordered :size="'small'" :column="1">
+        <a-descriptions-item label="steamId:">
+          {{record.steamId}}
+        </a-descriptions-item>
+        <a-descriptions-item label="游戏名:">
+          {{record.gameName}}
+        </a-descriptions-item>
+        <a-descriptions-item label="译名:">
+          {{record.nickName}}
+        </a-descriptions-item>
+        <a-descriptions-item label="文件夹名:">
+          {{record.gameDocDir}}
+        </a-descriptions-item>
+        <a-descriptions-item label="游戏目录:">
+          {{record.gameDocPath}}
+        </a-descriptions-item>
+        <a-descriptions-item label="系统类型:">
+          {{record.systemType}}
+        </a-descriptions-item>
+        <a-descriptions-item label="创建时间:">
+          {{record.createTime}}
+        </a-descriptions-item>
+        <a-descriptions-item label="最后修改时间:">
+          {{record.lastBackTime}}
+        </a-descriptions-item>
+      </a-descriptions>
+      
+    </div><!-- expandedRowRender -->
 
     <span slot="action" slot-scope="record">
       <a-button-group>
