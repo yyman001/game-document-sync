@@ -1,6 +1,6 @@
 
 <template>
-  <a-table rowKey="gameName" :columns="columns" :data-source="list" :expandRowByClick="true">
+  <a-table rowKey="id" :pagination="false" :columns="columns" :data-source="list" :expandRowByClick="true">
     <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 
       <a-descriptions bordered :size="'small'" :column="1">
@@ -10,23 +10,23 @@
         <a-descriptions-item label="游戏名:">
           {{record.gameName}}
         </a-descriptions-item>
-        <a-descriptions-item label="译名:">
-          {{record.nickName}}
+        <a-descriptions-item label="文件名:">
+          {{record.fileName}}
         </a-descriptions-item>
-        <a-descriptions-item label="文件夹名:">
-          {{record.gameDocDir}}
+        <a-descriptions-item label="文件路径:">
+          {{record.filePath}}
         </a-descriptions-item>
         <a-descriptions-item label="游戏目录:">
           {{record.gameDocPath}}
         </a-descriptions-item>
         <a-descriptions-item label="系统类型:">
-          {{record.systemType}}
+          {{record.platformTye}}
         </a-descriptions-item>
         <a-descriptions-item label="创建时间:">
-          {{record.createTime}}
+          {{record.timeStamp}}
         </a-descriptions-item>
-        <a-descriptions-item label="最后修改时间:">
-          {{record.lastBackTime}}
+        <a-descriptions-item label="备注:">
+          {{record.remask}}
         </a-descriptions-item>
       </a-descriptions>
       
@@ -35,7 +35,7 @@
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="rollback" />
-        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record.gameName)">
+        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record.id)">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a-button icon="delete"/>
         </a-popconfirm>
@@ -98,16 +98,12 @@ export default {
     // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
     const { result, delBackup } = useBackup()
-    const { messageSuccess, messageError } = useMessage()
+    const { message } = useMessage()
 
-    const onDelBackFile = async (gameName) => {
-      const isNull = await delBackup(gameName)
-      if (isNull === null) {
-        messageError(`删除${gameName}备份文件失败!`)
-        return
-      }
-
-      messageSuccess('删除成功!')
+    const onDelBackFile = async (id) => {
+      const isNull = await delBackup(id)
+      const text = isNull === null ? '删除备份文件失败!' : '删除成功!'
+      message(isNull !== null, text)
     }
 
     return {

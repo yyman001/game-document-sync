@@ -21,9 +21,9 @@ export default function () {
     }
   }
 
-  const delBackup = async (gameName) => {
+  const delBackup = async (id) => {
     try {
-      return await db.backupTable.delete(gameName)
+      return await db.backupTable.delete(id)
     } catch (error) {
       console.error(error)
       return null
