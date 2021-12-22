@@ -9,7 +9,7 @@
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="plus" @click="onAdd(record)"/>
-        <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameName)">
+        <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameDocDir)">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a-button icon="delete"/>
         </a-popconfirm>

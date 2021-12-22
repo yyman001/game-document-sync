@@ -23,10 +23,10 @@ export default function () {
     return null
   }
 
-  const onDelDoc = async (gameName) => {
+  const onDelDoc = async (gameDocDir) => {
     try {
       // del success return undefined
-      return await db.docsTable.delete(gameName)
+      return await db.docsTable.delete(gameDocDir)
     } catch (error) {
       console.log('onDelDoc', error)
     }
