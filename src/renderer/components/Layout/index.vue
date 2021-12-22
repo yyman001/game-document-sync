@@ -19,7 +19,8 @@
       <a-layout-header>
         <div class="div">
           <a-space :size="8">
-          <a-select
+           <a-button v-if="activeComponentName === 'docs-mod' " @click="onModelOpen">添加</a-button>
+          <!-- <a-select
               show-search
               placeholder="Select a person"
               option-filter-prop="children"
@@ -38,7 +39,7 @@
               <a-select-option value="tom">
                 Tom
               </a-select-option>
-            </a-select>
+            </a-select> -->
 
             <a-input-search :value="searchText" placeholder="input search text" style="width: 200px" @change="onSearch" @pressEnter="onSearch" />
           </a-space>
@@ -49,6 +50,8 @@
       <a-layout-content :style="{ margin: '24px 16px 0' }">
         <div class="layout-content" >
           <component :is="activeComponentName" :searchText="searchText"/>
+          <!-- doc弹窗 -->
+          <DocDialog v-model="isVisible" @handelSubmit="onAdd" @handleExit="onModelClose"/>
         </div>
       </a-layout-content>
     </a-layout>
@@ -62,6 +65,10 @@ import docsMod from '../Doc'
 import configMod from '../Config'
 import backMod from '../Back'
 import useSearch from '../../comApi/useSearch'
+import DocDialog from '../Dialog/index.vue'
+import useModel from '../../comApi/useModel'
+import useMessage from '../../comApi/useMessage'
+import useDocs from '../../comApi/useDocs'
 
 export default {
   components: {
@@ -69,7 +76,9 @@ export default {
     gamesMod,
     docsMod,
     configMod,
-    backMod },
+    backMod,
+    DocDialog
+  },
   data () {
     return {
       activeComponentName: 'games-mod'
@@ -77,10 +86,27 @@ export default {
   },
   setup () {
     const { searchText, onSearch } = useSearch()
+    const { isVisible, onModelOpen, onModelClose } = useModel()
+    const { message } = useMessage()
+    const { onAddDoc } = useDocs()
+
+    const onAdd = async (docItem) => {
+      const game = await onAddDoc(docItem)
+      const text = game === null ? '添加失败,游戏可能已经存在!' : '添加成功!'
+      message(game !== null, text)
+
+      if (game !== null) {
+        onModelClose()
+      }
+    }
 
     return {
       searchText,
-      onSearch
+      onSearch,
+      isVisible,
+      onModelOpen,
+      onModelClose,
+      onAdd
     }
   },
   methods: {
