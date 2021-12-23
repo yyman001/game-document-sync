@@ -9,19 +9,35 @@
         @handleClick="handleClick"
       ></Card>
     </div>
+    <!-- 进度步骤 -->
+    <a-modal
+      title="备份"
+      :visible="isVisible"
+      :footer="null"
+      :maskClosable="false"
+    >
+      <ModalBackup
+       :gameDocDir="gameDocDir"
+       :gameDocPath="gameDocPath"
+       @handleExit="onModelClose"
+       @handleSubmit="handleSubmit"
+       />
+    </a-modal>
+
   </div>
 </template>
 
 <script>
 import Card from '../Card'
-import { watch, toRefs } from '@vue/composition-api'
+import { watch, toRefs, ref } from '@vue/composition-api'
 import useCheckDocs from '../../comApi/useCheckDocs'
 import useGames from '../../comApi/useGames'
 import useModel from '../../comApi/useModel'
+import ModalBackup from '../../components/Modal/ModalBackup.vue'
 
 export default {
   name: 'games-mod',
-  components: { Card },
+  components: { Card, ModalBackup },
   props: {
     searchText: String
   },
@@ -41,11 +57,19 @@ export default {
     const { docMap, loadCheck, isLoadCheck } = useCheckDocs()
     const { gameList, delGame } = useGames()
     const { isVisible, onModelOpen, onModelClose } = useModel()
+    const gameDocPath = ref('')
+    const gameDocDir = ref('')
+
     const handleClick = ([type, data]) => {
       switch (type) {
         case 'restore':
           break
         case 'backup':
+          onModelOpen()
+          console.log('data', data)
+          gameDocPath.value = data.gameDocPath
+          gameDocDir.value = data.gameDocDir
+
           break
         case 'editor':
           break
@@ -56,6 +80,11 @@ export default {
           break
       }
     }
+
+    const handleSubmit = (data) => {
+      console.log('handleSubmit', data)
+    }
+
     // 游戏列表更新,刷新判断是否有存档
     watch(gameList, (newGameList) => {
       loadCheck(newGameList)
@@ -69,9 +98,13 @@ export default {
       handleClick,
       isVisible,
       onModelOpen,
-      onModelClose
+      onModelClose,
+      gameDocPath,
+      gameDocDir,
+      handleSubmit
     }
   }
+
 }
 </script>
 
