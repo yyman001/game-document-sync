@@ -7269,14 +7269,6 @@ pify@^4.0.1:
   resolved "https://registry.nlark.com/pify/download/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha1-SyzSXFDVmHNcUCkiJP2MbfQeMjE=
 
-pinia@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmmirror.com/pinia/download/pinia-2.0.6.tgz#db7ebccd459ef8020d0c528d85be7930e0f4edd0"
-  integrity sha512-01mP4+KapIcTNSYLhQESy6GW0N8vY5wX3UqOwkC87e7DPjEusNJ8bENrKqdvZaRHbB2rDMOONeAbwMa3+n1/rw==
-  dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.20.1"
-    vue-demi "*"
-
 pinkie-promise@^2.0.0:
   version "2.0.1"
   resolved "https://registry.nlark.com/pinkie-promise/download/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
