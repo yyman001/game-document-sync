@@ -19,8 +19,7 @@
       <ModalBackup
        :gameDocDir="gameDocDir"
        :gameDocPath="gameDocPath"
-       @handleExit="onModelClose"
-       @handleSubmit="handleSubmit"
+       @handleClose="onModelClose"
        />
     </a-modal>
 
@@ -81,10 +80,6 @@ export default {
       }
     }
 
-    const handleSubmit = (data) => {
-      console.log('handleSubmit', data)
-    }
-
     // 游戏列表更新,刷新判断是否有存档
     watch(gameList, (newGameList) => {
       loadCheck(newGameList)
@@ -100,8 +95,7 @@ export default {
       onModelOpen,
       onModelClose,
       gameDocPath,
-      gameDocDir,
-      handleSubmit
+      gameDocDir
     }
   }
 

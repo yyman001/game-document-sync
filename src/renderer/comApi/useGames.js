@@ -27,10 +27,15 @@ export default function useGames () {
     }
   }
 
+  const searchGame = (gameDocDir) => {
+    return db.gamesTable.get(gameDocDir)
+  }
+
   return {
     addGame,
     updateGame,
     delGame,
+    searchGame,
     gameList: useObservable(
       liveQuery(() => {
         return db.gamesTable.toArray()
