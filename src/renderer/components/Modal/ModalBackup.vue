@@ -4,7 +4,7 @@
 
       <a-row>
         <a-input :disabled="true" addon-before="存档路径:" :value="docPatch">
-          <a-icon slot="addonAfter" type="folder-open" />
+          <a-icon slot="addonAfter" type="folder-open" @click="openItem(docPatch)"/>
         </a-input>
       </a-row>
 
@@ -38,6 +38,7 @@ import useBackupFile from '../../comApi/useBackupFile'
 import useBackup from '../../comApi/useBackup'
 import useGames from '../../comApi/useGames'
 import useMessage from '../../comApi/useMessage'
+import { openItem } from '../../utils/shell'
 const path = require('path')
 
 export default {
@@ -108,7 +109,8 @@ export default {
       backPatch,
       onStartBackup,
       remask,
-      loading
+      loading,
+      openItem
     }
   }
 }
