@@ -1,6 +1,7 @@
 const { copy, ensureDir, remove } = require('../../utils/FileClass').default
-const { compressDir } = require('../../utils/compressClass').default
+const { compressDir, unCompress } = require('../../utils/compressClass').default
 const path = require('path')
+const fs = require('fs-extra')
 
 export default function () {
   const backupFile = async ({docPatch, tempPatch, backPatch, gameDocDir}) => {
@@ -22,7 +23,20 @@ export default function () {
     return [null, { message: '备份成功!', platform, timeStamp, fileName, savePath, ...compressData }]
   }
 
+  const restoreFile = async (backPatch, docPatch) => {
+    const fileIsExists = await fs.pathExists(backPatch)
+    if (!fileIsExists) {
+      return [true, '还原文件不存在!']
+    }
+
+    const isRestore = await unCompress(backPatch, docPatch)
+    // TODO: 检查一次还原后的文件是否正真存在
+    const message = isRestore ? '还原成功!' : '还原失败!'
+    return [false, message]
+  }
+
   return {
-    backupFile
+    backupFile,
+    restoreFile
   }
 }

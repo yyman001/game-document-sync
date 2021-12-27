@@ -34,7 +34,7 @@
 
     <span slot="action" slot-scope="record">
       <a-button-group>
-        <a-button icon="rollback" />
+        <a-button icon="rollback" @click="handleRestore(record)"/>
         <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record.id)">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a-button icon="delete"/>
@@ -51,6 +51,10 @@
 import { toRefs } from '@vue/composition-api'
 import useBackup from '../../comApi/useBackup'
 import useMessage from '../../comApi/useMessage'
+import { Loading } from 'element-ui'
+import useBackupFile from '../../comApi/useBackupFile'
+import useConfig from '../../comApi/useConfig'
+const path = require('path')
 
 export default {
   name: 'back-mod',
@@ -99,17 +103,40 @@ export default {
     const { searchText } = toRefs(props)
     const { result, delBackup } = useBackup()
     const { message } = useMessage()
+    const { restoreFile } = useBackupFile()
+    const { homedir } = useConfig()
 
     const onDelBackFile = async (id) => {
       const isNull = await delBackup(id)
       const text = isNull === null ? '删除备份文件失败!' : '删除成功!'
       message(isNull !== null, text)
+      // TODO: 删除本地文件
+      // TODO: 同时删除云文件
+    }
+
+    const handleRestore = async (item) => {
+      const {
+        filePath,
+        gameDocDir,
+        gameDocPath
+      } = item
+      let loadingInstance1 = Loading.service({ fullscreen: true })
+
+      // 解压会多一层文件夹, 需要指定到备份存档 上一级(父目录)
+      const docPath = path.join(homedir.value, gameDocPath.replace(gameDocDir, ''))
+      const [error, text] = await restoreFile(filePath, docPath)
+      message(!error, text)
+
+      setTimeout(() => {
+        loadingInstance1.close()
+      }, 350)
     }
 
     return {
       delBackup,
       result,
-      onDelBackFile
+      onDelBackFile,
+      handleRestore
     }
   }
 }
