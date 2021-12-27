@@ -35,7 +35,7 @@
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="rollback" @click="handleRestore(record)"/>
-        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record.id)">
+        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record)">
           <a-icon slot="icon" type="question-circle-o" style="color: red" />
           <a-button icon="delete"/>
         </a-popconfirm>
@@ -54,6 +54,7 @@ import useMessage from '../../comApi/useMessage'
 import { Loading } from 'element-ui'
 import useBackupFile from '../../comApi/useBackupFile'
 import useConfig from '../../comApi/useConfig'
+const { remove } = require('../../../utils/FileClass').default
 const path = require('path')
 
 export default {
@@ -106,11 +107,12 @@ export default {
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
 
-    const onDelBackFile = async (id) => {
-      const isNull = await delBackup(id)
+    const onDelBackFile = async (record) => {
+      // 删除本地文件
+      await remove(record.filePath)
+      const isNull = await delBackup(record.id)
       const text = isNull === null ? '删除备份文件失败!' : '删除成功!'
       message(isNull !== null, text)
-      // TODO: 删除本地文件
       // TODO: 同时删除云文件
     }
 
