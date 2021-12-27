@@ -84,7 +84,7 @@ export default {
       const backupWriteResult = await addBackup({
         steamId: game.steamId,
         gameName: game.gameName,
-        gameDocDir: gameDocPath.value,
+        gameDocDir: gameDocDir.value,
         gameDocPath: gameDocPath.value,
         fileName: backupData.fileName,
         filePath: `${backupData.savePath}.${backupData.platform}`,
