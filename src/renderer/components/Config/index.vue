@@ -84,9 +84,7 @@
 
         <div>
 
-          <a-input
-            default-value="C:\Users\yyman001\AppData\Roaming\Electron\webDAV.config.js"
-          >
+          <a-input v-model:value="configPath">
             <a-select
               slot="addonBefore"
               default-value="jianguoyun"
@@ -120,13 +118,15 @@
             </a-form-item>
             <!-- 提交 -->
             <a-form-item>
-              <a-button type="primary" :disabled="!usearname || !password || !rootDirectoryName"> 保存 </a-button>
+              <a-button type="primary" :disabled="!usearname || !password || !rootDirectoryName" @click="hanldeSubmitConfig"> 保存 </a-button>
             </a-form-item>
 
           </a-form>
           
           <a-divider/>
           
+          <a-button @click="loadWebDavConfig(configPath)">加载配置</a-button>
+
           <a-button :loading="loading" :disabled="!usearname || !password" @click="handleCheckAccount">测试校验账号</a-button>
           <div>
             <a-tag color="blue">
@@ -160,7 +160,17 @@ export default {
       improtDatabaseByJson
     } = useDB()
 
-    const { usearname, password, loading, rootDirectoryName, testResult, Items, handleCheckAccount } = useWebDAV()
+    const {
+      usearname,
+      password,
+      loading,
+      configPath,
+      rootDirectoryName,
+      testResult,
+      handleCheckAccount,
+      hanldeSubmitConfig,
+      loadWebDavConfig
+    } = useWebDAV()
 
     return {
       progress,
@@ -172,10 +182,12 @@ export default {
       usearname,
       password,
       loading,
+      configPath,
       testResult,
       rootDirectoryName,
       handleCheckAccount,
-      Items
+      hanldeSubmitConfig,
+      loadWebDavConfig
     }
   },
   data () {

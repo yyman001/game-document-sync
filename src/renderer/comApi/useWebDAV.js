@@ -1,14 +1,17 @@
 import { ref, reactive } from '@vue/composition-api'
+import useMessage from './useMessage'
 const webdav = require('webdav')
 const { createClient } = webdav
-// const fs = require('fs-extra')
+const fs = require('fs-extra')
 
 export default function () {
-  const url = ref('https://dav.jianguoyun.com/dav/')
-  const usearname = ref('yyman001@qq.com')
-  const password = ref('akuz6vqd5iccz67w')
+  const { messageSuccess, messageError } = useMessage()
+  const configPath = ref('./static/webDAV.config.json')
+  const url = ref('')
+  const usearname = ref('')
+  const password = ref('')
   // 游戏云存档根目录
-  const rootDirectoryName = ref('games_doc_sync')
+  const rootDirectoryName = ref('')
   const loading = ref(false)
   const testResult = ref(false)
   // 云目录列表信息
@@ -18,6 +21,24 @@ export default function () {
   })
   let client = null
 
+  const loadWebDavConfig = (filePath) => {
+    loading.value = true
+    try {
+      const fileJson = fs.readJSONSync(filePath)
+      if (fileJson) {
+        url.value = fileJson.url
+        usearname.value = fileJson.usearname
+        password.value = fileJson.password
+        rootDirectoryName.value = fileJson.rootDirectoryName
+        messageSuccess('加载配置成功!')
+      }
+    } catch (error) {
+      messageError('加载配置失败!')
+    }
+    loading.value = false
+  }
+
+  // eslint-disable-next-line no-unused-vars
   const webDAVClient = () => {
     client = createClient(url.value, {
       username: usearname.value,
@@ -64,13 +85,28 @@ export default function () {
   }
 
   const hanldeSubmitConfig = () => {
-    // TODO: 保存配置
+    loading.value = true
+    const jsonConfig = {
+      url: url.value,
+      usearname: usearname.value,
+      password: password.value,
+      rootDirectoryName: rootDirectoryName.value
+    }
+
+    try {
+      fs.outputJsonSync(configPath.value, jsonConfig)
+      messageSuccess('导出配置成功!')
+    } catch (error) {
+      console.log('e', error)
+      messageError('导出配置失败!')
+    }
+
+    loading.value = false
   }
 
   const handleCheckAccount = async () => {
     if (loading.value) return
     loading.value = true
-
     try {
       webDAVClient()
       await getDirectoryContents()
@@ -88,6 +124,7 @@ export default function () {
     password,
     loading,
     testResult,
+    configPath,
     rootDirectoryName,
     coludItems,
     createClient,
@@ -95,6 +132,7 @@ export default function () {
     getDirectoryContents,
     getFileContents,
     getDirectoryStructure,
-    hanldeSubmitConfig
+    hanldeSubmitConfig,
+    loadWebDavConfig
   }
 }
