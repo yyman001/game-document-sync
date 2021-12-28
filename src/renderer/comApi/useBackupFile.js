@@ -1,9 +1,12 @@
+import useConfig from './useConfig'
 const { copy, ensureDir, remove } = require('../../utils/FileClass').default
 const { compressDir, unCompress } = require('../../utils/compressClass').default
 const path = require('path')
 const fs = require('fs-extra')
 
 export default function () {
+  const { homedir } = useConfig()
+
   const backupFile = async ({docPatch, tempPatch, backPatch, gameDocDir}) => {
     const [error] = await copy(docPatch, tempPatch)
     if (error) return [error, null]
@@ -35,8 +38,16 @@ export default function () {
     return [false, message]
   }
 
+  const customRestoreFile = async (backPatch, gameItem) => {
+    const { gameDocPath, gameDocDir } = gameItem
+    if (backPatch.indexOf(gameDocDir) === -1) throw new Error('无效文件!')
+    const docPath = path.join(homedir.value, gameDocPath.replace(gameDocDir, ''))
+    return restoreFile(backPatch, docPath)
+  }
+
   return {
     backupFile,
-    restoreFile
+    restoreFile,
+    customRestoreFile
   }
 }
