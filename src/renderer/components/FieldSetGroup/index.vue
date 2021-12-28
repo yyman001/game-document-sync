@@ -20,6 +20,7 @@ export default {
 <style lang="scss">
 @import "../../sass/_var.scss";
 .fieldset {
+  margin-bottom: 10px;
   padding: 15px;
   color: $color-font-selected;
   border: 1px solid #e8e8e8;
