@@ -27,7 +27,9 @@ function createWindow () {
     useContentSize: true,
     webPreferences: {
       // 设置为true就可以在这个渲染进程中调用Node.js
-      nodeIntegration: true
+      nodeIntegration: true,
+      // 允许跨域请求
+      webSecurity: false
     }
   })
 
