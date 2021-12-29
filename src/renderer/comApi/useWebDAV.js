@@ -21,7 +21,8 @@ export default function () {
     fileItems: []
   })
   let client = null
-
+  // 是否 覆盖已存在的云文件
+  const isOverwrite = false
   const loadWebDavConfig = (filePath) => {
     try {
       const fileJson = fs.readJSONSync(filePath)
@@ -83,6 +84,46 @@ export default function () {
     }
 
     loading.value = false
+  }
+
+  /**
+   * 校验目录是否存在并生成目录
+   *
+   * @param {String} path 创建目录路径
+   */
+  const ensureDir = async (path) => {
+    if (await client.exists(path) === false) {
+      await client.createDirectory(path)
+      console.log('目录不存在,创建', path)
+      return true
+    }
+    console.log('目录已存在')
+    return false
+  }
+
+  /**
+   * 上传文件到坚果云
+   *
+   * @param {*} filePath 本地备份文件
+   * @param {*} gameDocDir 游戏文件夹名
+   * @param {*} fileName 存档名(带完整文件后缀)
+   * @returns {Promise<Boolean>}
+   */
+  const uploadFile = async (filePath, gameDocDir, fileName) => {
+    try {
+      const fileBuffer = await fs.readFile(filePath)
+      console.log('fileBuffer', fileBuffer)
+      // 确保根目录存在
+      await ensureDir(`/${rootDirectoryName.value}`)
+      // 确保游戏存档目录
+      await ensureDir(`/${rootDirectoryName.value}/${gameDocDir}`)
+      await client.putFileContents(`/${rootDirectoryName.value}/${gameDocDir}/${fileName}`, fileBuffer, {
+        overwrite: isOverwrite
+      })
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   const hanldeSaveConfig = () => {
@@ -148,6 +189,7 @@ export default function () {
     getDirectoryStructure,
     hanldeSaveConfig,
     loadWebDavConfig,
-    handleSetConfig
+    handleSetConfig,
+    uploadFile
   }
 }
