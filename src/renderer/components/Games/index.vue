@@ -64,12 +64,13 @@ export default {
     const gameDocPath = ref('')
     const gameDocDir = ref('')
 
-    const handleClick = ([type, data]) => {
+    const handleClick = async ([type, data]) => {
       console.log('data', data)
       switch (type) {
         case 'restore':
-          const [selectedFilePath] = showOpenDialog()
-          customRestoreFile(selectedFilePath, data)
+          const selectedFilePath = showOpenDialog()
+          if (!Array.isArray(selectedFilePath)) return
+          customRestoreFile(selectedFilePath[0], data)
             .then((data) => {
               message(data[0], data[1])
             })
