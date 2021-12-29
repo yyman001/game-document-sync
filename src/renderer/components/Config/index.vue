@@ -92,7 +92,11 @@
             >
               <a-select-option value="jianguoyun"> 坚果云 </a-select-option>
             </a-select>
-            <a-icon slot="addonAfter" type="setting" />
+
+            <a-tooltip slot="addonAfter" title="导入配置">
+              <a-icon type="setting" @click="handleSetConfig"/>
+            </a-tooltip>
+            
           </a-input>
 
           <a-divider/>
@@ -118,7 +122,7 @@
             </a-form-item>
             <!-- 提交 -->
             <a-form-item>
-              <a-button type="primary" :disabled="!usearname || !password || !rootDirectoryName" @click="hanldeSubmitConfig"> 保存 </a-button>
+              <a-button type="primary" :disabled="!usearname || !password || !rootDirectoryName" @click="hanldeSaveConfig"> 保存 </a-button>
             </a-form-item>
 
           </a-form>
@@ -168,8 +172,9 @@ export default {
       rootDirectoryName,
       testResult,
       handleCheckAccount,
-      hanldeSubmitConfig,
-      loadWebDavConfig
+      hanldeSaveConfig,
+      loadWebDavConfig,
+      handleSetConfig
     } = useWebDAV()
 
     return {
@@ -186,8 +191,9 @@ export default {
       testResult,
       rootDirectoryName,
       handleCheckAccount,
-      hanldeSubmitConfig,
-      loadWebDavConfig
+      hanldeSaveConfig,
+      loadWebDavConfig,
+      handleSetConfig
     }
   },
   data () {

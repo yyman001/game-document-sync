@@ -1,5 +1,6 @@
 import { ref, reactive } from '@vue/composition-api'
 import useMessage from './useMessage'
+import { showOpenDialog } from '../utils/dialog'
 const webdav = require('webdav')
 const { createClient } = webdav
 const fs = require('fs-extra')
@@ -22,7 +23,6 @@ export default function () {
   let client = null
 
   const loadWebDavConfig = (filePath) => {
-    loading.value = true
     try {
       const fileJson = fs.readJSONSync(filePath)
       if (fileJson) {
@@ -31,11 +31,12 @@ export default function () {
         password.value = fileJson.password
         rootDirectoryName.value = fileJson.rootDirectoryName
         messageSuccess('加载配置成功!')
+        return true
       }
     } catch (error) {
       messageError('加载配置失败!')
+      return false
     }
-    loading.value = false
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -84,7 +85,7 @@ export default function () {
     loading.value = false
   }
 
-  const hanldeSubmitConfig = () => {
+  const hanldeSaveConfig = () => {
     loading.value = true
     const jsonConfig = {
       url: url.value,
@@ -95,10 +96,10 @@ export default function () {
 
     try {
       fs.outputJsonSync(configPath.value, jsonConfig)
-      messageSuccess('导出配置成功!')
+      messageSuccess('保存配置成功!')
     } catch (error) {
       console.log('e', error)
-      messageError('导出配置失败!')
+      messageError('保存配置失败!')
     }
 
     loading.value = false
@@ -119,6 +120,19 @@ export default function () {
     }
   }
 
+  const handleSetConfig = async () => {
+    const configPath = showOpenDialog({
+      title: '选择配置文件',
+      filters: [{name: '配置文件', extensions: ['json']}]
+    })
+
+    if (!Array.isArray(configPath)) return
+    const isSuccess = loadWebDavConfig(configPath[0])
+    if (isSuccess) {
+      hanldeSaveConfig()
+    }
+  }
+
   return {
     usearname,
     password,
@@ -132,7 +146,8 @@ export default function () {
     getDirectoryContents,
     getFileContents,
     getDirectoryStructure,
-    hanldeSubmitConfig,
-    loadWebDavConfig
+    hanldeSaveConfig,
+    loadWebDavConfig,
+    handleSetConfig
   }
 }
