@@ -8,7 +8,9 @@
  */
 
 const fs = require('fs')
+// https://www.npmjs.com/package/rd
 const rd = require('rd')
+// eslint-disable-next-line no-unused-vars
 const md5 = require('md5')
 const path = require('path')
 
@@ -25,8 +27,8 @@ function initScanPath (scanList = [], configList = [], userName = '') {
   let keyMap = Object.create(null)
   scanList.forEach(({ gameDocDir }) => {
     keyMap[gameDocDir] = configList.map((scanPath) => {
-      const temp_path = scanPath.replace(/{userName}/, userName).replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
-      return path.join(temp_path)
+      const tempPath = scanPath.replace(/{userName}/, userName).replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
+      return path.join(tempPath)
     })
   })
 
@@ -87,43 +89,35 @@ function getInvalidPath (scanList = [], scanPath = {}) {
 }
 
 /**
- * 返回扫描文件清单结果
+ * 扫描路径下的目录列表(文件夹+文件)
  *
- * @param {*} validPathList 需要扫描的清单文件的数组
- * @returns
+ * @param {String} filePath 扫描输入路径
+ * @returns {Promise<Array>}
  */
-function createGameDocDetailed (validPathList) {
-  return validPathList.map((item) => {
-    let {gameDocPath} = item
-    let fileDetailedList = []
+export function getDirectoryItem (filePath) {
+  let fileDetailedList = []
 
-    rd.eachSync(gameDocPath, function (fileFillPath, stats) {
-      // 每找到一个文件都会调用一次此函数
-      // 参数s是通过 fs.stat() 获取到的文件属性值
-      let isFile = stats.isFile()
-      let md5Key = ''
-      if (isFile) {
-        md5Key = md5(fs.readFileSync(fileFillPath))
-      }
-
+  return new Promise((resolve) => {
+    rd.each(filePath, function (fileFullPath, stats, next) {
+      const [basename] = fileFullPath.split('\\').slice(-1)
       fileDetailedList.push({
-        isFile,
-        path: fileFillPath,
-        md5: md5Key,
-        size: stats.size
+        type: stats.isFile() ? 'file' : 'directory',
+        path: fileFullPath,
+        basename: basename,
+        size: stats.size,
+        createTimeStips: stats.ctimeMs
       })
+      next()
+    }, function () {
+      // 完成
+      resolve(fileDetailedList)
     })
-
-    return {
-      ...item,
-      fileDetailedList
-    }
   })
 }
 
-module.exports = {
+export default {
+  getDirectoryItem,
   initScanPath,
   filterInvalidPath,
-  getInvalidPath,
-  createGameDocDetailed
+  getInvalidPath
 }
