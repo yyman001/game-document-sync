@@ -46,9 +46,10 @@
    - [ x ] oss
    - [ x ] github
    - [ x ] 谷歌网盘
-   - [ √ ] 坚果云网盘
+   - ✔️ 坚果云网盘
+   - ❌ OneDrive (微软网盘)
  - 启动游戏
-   - [ x ] 某种单机
+   - [ x ] 学习版
    - [ x ] steam
    - [ x ] epic  
 
@@ -216,7 +217,7 @@
 
 ## 关于云同步数据库设计
  跟平时的同步数据库不一样, 本软件云同步只会拉取云同步存档(存在跳过),不进行本地多余存档进行删除(因为游戏存档是非常重要的,所有不加自动删除功能,不要的存档请自己手动删除),也就是说数据不一样跟云上面的一样,本地拉取云同步只做(增加数据,不进行删除配对)
-
+ 如果备份存档路径指定为能同步的网盘(`OneDirie`),删除存档会由对应的网盘自动同步,可以关闭云同步功能
 ## 如何运行项目
 
 ``` bash
@@ -250,6 +251,10 @@ npm run lint
  - [vue-cli](https://github.com/vuejs/vue-cli)
  - [webdav](https://www.npmjs.com/package/webdav)
  - [坚果云](https://www.jianguoyun.com/)
+ - [onedrive-api](https://github.com/dkatavic/onedrive-api)
+ - [onedrive 官方开发文件](https://docs.microsoft.com/zh-cn/onedrive/developer/rest-api/api/driveitem_get?view=odsp-graph-online)
+ - [生成 OneDrive API 令牌](https://github.com/spencerwooo/onedrive-cf-index/blob/main/README-CN.md)
+ 
 
 ### steam 相关
 steam 游戏预览图
