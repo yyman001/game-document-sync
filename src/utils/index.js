@@ -99,13 +99,16 @@ export function getDirectoryItem (filePath) {
 
   return new Promise((resolve) => {
     rd.each(filePath, function (fileFullPath, stats, next) {
-      const [basename] = fileFullPath.split('\\').slice(-1)
+      const splitArray = fileFullPath.split('\\')
+      const [basename] = splitArray.slice(-1)
+      const [dirname] = splitArray.slice(-2)
       fileDetailedList.push({
         type: stats.isFile() ? 'file' : 'directory',
         path: fileFullPath,
-        basename: basename,
+        dirname,
+        basename,
         size: stats.size,
-        createTimeStips: stats.ctimeMs
+        timeStamp: stats.ctimeMs
       })
       next()
     }, function () {
