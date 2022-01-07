@@ -1,37 +1,6 @@
 
 <template>
-  <a-table rowKey="id" :pagination="false" :columns="columns" :data-source="list" :expandRowByClick="true">
-    <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-
-      <a-descriptions bordered :size="'small'" :column="1">
-        <a-descriptions-item label="steamId:">
-          {{record.steamId}}
-        </a-descriptions-item>
-        <a-descriptions-item label="游戏名:">
-          {{record.gameName}}
-        </a-descriptions-item>
-        <a-descriptions-item label="文件名:">
-          {{record.fileName}}
-        </a-descriptions-item>
-        <a-descriptions-item label="文件路径:">
-          {{record.filePath}}
-        </a-descriptions-item>
-        <a-descriptions-item label="游戏目录:">
-          {{record.gameDocPath}}
-        </a-descriptions-item>
-        <a-descriptions-item label="系统类型:">
-          {{record.platformTye}}
-        </a-descriptions-item>
-        <a-descriptions-item label="创建时间:">
-          {{record.timeStamp}}
-        </a-descriptions-item>
-        <a-descriptions-item label="备注:">
-          {{record.remask}}
-        </a-descriptions-item>
-      </a-descriptions>
-      
-    </div><!-- expandedRowRender -->
-
+<!--
     <span slot="action" slot-scope="record">
       <a-button-group>
         <a-button icon="rollback" @click="handleRestore(record)"/>
@@ -43,50 +12,61 @@
         <a-button icon="file"/>
       </a-button-group>
     </span>
+  -->
+  <div class="backup">
 
-  </a-table>
+    <FileExplorer>
+      <!-- 一级文件夹 -->
+      <template v-for="item in directoryItem">
+        <FileItem
+        v-show="!activeDirectoryName"
+        :key="item.basename"
+        :fileName="item.basename"
+        :fileType="item.type" 
+        :item="item" 
+        :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+        @handleClick="onClick"
+        >
+        </FileItem>
+      </template>
+      <!-- <template></template> -->
+
+      <!-- 二级文件列表 -->
+      <FileItem :key="item.basename"
+       :fileType="item.type"
+       :fileName="item.basename"
+       :fileSize="item.size"
+       :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+       :item="item" 
+       v-for="item in fileList"
+       @handleClick="onClick"
+       >
+      </FileItem>
+
+    </FileExplorer>  
+
+  </div>
 </template>
 
 <script>
-import { toRefs } from '@vue/composition-api'
+import { ref, toRefs, computed } from '@vue/composition-api'
 import useBackup from '../../comApi/useBackup'
 import useMessage from '../../comApi/useMessage'
 import { Loading } from 'element-ui'
 import useBackupFile from '../../comApi/useBackupFile'
 import useConfig from '../../comApi/useConfig'
+import useLocalBackupFile from '../../comApi/useLocalBackupFile'
+import FileExplorer from '../FileExplorer'
+import FileItem from '../FileExplorer/FileItem.vue'
+import useUtils from '../../comApi/useUtils'
 const { remove } = require('../../../utils/FileClass').default
 const path = require('path')
 
 export default {
   name: 'back-mod',
+  components: { FileExplorer, FileItem },
   props: {
     searchText: String
-  },
-  data () {
-    return {
-      columns: [
-        {
-          title: '游戏名',
-          dataIndex: 'gameName',
-          key: 'gameName'
-        },
-        {
-          title: '备份时间',
-          dataIndex: 'timeStamp',
-          key: 'timeStamp'
-        },
-        {
-          title: '备注',
-          dataIndex: 'remask',
-          key: 'remask'
-        },
-        {
-          title: '操作',
-          key: 'action',
-          scopedSlots: { customRender: 'action' }
-        }
-      ]
-    }
   },
   computed: {
     list () {
@@ -106,6 +86,23 @@ export default {
     const { message } = useMessage()
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
+    const { formatTimestamp } = useUtils()
+    const { directoryItem, getDirectoryChildren } = useLocalBackupFile()
+
+    let activeDirectoryName = ref('')
+    const fileList = computed(() => {
+      return getDirectoryChildren(activeDirectoryName.value)
+    })
+
+    const handleSetDirectory = (directoryName = '') => {
+      activeDirectoryName.value = directoryName
+    }
+    const onClick = (data) => {
+      console.log('data', data)
+      handleSetDirectory(data.basename)
+      console.log('activeDirectoryName:', activeDirectoryName)
+      console.log('fileList', fileList)
+    }
 
     const onDelBackFile = async (record) => {
       // 删除本地文件
@@ -138,7 +135,12 @@ export default {
       delBackup,
       result,
       onDelBackFile,
-      handleRestore
+      handleRestore,
+      directoryItem,
+      onClick,
+      fileList,
+      formatTimestamp,
+      activeDirectoryName
     }
   }
 }
