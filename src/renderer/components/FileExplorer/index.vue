@@ -11,42 +11,7 @@
     </div>
     <div class="file-explorer__body">
       <div class="file-content">
-        <!-- 默认类型 -->
-        <a-row type="flex" class="file__row">
-          <a-col flex="0 50px">✅</a-col>
-          <a-col flex="auto">
-            <div class="file__icon"></div>
-            <div class="file__name">Terraria</div>
-            <div class="file__action"></div>
-          </a-col>
-          <a-col flex="0 120px">0KB</a-col>
-          <a-col flex="0 120px">未知</a-col>
-          <a-col flex="0 200px">2021-12-28 17:12</a-col>
-        </a-row>
-         <!-- 文件夹 -->
-        <a-row type="flex" class="file__row">
-          <a-col flex="0 50px">✅</a-col>
-          <a-col flex="auto">
-            <div class="file__icon file__icon--dir"></div>
-            <div class="file__name">Terraria</div>
-            <div class="file__action"></div>
-          </a-col>
-          <a-col flex="0 120px">0KB</a-col>
-          <a-col flex="0 120px">文件夹</a-col>
-          <a-col flex="0 200px">2021-12-28 17:12</a-col>
-        </a-row>
-         <!-- 压缩包 -->
-        <a-row type="flex" class="file__row">
-          <a-col flex="0 50px">✅</a-col>
-          <a-col flex="auto">
-            <div class="file__icon file__icon--zip"></div>
-            <div class="file__name">Terraria</div>
-            <div class="file__action"></div>
-          </a-col>
-          <a-col flex="0 120px">0KB</a-col>
-          <a-col flex="0 120px">压缩包</a-col>
-          <a-col flex="0 200px">2021-12-28 17:12</a-col>
-        </a-row>
+        <slot/>
       </div>
     </div>
   </div>
@@ -101,7 +66,6 @@ export default {}
   }
   &__name {
     display: inline-block;
-    padding-right: 120px;
     max-width: 100%;
     cursor: pointer;
     &:hover {
