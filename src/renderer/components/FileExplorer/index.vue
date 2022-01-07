@@ -2,7 +2,7 @@
   <div class="file-explorer">
     <div class="file-explorer__header">
       <a-row type="flex">
-        <a-col flex="0 50px">✅</a-col>
+        <a-col flex="0 50px"><slot name="checkbox"/></a-col>
         <a-col flex="auto">文件名</a-col>
         <a-col flex="0 120px">大小</a-col>
         <a-col flex="0 120px">类型</a-col>
