@@ -1,18 +1,5 @@
 
 <template>
-<!--
-    <span slot="action" slot-scope="record">
-      <a-button-group>
-        <a-button icon="rollback" @click="handleRestore(record)"/>
-        <a-popconfirm title="确定要删除吗？" @confirm="onDelBackFile(record)">
-          <a-icon slot="icon" type="question-circle-o" style="color: red" />
-          <a-button icon="delete"/>
-        </a-popconfirm>
-        <a-button icon="folder-open" />
-        <a-button icon="file"/>
-      </a-button-group>
-    </span>
-  -->
   <div class="backup">
     <a-page-header
         v-show="activeDirectoryName"
@@ -33,6 +20,7 @@
           :item="item" 
           :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
           @handleClick="onClick"
+          @handleAction="handleAction"
           />
         </template>
 
@@ -45,6 +33,7 @@
         :item="item" 
         v-for="item in fileList"
         @handleClick="onClick"
+        @handleAction="handleAction"
         />
       </div>
 
@@ -116,7 +105,7 @@ export default {
       if (file.fileType === 'directory') {
         handleSetDirectory(file.basename)
       } else {
-        // file
+        // TODO: open file
 
       }
     }
@@ -148,6 +137,23 @@ export default {
       }, 350)
     }
 
+    const handleAction = async (file) => {
+      console.log(file)
+      switch (file.eventType) {
+        case 'rollback':
+          // TODO: 还原备份
+          break
+        case 'delete':
+          // TODO: 删除文件
+          break
+        case 'folder-open':
+          // TODO: 打开所在文件夹
+          break
+        default:
+          break
+      }
+    }
+
     return {
       delBackup,
       result,
@@ -160,7 +166,9 @@ export default {
       activeDirectoryName,
       handleSetDirectory,
       formatFileSize,
-      folderSize
+      folderSize,
+
+      handleAction
     }
   }
 }

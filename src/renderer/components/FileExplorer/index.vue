@@ -44,6 +44,12 @@ export default {}
     text-align: left;
     &:hover {
       background-color: #efefef;
+      .file__action {
+        display: block;
+      }
+    }
+    .action-col {
+      position: relative;
     }
   }
 
@@ -73,7 +79,13 @@ export default {}
   }
   // 操作
   &__action {
+    display: none;
     position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 15px;
+    
+    width: auto;
   }
 }
 </style>
