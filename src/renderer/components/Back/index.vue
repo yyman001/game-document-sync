@@ -19,34 +19,34 @@
         :title="activeDirectoryName"
         @back="handleSetDirectory()"
       />
-    <FileExplorer>
-      <!-- 一级文件夹 -->
-      <template v-for="item in directoryItem">
-        <FileItem
-        v-show="!activeDirectoryName"
-        :key="item.basename"
-        :fileName="item.basename"
-        :fileType="item.type"
-        :fileSize="formatFileSize(folderSize(item.basename))"
-        :item="item" 
-        :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
-        @handleClick="onClick"
-        >
-        </FileItem>
-      </template>
-      <!-- <template></template> -->
+    <FileExplorer >
 
-      <!-- 二级文件列表 -->
-      <FileItem :key="item.basename"
-       :fileType="item.type"
-       :fileName="item.basename"
-       :fileSize="formatFileSize(item.size)"
-       :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
-       :item="item" 
-       v-for="item in fileList"
-       @handleClick="onClick"
-       >
-      </FileItem>
+      <div class="file-content">
+        <!-- 一级文件夹 -->
+        <template v-for="item in directoryItem">
+          <FileItem
+          v-show="!activeDirectoryName"
+          :key="item.basename"
+          :fileName="item.basename"
+          :fileType="item.type"
+          :fileSize="formatFileSize(folderSize(item.basename))"
+          :item="item" 
+          :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+          @handleClick="onClick"
+          />
+        </template>
+
+        <!-- 二级文件列表 -->
+        <FileItem :key="item.basename"
+        :fileType="item.type"
+        :fileName="item.basename"
+        :fileSize="formatFileSize(item.size)"
+        :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+        :item="item" 
+        v-for="item in fileList"
+        @handleClick="onClick"
+        />
+      </div>
 
     </FileExplorer>  
 

@@ -10,9 +10,7 @@
       </a-row>
     </div>
     <div class="file-explorer__body">
-      <div class="file-content">
-        <slot/>
-      </div>
+      <slot/>
     </div>
   </div>
 </template>
