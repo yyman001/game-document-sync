@@ -14,6 +14,8 @@ export default function () {
       const filePath = path.join(rootDir.value, 'backup')
       const list = await getDirectoryItem(filePath)
       directoryItem.value = list.filter(f => f.type === 'directory')
+      // 移除第一个备份目录
+      directoryItem.value.shift()
       fileItem.value = list.filter(f => f.type === 'file')
     } catch (error) {
       console.error(error)
