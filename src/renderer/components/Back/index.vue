@@ -26,7 +26,8 @@
         v-show="!activeDirectoryName"
         :key="item.basename"
         :fileName="item.basename"
-        :fileType="item.type" 
+        :fileType="item.type"
+        :fileSize="formatFileSize(folderSize(item.basename))"
         :item="item" 
         :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
         @handleClick="onClick"
@@ -97,6 +98,13 @@ export default {
     const fileList = computed(() => {
       return getDirectoryChildren(activeDirectoryName.value)
     })
+    const folderSize = (directoryName) => {
+      return getDirectoryChildren(directoryName).reduceRight(
+        (accumulator, currentFile) => {
+          return accumulator + currentFile.size
+        }, 0
+      )
+    }
 
     const handleSetDirectory = (directoryName = '') => {
       activeDirectoryName.value = directoryName
@@ -151,7 +159,8 @@ export default {
       formatTimestamp,
       activeDirectoryName,
       handleSetDirectory,
-      formatFileSize
+      formatFileSize,
+      folderSize
     }
   }
 }
