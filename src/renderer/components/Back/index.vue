@@ -39,7 +39,7 @@
       <FileItem :key="item.basename"
        :fileType="item.type"
        :fileName="item.basename"
-       :fileSize="item.size"
+       :fileSize="formatFileSize(item.size)"
        :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
        :item="item" 
        v-for="item in fileList"
@@ -90,7 +90,7 @@ export default {
     const { message } = useMessage()
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
-    const { formatTimestamp } = useUtils()
+    const { formatTimestamp, formatFileSize } = useUtils()
     const { directoryItem, getDirectoryChildren } = useLocalBackupFile()
 
     let activeDirectoryName = ref('')
@@ -146,7 +146,8 @@ export default {
       fileList,
       formatTimestamp,
       activeDirectoryName,
-      handleSetDirectory
+      handleSetDirectory,
+      formatFileSize
     }
   }
 }

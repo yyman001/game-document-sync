@@ -24,8 +24,8 @@ export default {
     fileType: String,
     fileName: String,
     fileSize: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     },
     time: {
       type: String,
