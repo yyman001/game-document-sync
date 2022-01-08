@@ -102,11 +102,15 @@ export default {
       activeDirectoryName.value = directoryName
     }
 
-    const onClick = (data) => {
-      console.log('data', data)
-      handleSetDirectory(data.basename)
-      console.log('activeDirectoryName:', activeDirectoryName)
-      console.log('fileList', fileList)
+    const onClick = (file) => {
+      console.log('file', file)
+      //
+      if (file.fileType === 'directory') {
+        handleSetDirectory(file.basename)
+      } else {
+        // file
+
+      }
     }
 
     const onDelBackFile = async (record) => {

@@ -58,7 +58,8 @@ export default {
     handleClick () {
       this.$emit('handleClick', {
         basename: this.item.basename,
-        dirname: this.item.dirname
+        dirname: this.item.dirname,
+        fileType: this.item.type
       })
     }
   }
