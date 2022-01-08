@@ -14,7 +14,11 @@
     </span>
   -->
   <div class="backup">
-
+    <a-page-header
+        v-show="activeDirectoryName"
+        :title="activeDirectoryName"
+        @back="handleSetDirectory()"
+      />
     <FileExplorer>
       <!-- 一级文件夹 -->
       <template v-for="item in directoryItem">
@@ -97,6 +101,7 @@ export default {
     const handleSetDirectory = (directoryName = '') => {
       activeDirectoryName.value = directoryName
     }
+
     const onClick = (data) => {
       console.log('data', data)
       handleSetDirectory(data.basename)
@@ -140,7 +145,8 @@ export default {
       onClick,
       fileList,
       formatTimestamp,
-      activeDirectoryName
+      activeDirectoryName,
+      handleSetDirectory
     }
   }
 }
