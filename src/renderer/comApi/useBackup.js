@@ -30,10 +30,19 @@ export default function () {
     }
   }
 
+  const addBackupList = async (list) => {
+    try {
+      return await db.backupTable.bulkPut(list)
+    } catch (error) {
+      return null
+    }
+  }
+
   return {
     addBackup,
     updateBackup,
     delBackup,
+    addBackupList,
     result: useObservable(
       liveQuery(() => {
         return db.backupTable.toArray()
