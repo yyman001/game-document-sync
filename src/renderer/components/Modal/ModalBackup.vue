@@ -81,6 +81,7 @@ export default {
         return
       }
 
+      // TODO: 只保留 备注, 其他在读取本地列表和云列表的时候重新更新
       const backupWriteResult = await addBackup({
         steamId: game.steamId,
         gameName: game.gameName,
