@@ -42,10 +42,13 @@ export default function () {
 
   // eslint-disable-next-line no-unused-vars
   const webDAVClient = () => {
+    if (client) return client
+
     client = createClient(url.value, {
       username: usearname.value,
       password: password.value
     })
+    return client
   }
 
   const getDirectoryContents = async (filename = '/') => {
@@ -179,6 +182,7 @@ export default function () {
     password,
     loading,
     testResult,
+    webDAVClient,
     configPath,
     rootDirectoryName,
     coludItems,
