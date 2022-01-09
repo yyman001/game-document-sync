@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import { ref, toRefs, computed } from '@vue/composition-api'
+// eslint-disable-next-line no-unused-vars
+import { ref, toRefs, computed, onMounted, watch } from '@vue/composition-api'
 import useBackup from '../../comApi/useBackup'
 import useMessage from '../../comApi/useMessage'
 import { Loading } from 'element-ui'
@@ -54,6 +55,7 @@ import FileExplorer from '../FileExplorer'
 import FileItem from '../FileExplorer/FileItem.vue'
 import useUtils from '../../comApi/useUtils'
 import { openItem, showItemInFolder } from '../../utils/shell'
+import useDocs from '../../comApi/useDocs'
 const { remove } = require('../../../utils/FileClass').default
 const path = require('path')
 
@@ -77,19 +79,29 @@ export default {
   setup (props) {
     // eslint-disable-next-line no-unused-vars
     const { searchText } = toRefs(props)
-    const { result, delBackup } = useBackup()
+    const { result, delBackup, addBackupList } = useBackup()
     const { message } = useMessage()
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
     const { formatTimestamp, formatFileSize } = useUtils()
-    const { directoryItem, getDirectoryChildren } = useLocalBackupFile()
+    const { directoryItem, fileItem } = useLocalBackupFile()
+    const { findGameDocs } = useDocs()
 
     let activeDirectoryName = ref('')
+
+    const getDirectoryChildrenByDB = (gameDocDir) => {
+      if (!Array.isArray(result.value)) return []
+      return result.value.filter((game) => {
+        return gameDocDir === game.gameDocDir
+      })
+    }
+
     const fileList = computed(() => {
-      return getDirectoryChildren(activeDirectoryName.value)
+      return getDirectoryChildrenByDB(activeDirectoryName.value)
     })
+
     const folderSize = (directoryName) => {
-      return getDirectoryChildren(directoryName).reduceRight(
+      return getDirectoryChildrenByDB(directoryName).reduceRight(
         (accumulator, currentFile) => {
           return accumulator + currentFile.size
         }, 0
@@ -111,10 +123,10 @@ export default {
       }
     }
 
-    const onDelBackFile = async (record) => {
+    const onDelBackFile = async (fileItem) => {
       // 删除本地文件
-      await remove(record.filePath)
-      const isNull = await delBackup(record.id)
+      await remove(fileItem.path)
+      const isNull = await delBackup(fileItem.fileName)
       const text = isNull === null ? '删除备份文件失败!' : '删除成功!'
       message(isNull !== null, text)
       // TODO: 同时删除云文件
@@ -145,7 +157,8 @@ export default {
           // TODO: 还原备份
           break
         case 'delete':
-          // TODO: 删除文件
+          // 删除文件
+          onDelBackFile(file)
           break
         case 'folder-open':
           // 打开所在文件夹
@@ -155,6 +168,29 @@ export default {
           break
       }
     }
+
+    // 根据本地文件信息生成数据库数据
+    const initLocalFileData = async () => {
+      const dirname = directoryItem.value.map(f => f.basename)
+      const docsList = await findGameDocs(dirname)
+
+      const fileItemList = fileItem.value.map(f => {
+        const doc = docsList.find(doc => doc.gameDocDir === f.dirname)
+        const pathFormat = path.parse(f.path)
+        if (!doc) {
+          console.error(f.basename, '未找到doc信息!')
+        }
+        return {
+          ...f,
+          ...doc,
+          fileName: f.basename.replace(pathFormat.ext, ''),
+          ext: pathFormat.ext
+        }
+      })
+      await addBackupList(fileItemList)
+    }
+
+    watch(directoryItem, initLocalFileData)
 
     return {
       delBackup,
