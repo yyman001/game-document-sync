@@ -134,7 +134,7 @@ export default {
 
     const handleRestore = async (item) => {
       const {
-        filePath,
+        path: filePath,
         gameDocDir,
         gameDocPath
       } = item
@@ -154,7 +154,8 @@ export default {
       console.log(file)
       switch (file.eventType) {
         case 'rollback':
-          // TODO: 还原备份
+          // 还原备份
+          handleRestore(file)
           break
         case 'delete':
           // 删除文件
