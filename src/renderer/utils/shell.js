@@ -1,7 +1,7 @@
 // 文档#https://wizardforcel.gitbooks.io/electron-doc/content/api/shell.html
 import { shell } from 'electron'
 /**
- * 打开文件所在文件夹,一般情况下还会选中它.
+ * 以默认打开方式打开文件.
  *
  * @param {String} fullPath
  */
@@ -10,7 +10,7 @@ export function openItem (fullPath) {
 }
 
 /**
- *以默认打开方式打开文件.
+ * 打开文件所在文件夹,一般情况下还会选中它.
  *
  * @param {String} fullPath
  */
