@@ -53,6 +53,7 @@ import useLocalBackupFile from '../../comApi/useLocalBackupFile'
 import FileExplorer from '../FileExplorer'
 import FileItem from '../FileExplorer/FileItem.vue'
 import useUtils from '../../comApi/useUtils'
+import { openItem, showItemInFolder } from '../../utils/shell'
 const { remove } = require('../../../utils/FileClass').default
 const path = require('path')
 
@@ -105,8 +106,8 @@ export default {
       if (file.fileType === 'directory') {
         handleSetDirectory(file.basename)
       } else {
-        // TODO: open file
-
+        // open file
+        openItem(file.path)
       }
     }
 
@@ -147,7 +148,8 @@ export default {
           // TODO: 删除文件
           break
         case 'folder-open':
-          // TODO: 打开所在文件夹
+          // 打开所在文件夹
+          showItemInFolder(file.path)
           break
         default:
           break
