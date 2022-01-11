@@ -7,22 +7,18 @@
  * @FilePath: \game-document-sync\src\renderer\App.vue
 -->
 <template>
-  <div id="app" class="themes" :class="[`themes--${vx_themeName}`]">
+  <div id="app" class="themes">
     <Layout></Layout>
   </div>
 </template>
 
 <script>
 import Layout from './components/Layout'
-import {mapGetters} from 'vuex'
+import appMixin from './mixins/app.mixin'
 export default {
   name: 'game-document-sync',
   components: { Layout },
-  computed: {
-    ...mapGetters({
-      vx_themeName: 'getThemeName'
-    })
-  }
+  mixins: [appMixin]
 }
 </script>
 
