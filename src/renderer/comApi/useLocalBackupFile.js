@@ -1,4 +1,4 @@
-import { ref, onMounted } from '@vue/composition-api'
+import { ref, computed, onMounted } from '@vue/composition-api'
 import { getDirectoryItem } from '../../utils/index'
 import useCofig from '../comApi/useConfig'
 const path = require('path')
@@ -7,6 +7,10 @@ export default function () {
   const { rootDir } = useCofig()
   let directoryItem = ref([])
   let fileItem = ref([])
+
+  const localDirectoryListName = computed(() => {
+    return directoryItem.value.map(f => f.basename)
+  })
 
   const loadLocalFileDirectoryItem = async () => {
     try {
@@ -34,6 +38,7 @@ export default function () {
     directoryItem,
     fileItem,
     loadLocalFileDirectoryItem,
-    getDirectoryChildren
+    getDirectoryChildren,
+    localDirectoryListName
   }
 }
