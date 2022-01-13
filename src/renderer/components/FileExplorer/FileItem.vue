@@ -1,5 +1,5 @@
 <template>
-  <a-row type="flex" class="file__row">
+  <a-row type="flex" class="file__row" :class="{'is-cloud-file': isCloudFile }">
     <a-col flex="0 50px"><slot name="checkbox"></slot></a-col>
     <a-col flex="auto" class="action-col">
       <div class="file__icon" :class="fileIcon"></div>
@@ -39,7 +39,8 @@ export default {
     time: {
       type: String,
       default: ''
-    }
+    },
+    isCloudFile: Boolean
   },
   computed: {
     fileIcon () {
@@ -82,5 +83,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.is-cloud-file {
+  filter: grayscale(100%);
+}
 </style>

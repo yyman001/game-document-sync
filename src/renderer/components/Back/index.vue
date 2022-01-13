@@ -10,7 +10,7 @@
 
       <div class="file-content">
         <!-- 一级文件夹 -->
-        <template v-for="item in directoryItem">
+        <template v-for="item in allDirectory">
           <FileItem
           v-show="!activeDirectoryName"
           :key="item.basename"
@@ -19,6 +19,7 @@
           :fileSize="formatFileSize(folderSize(item.basename))"
           :item="item" 
           :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+          :isCloudFile="!item.path"
           @handleClick="onClick"
           @handleAction="handleAction"
           />
@@ -56,6 +57,8 @@ import FileItem from '../FileExplorer/FileItem.vue'
 import useUtils from '../../comApi/useUtils'
 import { openItem, showItemInFolder } from '../../utils/shell'
 import useDocs from '../../comApi/useDocs'
+import useCloud from '../../comApi/useCloud'
+
 const { remove } = require('../../../utils/FileClass').default
 const path = require('path')
 
@@ -84,8 +87,33 @@ export default {
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
     const { formatTimestamp, formatFileSize } = useUtils()
-    const { directoryItem, fileItem } = useLocalBackupFile()
+    const { directoryItem, fileItem, localDirectoryListName } = useLocalBackupFile()
     const { findGameDocs } = useDocs()
+    // eslint-disable-next-line no-unused-vars
+    const { cloudDirectorys, directoryItems } = useCloud()
+
+    // 未同步的云文件夹
+    const cloudSynchronizationDirectory = computed(() => {
+      return directoryItems.value.filter(file => !localDirectoryListName.value.includes(file.basename)).map((f) => {
+        // TODO: 使用 path 作为云下载标识?
+        return {...f, timeStamp: 0, path: ''}
+      })
+    })
+
+    // 未同步到云盘的本地文件
+    const localSyncFile = computed(() => {
+      return directoryItem.value.filter(file => !cloudDirectorys.value.includes(file.basename))
+    })
+
+    const allDirectory = computed(() => {
+      return [...directoryItem.value, ...cloudSynchronizationDirectory.value]
+    })
+
+    console.log('allDirectory', allDirectory)
+    console.log('本地目录', localDirectoryListName)
+    console.log('云目录', cloudDirectorys)
+    console.log('未同步的云文件', cloudSynchronizationDirectory)
+    console.log('未同步到本地文件', localSyncFile)
 
     let activeDirectoryName = ref('')
 
@@ -207,7 +235,9 @@ export default {
       formatFileSize,
       folderSize,
 
-      handleAction
+      handleAction,
+
+      allDirectory
     }
   }
 }
