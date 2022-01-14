@@ -15,6 +15,17 @@
         </a-button-group>
       </div>
     </a-col>
+    <a-col flex="0 50px">
+      <a-tooltip placement="left">
+        <template slot="title">
+          <span>{{isCloudFile ? '下载' : '上传'}}</span>
+        </template>
+        <div class="file__cloud-status" :class="[
+          isCloudFile ? 'file__cloud-status--down': 'file__cloud-status--up',
+        ]" @click="handleAction(isCloudFile ? 'cloud-down' : 'cloud-up')"></div>
+      </a-tooltip>
+
+    </a-col>
     <a-col flex="0 120px">{{fileSize}}</a-col>
     <a-col flex="0 120px">{{fileTypeName}}</a-col>
     <!--  2021-12-28 17:12  -->
@@ -83,7 +94,5 @@ export default {
 </script>
 
 <style lang="scss">
-.is-cloud-file {
-  filter: grayscale(100%);
-}
+
 </style>

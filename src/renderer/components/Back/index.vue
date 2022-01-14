@@ -216,6 +216,12 @@ export default {
           // 打开所在文件夹
           showItemInFolder(file.path)
           break
+        case 'cloud-down':
+          // 云下载
+          break
+        case 'cloud-up':
+          // 云上传
+          break
         default:
           break
       }

@@ -4,6 +4,7 @@
       <a-row type="flex">
         <a-col flex="0 50px"><slot name="checkbox"/></a-col>
         <a-col flex="auto">文件名</a-col>
+        <a-col flex="0 50px" style="text-align: center;">状态</a-col>
         <a-col flex="0 120px">大小</a-col>
         <a-col flex="0 120px">类型</a-col>
         <a-col flex="0 200px">修改时间</a-col>
@@ -51,6 +52,9 @@ export default {}
     .action-col {
       position: relative;
     }
+    &.is-cloud-file {
+      filter: grayscale(100%);
+    }
   }
 
   &__icon {
@@ -77,6 +81,21 @@ export default {}
       text-decoration: underline;
     }
   }
+
+  &__cloud-status {
+  height: 100%;
+
+  &--up {
+    background-image: url('./assets/cloud-up.png');
+  }
+  &--down {
+    background-image: url('./assets/cloud-down.png');
+  }
+
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 55%;
+}
   // 操作
   &__action {
     display: none;
