@@ -31,7 +31,8 @@
         :fileName="item.basename"
         :fileSize="formatFileSize(item.size)"
         :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
-        :item="item" 
+        :item="item"
+        :isCloudFile="!item.path"
         v-for="item in fileList"
         @handleClick="onClick"
         @handleAction="handleAction"
@@ -89,14 +90,24 @@ export default {
     const { formatTimestamp, formatFileSize } = useUtils()
     const { directoryItem, fileItem, localDirectoryListName } = useLocalBackupFile()
     const { findGameDocs } = useDocs()
-    // eslint-disable-next-line no-unused-vars
-    const { cloudDirectorys, directoryItems } = useCloud()
+    const { cloudDirectorys, directoryItems, coludItems } = useCloud()
 
     // 未同步的云文件夹
     const cloudSynchronizationDirectory = computed(() => {
       return directoryItems.value.filter(file => !localDirectoryListName.value.includes(file.basename)).map((f) => {
         // TODO: 使用 path 作为云下载标识?
         return {...f, timeStamp: f.lastmod, path: ''}
+      })
+    })
+
+    // 云文件注入本地文件参数
+    const cloudSynchronizationFile = computed(() => {
+      return coludItems.fileItems.map((f) => {
+        return {
+          ...f,
+          timeStamp: f.lastmod,
+          path: ''
+        }
       })
     })
 
@@ -117,11 +128,23 @@ export default {
 
     let activeDirectoryName = ref('')
 
+    const getDirectoryChildrenByCloud = (gameDocDir) => {
+      // ! 文件必须为 gameDocDir 目录下的文件
+      // coludItems.fileItems
+
+      return cloudSynchronizationFile.value.filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
+    }
+
     const getDirectoryChildrenByDB = (gameDocDir) => {
+      if (!gameDocDir) return []
       if (!Array.isArray(result.value)) return []
+
+      const cloudFile = getDirectoryChildrenByCloud(gameDocDir)
+
       return result.value.filter((game) => {
         return gameDocDir === game.gameDocDir
       })
+        .concat(cloudFile)
     }
 
     const fileList = computed(() => {
