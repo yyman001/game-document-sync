@@ -2,8 +2,9 @@ import * as dayjs from 'dayjs'
 
 export default function () {
   function formatTimestamp (timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
-    if (Number.isNaN(timestamp) || !/GMT/.test(timestamp)) return ''
-    return dayjs(timestamp).format(format)
+    if (!Number.isNaN(timestamp) || /GMT/.test(timestamp)) return dayjs(timestamp).format(format)
+
+    return ''
   }
 
   function formatFileSize (fileSize, fixed = 2) {
