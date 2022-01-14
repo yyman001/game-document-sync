@@ -96,7 +96,7 @@ export default {
     const cloudSynchronizationDirectory = computed(() => {
       return directoryItems.value.filter(file => !localDirectoryListName.value.includes(file.basename)).map((f) => {
         // TODO: 使用 path 作为云下载标识?
-        return {...f, timeStamp: 0, path: ''}
+        return {...f, timeStamp: f.lastmod, path: ''}
       })
     })
 
