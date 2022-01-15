@@ -91,7 +91,7 @@ export default {
     const { homedir } = useConfig()
     const { formatTimestamp, formatFileSize } = useUtils()
     const { findGameDocs } = useDocs()
-    const { directoryItem, fileItem, localDirectoryListName, localFileListName } = useLocalBackupFile()
+    const { directoryItem, fileItem, localDirectoryListName, localFileListName, getDirectoryChildren, downloadFile } = useLocalBackupFile()
     const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus } = useCloud()
 
     // 未同步的云文件夹
@@ -139,6 +139,7 @@ export default {
       return cloudSynchronizationFile.value.filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
     }
 
+    // eslint-disable-next-line no-unused-vars
     const getDirectoryChildrenByDB = (gameDocDir) => {
       if (!gameDocDir) return []
       if (!Array.isArray(result.value)) return []
@@ -151,12 +152,25 @@ export default {
         .concat(cloudFile)
     }
 
+    // 本地文件列表 + 云文件列表
+    const getChildrenByLocalAndCloud = (gameDocDir) => {
+      if (!gameDocDir) return []
+
+      const localFile = getDirectoryChildren(gameDocDir)
+      const cloudFile = getDirectoryChildrenByCloud(gameDocDir)
+
+      return localFile.concat(cloudFile)
+    }
+
     const fileList = computed(() => {
-      return getDirectoryChildrenByDB(activeDirectoryName.value)
+      return getChildrenByLocalAndCloud(activeDirectoryName.value)
+      // 读数数据库数据
+      // return getDirectoryChildrenByDB(activeDirectoryName.value)
     })
 
     const folderSize = (directoryName) => {
-      return getDirectoryChildrenByDB(directoryName).reduceRight(
+      // return getDirectoryChildrenByDB(directoryName).reduceRight(
+      return getChildrenByLocalAndCloud(directoryName).reduceRight(
         (accumulator, currentFile) => {
           return accumulator + currentFile.size
         }, 0
@@ -222,6 +236,7 @@ export default {
           break
         case 'cloud-down':
           // 云下载
+          downloadFile(file, activeDirectoryName.value)
           break
         case 'cloud-up':
           // 云上传
@@ -232,6 +247,7 @@ export default {
     }
 
     // 根据本地文件信息生成数据库数据
+    // eslint-disable-next-line no-unused-vars
     const initLocalFileData = async () => {
       const dirname = directoryItem.value.map(f => f.basename)
       const docsList = await findGameDocs(dirname)
@@ -252,7 +268,7 @@ export default {
       await addBackupList(fileItemList)
     }
 
-    watch(directoryItem, initLocalFileData)
+    // watch(directoryItem, initLocalFileData)
 
     return {
       delBackup,

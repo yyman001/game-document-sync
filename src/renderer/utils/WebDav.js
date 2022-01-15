@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 const fs = require('fs-extra')
 const webdav = require('webdav')
 const { createClient } = webdav
