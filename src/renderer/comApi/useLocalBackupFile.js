@@ -12,6 +12,10 @@ export default function () {
     return directoryItem.value.map(f => f.basename)
   })
 
+  const localFileListName = computed(() => {
+    return fileItem.value.map(f => f.basename)
+  })
+
   const loadLocalFileDirectoryItem = async () => {
     try {
       // TODO: 获取配置的 备份文件夹
@@ -35,10 +39,13 @@ export default function () {
   })
 
   return {
-    directoryItem,
     fileItem,
+    directoryItem,
+
     loadLocalFileDirectoryItem,
     getDirectoryChildren,
+
+    localFileListName,
     localDirectoryListName
   }
 }

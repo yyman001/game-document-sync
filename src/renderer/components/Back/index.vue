@@ -88,9 +88,9 @@ export default {
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
     const { formatTimestamp, formatFileSize } = useUtils()
-    const { directoryItem, fileItem, localDirectoryListName } = useLocalBackupFile()
     const { findGameDocs } = useDocs()
-    const { cloudDirectorys, directoryItems, coludItems } = useCloud()
+    const { directoryItem, fileItem, localDirectoryListName, localFileListName } = useLocalBackupFile()
+    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems } = useCloud()
 
     // 未同步的云文件夹
     const cloudSynchronizationDirectory = computed(() => {
@@ -102,13 +102,15 @@ export default {
 
     // 云文件注入本地文件参数
     const cloudSynchronizationFile = computed(() => {
-      return coludItems.fileItems.map((f) => {
-        return {
-          ...f,
-          timeStamp: f.lastmod,
-          path: ''
-        }
-      })
+      // 过滤已经存在的云文件(已同步)
+      return coludItems.fileItems.filter(f => !localFileListName.value.includes(f.basename))
+        .map((f) => {
+          return {
+            ...f,
+            timeStamp: f.lastmod,
+            path: ''
+          }
+        })
     })
 
     // 未同步到云盘的本地文件
@@ -123,15 +125,15 @@ export default {
     console.log('allDirectory', allDirectory)
     console.log('本地目录', localDirectoryListName)
     console.log('云目录', cloudDirectorys)
-    console.log('未同步的云文件', cloudSynchronizationDirectory)
-    console.log('未同步到本地文件', localSyncFile)
+    console.log('未同步的云目录', cloudSynchronizationDirectory)
+    console.log('未同步到本地目录', localSyncFile)
+    console.log('本地文件', localFileListName)
+    console.log('云文件', cloudFilesName)
 
     let activeDirectoryName = ref('')
 
     const getDirectoryChildrenByCloud = (gameDocDir) => {
       // ! 文件必须为 gameDocDir 目录下的文件
-      // coludItems.fileItems
-
       return cloudSynchronizationFile.value.filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
     }
 

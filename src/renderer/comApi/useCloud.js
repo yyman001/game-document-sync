@@ -17,22 +17,18 @@ export default function () {
     return directoryItems.value.map(x => x.basename)
   })
 
-  const cloudFiles = computed(() => {
+  const cloudFilesName = computed(() => {
     return coludItems.fileItems.map(x => x.basename)
   })
 
   const cloudDownSymbol = computed(() => {
-    return [...cloudFiles, ...cloudDirectorys]
+    return [...cloudFilesName, ...cloudDirectorys]
   })
 
   const cloudUpSymbol = ref([])
 
   const getCloudSyncSymbol = (fileName) => {
     return cloudDownSymbol[fileName]
-  }
-
-  const isUpload = (fileName) => {
-    return fileName
   }
 
   const pullCloudData = () => {
@@ -54,10 +50,11 @@ export default function () {
     cloudDownSymbol,
     cloudUpSymbol,
     getCloudSyncSymbol,
-    isUpload,
+
     coludItems,
     cloudDirectorys,
-    cloudFiles,
+
+    cloudFilesName,
     directoryItems
   }
 }
