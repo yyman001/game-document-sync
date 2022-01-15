@@ -86,9 +86,11 @@ export default {}
   height: 100%;
 
   &--up {
+    cursor: pointer;
     background-image: url('./assets/cloud-up.png');
   }
   &--down {
+    cursor: pointer;
     background-image: url('./assets/cloud-down.png');
   }
   &--sync {

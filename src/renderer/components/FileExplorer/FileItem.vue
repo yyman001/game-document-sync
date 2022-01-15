@@ -101,10 +101,9 @@ export default {
       })
     },
     handleAction (eventType) {
-      console.log('eventType', eventType)
       this.$emit('handleAction', {
-        eventType,
-        ...this.item
+        ...this.item,
+        eventType
       })
     }
   }
