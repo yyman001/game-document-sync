@@ -18,11 +18,9 @@
     <a-col flex="0 50px">
       <a-tooltip placement="left">
         <template slot="title">
-          <span>{{isCloudFile ? '下载' : '上传'}}</span>
+          <span>{{cloudText}}</span>
         </template>
-        <div class="file__cloud-status" :class="[
-          isCloudFile ? 'file__cloud-status--down': 'file__cloud-status--up',
-        ]" @click="handleAction(isCloudFile ? 'cloud-down' : 'cloud-up')"></div>
+        <div class="file__cloud-status" :class="cloudStatus" @click="handleAction(cloudType)"></div>
       </a-tooltip>
 
     </a-col>
@@ -51,7 +49,10 @@ export default {
       type: String,
       default: ''
     },
-    isCloudFile: Boolean
+    // 是否未云文件
+    isCloudFile: Boolean,
+    // 是否已经同步(已存在云文件)
+    isSync: Boolean
   },
   computed: {
     fileIcon () {
@@ -73,6 +74,18 @@ export default {
         default:
           return '未知类型'
       }
+    },
+    cloudStatus () {
+      if (this.isSync) return 'file__cloud-status--sync'
+      return this.isCloudFile ? 'file__cloud-status--down' : 'file__cloud-status--up'
+    },
+    cloudText () {
+      if (this.isSync) return '已同步'
+      return this.isCloudFile ? '下载' : '上传'
+    },
+    cloudType () {
+      if (this.isSync) return 'cloud-sync'
+      return this.isCloudFile ? 'cloud-down' : 'cloud-up'
     }
   },
   methods: {

@@ -19,6 +19,7 @@
           :fileSize="formatFileSize(folderSize(item.basename))"
           :item="item" 
           :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
+          :isSync="getFileSyncStatus(item)"
           :isCloudFile="!item.path"
           @handleClick="onClick"
           @handleAction="handleAction"
@@ -32,6 +33,7 @@
         :fileSize="formatFileSize(item.size)"
         :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
         :item="item"
+        :isSync="getFileSyncStatus(item)"
         :isCloudFile="!item.path"
         v-for="item in fileList"
         @handleClick="onClick"
@@ -90,7 +92,7 @@ export default {
     const { formatTimestamp, formatFileSize } = useUtils()
     const { findGameDocs } = useDocs()
     const { directoryItem, fileItem, localDirectoryListName, localFileListName } = useLocalBackupFile()
-    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems } = useCloud()
+    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus } = useCloud()
 
     // 未同步的云文件夹
     const cloudSynchronizationDirectory = computed(() => {
@@ -268,7 +270,8 @@ export default {
 
       handleAction,
 
-      allDirectory
+      allDirectory,
+      getFileSyncStatus
     }
   }
 }

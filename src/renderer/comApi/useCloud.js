@@ -31,6 +31,11 @@ export default function () {
     return cloudDownSymbol[fileName]
   }
 
+  // 获取文件同步状态(必须云列表存在,并且本地文件存在)
+  const getFileSyncStatus = (file) => {
+    return cloudFilesName.value.includes(file.basename) && !!file.path
+  }
+
   const pullCloudData = () => {
     WebDAVClient.getDirectoryStructure()
       .then(({directoryItems, fileItems}) => {
@@ -50,6 +55,7 @@ export default function () {
     cloudDownSymbol,
     cloudUpSymbol,
     getCloudSyncSymbol,
+    getFileSyncStatus,
 
     coludItems,
     cloudDirectorys,

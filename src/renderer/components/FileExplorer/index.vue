@@ -91,7 +91,9 @@ export default {}
   &--down {
     background-image: url('./assets/cloud-down.png');
   }
-
+  &--sync {
+    background-image: url('./assets/cloud-sync.png');
+  }
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 55%;
