@@ -155,9 +155,10 @@ export default class WebDav {
    downloadFile = async (coludFilename, writeFilePath) => {
      try {
        const fileBuffer = await this.getFileContents(coludFilename)
-       await fs.writeFile(writeFilePath, fileBuffer)
+       await fs.outputFile(writeFilePath, Buffer.from(fileBuffer))
        return true
      } catch (error) {
+       console.error(error)
        return false
      }
    }
