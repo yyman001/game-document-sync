@@ -94,6 +94,12 @@ export default {}
   &--sync {
     background-image: url('./assets/cloud-sync.png');
   }
+  &--success {
+    background-image: url('./assets/cloud-success.png');
+  }
+  &--fail {
+    background-image: url('./assets/cloud-fail.png');
+  }
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 55%;

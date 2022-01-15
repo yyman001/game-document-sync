@@ -52,7 +52,9 @@ export default {
     // 是否未云文件
     isCloudFile: Boolean,
     // 是否已经同步(已存在云文件)
-    isSync: Boolean
+    isSyncSuccess: Boolean,
+    // 正在同步
+    isSyncing: Boolean
   },
   computed: {
     fileIcon () {
@@ -76,15 +78,18 @@ export default {
       }
     },
     cloudStatus () {
-      if (this.isSync) return 'file__cloud-status--sync'
+      if (this.isSyncSuccess) return 'file__cloud-status--success'
+      if (this.isSyncing) return 'file__cloud-status--sync'
       return this.isCloudFile ? 'file__cloud-status--down' : 'file__cloud-status--up'
     },
     cloudText () {
-      if (this.isSync) return '已同步'
+      if (this.isSyncSuccess) return '已同步'
+      if (this.isSyncing) return '正在同步...'
       return this.isCloudFile ? '下载' : '上传'
     },
     cloudType () {
-      if (this.isSync) return 'cloud-sync'
+      if (this.isSyncSuccess) return 'cloud-success'
+      if (this.isSyncing) return 'cloud-sync'
       return this.isCloudFile ? 'cloud-down' : 'cloud-up'
     }
   },
