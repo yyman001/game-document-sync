@@ -1,8 +1,6 @@
 import { Buffer } from 'buffer'
+import { createClient } from 'webdav/web'
 const fs = require('fs-extra')
-const webdav = require('webdav')
-const { createClient } = webdav
-
 export default class WebDav {
   /**
    * 初始化数据
@@ -138,7 +136,8 @@ export default class WebDav {
        // 确保游戏存档目录
        await this.ensureDir(`/${this.rootDirectoryName}/${gameDocDir}`)
        await this.client.putFileContents(`/${this.rootDirectoryName}/${gameDocDir}/${fileName}`, fileBuffer, {
-         overwrite: isOverwrite
+         overwrite: isOverwrite,
+         contentLength: false
        })
        return true
      } catch (error) {
