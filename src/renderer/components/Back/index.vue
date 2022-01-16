@@ -92,7 +92,7 @@ export default {
     const { formatTimestamp, formatFileSize } = useUtils()
     const { findGameDocs } = useDocs()
     const { directoryItem, fileItem, localDirectoryListName, localFileListName, getDirectoryChildren, downloadFile } = useLocalBackupFile()
-    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus } = useCloud()
+    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus, uploadFile } = useCloud()
 
     // 未同步的云文件夹
     const cloudSynchronizationDirectory = computed(() => {
@@ -240,6 +240,7 @@ export default {
           break
         case 'cloud-up':
           // 云上传
+          uploadFile(file)
           break
         default:
           break

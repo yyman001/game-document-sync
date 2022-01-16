@@ -2,8 +2,10 @@
 // eslint-disable-next-line no-unused-vars
 import { ref, reactive, onMounted, computed } from '@vue/composition-api'
 import { WebDAVClient } from '../components/Config/config'
+import useMessage from './useMessage'
 
 export default function () {
+  const { message } = useMessage()
   const coludItems = reactive({
     directoryItems: [],
     fileItems: []
@@ -47,6 +49,15 @@ export default function () {
       .catch((e) => e)
   }
 
+  const uploadFile = async (file) => {
+    const { basename, dirname, path } = file
+    const isUpLoad = await WebDAVClient.uploadFile(path, dirname, basename)
+    message(isUpLoad, isUpLoad ? '上传成功!' : '上传失败!')
+    if (isUpLoad) {
+      coludItems.fileItems.push(file)
+    }
+  }
+
   onMounted(() => {
     pullCloudData()
   })
@@ -61,6 +72,8 @@ export default function () {
     cloudDirectorys,
 
     cloudFilesName,
-    directoryItems
+    directoryItems,
+
+    uploadFile
   }
 }
