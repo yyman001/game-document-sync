@@ -120,9 +120,11 @@ export default class WebDav {
    * @param {Buffer|String} filePath 本地备份文件路径 | 文件数据
    * @param {String} gameDocDir 游戏文件夹名
    * @param {String} fileName 存档名(带完整文件后缀)
+   * @param {Boolean} isOverwrite 是否覆盖文件
+   * @param {Function} cb 上传进度回调函数
    * @returns {Promise<Boolean>} 是否成功
    */
-   uploadFile = async (filePath, gameDocDir, fileName, isOverwrite = false) => {
+   uploadFile = async (filePath, gameDocDir, fileName, isOverwrite = false, cb) => {
      try {
        let fileBuffer
        if (typeof filePath === 'string') {
@@ -131,13 +133,17 @@ export default class WebDav {
          fileBuffer = filePath
        }
 
+       const onUploadProgress = progress => {
+         cb(gameDocDir, fileName, progress)
+       }
        // 确保根目录存在
        await this.ensureDir(`/${this.rootDirectoryName}`)
        // 确保游戏存档目录
        await this.ensureDir(`/${this.rootDirectoryName}/${gameDocDir}`)
        await this.client.putFileContents(`/${this.rootDirectoryName}/${gameDocDir}/${fileName}`, fileBuffer, {
          overwrite: isOverwrite,
-         contentLength: false
+         contentLength: false,
+         onUploadProgress: cb ? onUploadProgress : null
        })
        return true
      } catch (error) {
@@ -150,11 +156,18 @@ export default class WebDav {
     *
     * @param {String} coludFilename - 云盘中文件名
     * @param {String} writeFilePath - 写入文件路径
+    * @param {Function} cb - 下载进度回调
     * @returns {Promise<Boolean>} - 是否成功
     */
-   downloadFile = async (coludFilename, writeFilePath) => {
+   downloadFile = async (coludFilename, writeFilePath, cb) => {
+     const onDownloadProgress = progress => {
+       cb(coludFilename, writeFilePath, progress)
+     }
+
      try {
-       const fileBuffer = await this.getFileContents(coludFilename)
+       const fileBuffer = await this.getFileContents(coludFilename, {
+         onDownloadProgress: cb ? onDownloadProgress : null
+       })
        await fs.outputFile(writeFilePath, Buffer.from(fileBuffer))
        return true
      } catch (error) {
