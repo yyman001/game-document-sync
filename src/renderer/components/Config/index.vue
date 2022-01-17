@@ -8,24 +8,32 @@
       <field-set-group title="临时操作路径">
         <div style="margin-bottom: 16px">
           <a-input
-            addon-before="目录:"
             default-value="C:\Users\yyman001\AppData\Roaming\Electron"
           >
-            <a-icon slot="addonAfter" type="setting" />
+            <a-tooltip slot="addonBefore" title="设置临时操作目录">
+              <a-icon type="folder-open"></a-icon>
+            </a-tooltip>
+
+            <a-tooltip slot="addonAfter" title="恢复默认">
+              <a-icon type="rollback" />
+            </a-tooltip>
           </a-input>
         </div>
 
-        <a-button type="primary"> 恢复默认 </a-button>
       </field-set-group>
 
       <field-set-group title="备份路径">
         <div style="margin-bottom: 16px">
-          <a-input addon-before="目录:" default-value=".\backup">
-            <a-icon slot="addonAfter" type="setting" />
+          <a-input default-value=".\backup">
+            <a-tooltip slot="addonBefore" title="设置备份目录">
+              <a-icon type="folder-open"></a-icon>
+            </a-tooltip>
+
+            <a-tooltip slot="addonAfter" title="恢复默认">
+              <a-icon type="rollback" />
+            </a-tooltip>
           </a-input>
         </div>
-
-        <a-button type="primary"> 恢复默认 </a-button>
       </field-set-group>
     </a-tab-pane>
 
@@ -46,8 +54,14 @@
 
       <field-set-group title="数据库备份路径">
         <div style="margin-bottom: 16px">
-          <a-input addon-before="目录:" default-value=".\backup">
-            <a-icon slot="addonAfter" type="setting" />
+          <a-input default-value=".\">
+            <a-tooltip slot="addonBefore" title="设置备份导出目录">
+              <a-icon type="folder-open"></a-icon>
+            </a-tooltip>
+
+            <a-tooltip slot="addonAfter" title="恢复默认">
+              <a-icon type="rollback" />
+            </a-tooltip>
           </a-input>
         </div>
 
@@ -85,18 +99,13 @@
         <div>
 
           <a-input v-model:value="configPath">
-            <a-select
-              slot="addonBefore"
-              default-value="jianguoyun"
-              style="width: 90px"
-            >
-              <a-select-option value="jianguoyun"> 坚果云 </a-select-option>
-            </a-select>
-
-            <a-tooltip slot="addonAfter" title="导入配置">
-              <a-icon type="setting" @click="handleSetConfig"/>
+            <a-tooltip slot="addonBefore" title="导入配置">
+              <a-icon type="folder-open" @click="handleSetConfig"></a-icon>
             </a-tooltip>
-            
+
+            <a-tooltip slot="addonAfter" title="恢复默认">
+              <a-icon type="rollback" />
+            </a-tooltip>
           </a-input>
 
           <a-divider/>
@@ -104,19 +113,19 @@
           <a-form layout="inline" >
             <!-- 账号 -->
             <a-form-item>
-              <a-input placeholder="账号" allow-clear v-model:value="usearname">
+              <a-input placeholder="账号" v-model:value="usearname">
                 <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
               </a-input>
             </a-form-item>
             <!-- 密码 -->
             <a-form-item>
-              <a-input-password type="password" placeholder="密码" allow-clear v-model:value="password">
+              <a-input-password type="password" placeholder="密码" v-model:value="password">
                 <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
               </a-input-password>
             </a-form-item>
             <!-- 游戏存档根目录名 -->
             <a-form-item>
-              <a-input placeholder="存档目录名" allow-clear v-model:value="rootDirectoryName">
+              <a-input placeholder="存档目录名" v-model:value="rootDirectoryName">
                 <a-icon slot="prefix" type="folder" style="color:rgba(0,0,0,.25)" />
               </a-input>
             </a-form-item>
@@ -128,16 +137,7 @@
           </a-form>
           
           <a-divider/>
-          
-          <a-button @click="loadWebDavConfig(configPath)">加载配置</a-button>
 
-          <a-button :loading="loading" :disabled="!usearname || !password" @click="handleCheckAccount">测试校验账号</a-button>
-          <div>
-            <a-tag color="blue">
-             测试结果:
-            </a-tag>
-            <a-alert :message="testResult ? '账号正常' : '账号异常' " :type="testResult ? 'success': 'error' " show-icon />
-          </div>
         </div>
       </field-set-group>
     </a-tab-pane>
@@ -150,6 +150,8 @@
 import fieldSetGroup from '../FieldSetGroup'
 import { useDB } from '../../comApi/useDB'
 import useWebDAV from '../../comApi/useWebDAV'
+import { configJson } from './config'
+import { toRefs } from '@vue/composition-api'
 
 export default {
   name: 'config-mod',
@@ -165,11 +167,8 @@ export default {
     } = useDB()
 
     const {
-      usearname,
-      password,
       loading,
       configPath,
-      rootDirectoryName,
       testResult,
       handleCheckAccount,
       hanldeSaveConfig,
@@ -184,16 +183,14 @@ export default {
       saveDatabaseToJson,
       improtDatabaseByJson,
       handleDeleteDatabse,
-      usearname,
-      password,
       loading,
       configPath,
       testResult,
-      rootDirectoryName,
       handleCheckAccount,
       hanldeSaveConfig,
       loadWebDavConfig,
-      handleSetConfig
+      handleSetConfig,
+      ...toRefs(configJson)
     }
   },
   data () {
