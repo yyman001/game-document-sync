@@ -107,16 +107,17 @@ export default class WebDav {
    }
 
    /**
-   * 校验目录是否存在并生成目录
+   * 确保目录存在
    *
    * @param {String} path 创建目录路径
    */
    ensureDir = async (path) => {
-     if (await this.client.exists(path) === false) {
+     try {
        await this.client.createDirectory(path)
        return true
+     } catch (error) {
+       return false
      }
-     return false
    }
 
   /**
