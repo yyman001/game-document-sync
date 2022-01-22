@@ -90,7 +90,7 @@ export default {
     const { restoreFile } = useBackupFile()
     const { homedir } = useConfig()
     const { formatTimestamp, formatFileSize } = useUtils()
-    const { findGameDocs } = useDocs()
+    const { getGameDoc, findGameDocs } = useDocs()
     const { directoryItem, fileItem, localDirectoryListName, localFileListName, getDirectoryChildren, downloadFile } = useLocalBackupFile()
     const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus, uploadFile } = useCloud()
 
@@ -204,13 +204,16 @@ export default {
     const handleRestore = async (item) => {
       const {
         path: filePath,
-        gameDocDir,
-        gameDocPath
+        dirname
       } = item
       let loadingInstance1 = Loading.service({ fullscreen: true })
+      const { gameDocDir, gameDocPath } = await getGameDoc(dirname)
+      if (!gameDocDir) return message(false, '未找到游戏信息!')
 
       // 解压会多一层文件夹, 需要指定到备份存档 上一级(父目录)
       const docPath = path.join(homedir.value, gameDocPath.replace(gameDocDir, ''))
+      console.log('docPath', docPath)
+
       const [error, text] = await restoreFile(filePath, docPath)
       message(!error, text)
 
