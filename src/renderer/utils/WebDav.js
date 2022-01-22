@@ -82,15 +82,20 @@ export default class WebDav {
        return
      }
 
-     let fileItems = await Promise.all(
-       rootDirectoryItems.map(({filename}) => {
-         return this.getDirectoryContents(filename)
-       })
-     )
-
-     if (Array.isArray(fileItems)) {
-       fileItems = fileItems.reduceRight((a, b) => (a.concat(b)), [])
+     let fileItems = []
+     // TODO: 改成多线程, 坚果云最大并发数为6, 超过就 503
+     for (let index = 0; index < rootDirectoryItems.length; index++) {
+       const element = rootDirectoryItems[index]
+       try {
+         const result = await this.getDirectoryContents(element.filename)
+         fileItems.push(result)
+       } catch (error) {
+         console.error(error)
+         continue
+       }
      }
+
+     fileItems = fileItems.reduceRight((a, b) => (a.concat(b)), [])
 
      this.loading = false
 
