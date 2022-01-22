@@ -38,10 +38,15 @@ export default function () {
     return db.docsTable.filter((doc) => gameDocDirList.includes(doc.gameDocDir)).toArray()
   }
 
+  const getGameDoc = async (gameDocDir) => {
+    return db.docsTable.get(gameDocDir)
+  }
+
   return {
     onAddDoc,
     onDelDoc,
     onUpdateDoc,
+    getGameDoc,
     findGameDocs,
     result: useObservable(liveQuery(() => {
       return db.docsTable.toArray()
