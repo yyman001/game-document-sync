@@ -20,7 +20,10 @@ export default function () {
   })
 
   const cloudFilesName = computed(() => {
-    return coludItems.fileItems.map(x => x.basename)
+    // 转换云文件文件名为 本地格式, 方便对比数据
+    // /games_doc_sync/torchlight 2/torchlight 2_t1628915843842.zip => /torchlight 2/torchlight 2_t1628915843842.zip
+    // TODO: games_doc_sync(固定?不让用户设置了吧, 有点麻烦) 替换为全局配置的变量 ?
+    return coludItems.fileItems.map(f => f.filename.replace('/games_doc_sync/', ''))
   })
 
   const cloudDownSymbol = computed(() => {

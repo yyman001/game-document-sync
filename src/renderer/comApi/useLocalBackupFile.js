@@ -16,7 +16,7 @@ export default function () {
   })
 
   const localFileListName = computed(() => {
-    return fileItem.value.map(f => f.basename)
+    return fileItem.value.map(f => `${f.dirname}/${f.basename}`)
   })
 
   const loadLocalFileDirectoryItem = async () => {
