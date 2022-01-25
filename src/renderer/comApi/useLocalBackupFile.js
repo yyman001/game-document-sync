@@ -15,8 +15,9 @@ export default function () {
     return directoryItem.value.map(f => f.basename)
   })
 
+  // 本地文件名: 格式规范 = (文件夹/文件名) = Aragami/Aragami_t1641735966693.zip
   const localFileListName = computed(() => {
-    return fileItem.value.map(f => `${f.dirname}/${f.basename}`)
+    return fileItem.value.map(f => f.comparsedName)
   })
 
   const loadLocalFileDirectoryItem = async () => {
@@ -27,7 +28,13 @@ export default function () {
       directoryItem.value = list.filter(f => f.type === 'directory')
       // 移除第一个备份目录
       directoryItem.value.shift()
-      fileItem.value = list.filter(f => f.type === 'file')
+      fileItem.value = list.filter(f => f.type === 'file').map((f) => {
+        return {
+          ...f,
+          // 用于比较同步文名标识
+          comparsedName: `${f.dirname}/${f.basename}`
+        }
+      })
     } catch (error) {
       console.error(error)
     }

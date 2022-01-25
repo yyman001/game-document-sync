@@ -104,8 +104,8 @@ export default {
 
     // 云文件注入本地文件参数
     const cloudSynchronizationFile = computed(() => {
-      // 过滤已经存在的云文件(已同步)
-      return coludItems.fileItems.filter(f => !localFileListName.value.includes(f.basename))
+      // 过滤已经存在的云文件(已同步): 云文件 过滤 本地文件
+      return coludItems.fileItems.filter(f => !localFileListName.value.includes(f.comparsedName))
         .map((f) => {
           return {
             ...f,
@@ -116,7 +116,7 @@ export default {
     })
 
     // 未同步到云盘的本地文件
-    const localSyncFile = computed(() => {
+    const localSyncDirectory = computed(() => {
       return directoryItem.value.filter(file => !cloudDirectorys.value.includes(file.basename))
     })
 
@@ -128,7 +128,7 @@ export default {
     console.log('本地目录', localDirectoryListName)
     console.log('云目录', cloudDirectorys)
     console.log('未同步的云目录', cloudSynchronizationDirectory)
-    console.log('未同步到本地目录', localSyncFile)
+    console.log('未同步到本地目录', localSyncDirectory)
     console.log('本地文件', localFileListName)
     console.log('云文件', cloudFilesName)
 

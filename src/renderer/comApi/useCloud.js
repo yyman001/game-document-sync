@@ -20,10 +20,7 @@ export default function () {
   })
 
   const cloudFilesName = computed(() => {
-    // 转换云文件文件名为 本地格式, 方便对比数据
-    // /games_doc_sync/torchlight 2/torchlight 2_t1628915843842.zip => /torchlight 2/torchlight 2_t1628915843842.zip
-    // TODO: games_doc_sync(固定?不让用户设置了吧, 有点麻烦) 替换为全局配置的变量 ?
-    return coludItems.fileItems.map(f => f.filename.replace('/games_doc_sync/', ''))
+    return coludItems.fileItems.map(f => f.comparsedName)
   })
 
   const cloudDownSymbol = computed(() => {
@@ -38,14 +35,21 @@ export default function () {
 
   // 获取文件同步状态(必须云列表存在,并且本地文件存在)
   const getFileSyncStatus = (file) => {
-    return cloudFilesName.value.includes(file.basename) && !!file.path
+    return cloudFilesName.value.includes(file.comparsedName) && !!file.path
   }
 
   const pullCloudData = () => {
     WebDAVClient.getDirectoryStructure()
       .then(({directoryItems, fileItems}) => {
         coludItems.directoryItems = directoryItems
-        coludItems.fileItems = fileItems
+        coludItems.fileItems = fileItems.map((f) => {
+          return {
+            ...f,
+            // 转换云文件文件名为 本地格式, 方便对比数据
+            // /games_doc_sync/torchlight 2/torchlight 2_t1628915843842.zip => /torchlight 2/torchlight 2_t1628915843842.zip
+            comparsedName: f.filename.replace('/games_doc_sync/', '')
+          }
+        })
         console.log('coludItems:', coludItems)
         console.log('cloudDownSymbol:', cloudDownSymbol)
       })
