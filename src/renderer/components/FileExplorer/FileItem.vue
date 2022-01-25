@@ -57,6 +57,9 @@ export default {
     isSyncing: Boolean
   },
   computed: {
+    isFolder () {
+      return this.fileType === 'directory'
+    },
     fileIcon () {
       switch (this.fileType) {
         case 'file':
@@ -78,18 +81,23 @@ export default {
       }
     },
     cloudStatus () {
+      // TODO: 断网状态, 初始化状态, 错误状态
       if (this.isSyncSuccess) return 'file__cloud-status--success'
-      if (this.isSyncing) return 'file__cloud-status--sync'
+      // TODO: 借用同步中状态, 后期同步中状态改为会动的
+      if (this.isFolder) return 'file__cloud-status--sync'
+      // if (this.isSyncing) return 'file__cloud-status--sync'
       return this.isCloudFile ? 'file__cloud-status--down' : 'file__cloud-status--up'
     },
     cloudText () {
       if (this.isSyncSuccess) return '已同步'
-      if (this.isSyncing) return '正在同步...'
+      if (this.isFolder) return '开始同步'
+      // if (this.isSyncing) return '正在同步...'
       return this.isCloudFile ? '下载' : '上传'
     },
     cloudType () {
       if (this.isSyncSuccess) return 'cloud-success'
-      if (this.isSyncing) return 'cloud-sync'
+      if (this.isFolder) return 'cloud-sync'
+      // if (this.isSyncing) return 'cloud-sync'
       return this.isCloudFile ? 'cloud-down' : 'cloud-up'
     }
   },

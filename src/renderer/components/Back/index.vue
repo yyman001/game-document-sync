@@ -19,7 +19,7 @@
           :fileSize="formatFileSize(folderSize(item.basename))"
           :item="item" 
           :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
-          :isSyncSuccess="getFileSyncStatus(item)"
+          :isSyncSuccess="getFolderSyncStatus(item)"
           :isCloudFile="!item.path"
           @handleClick="onClick"
           @handleAction="handleAction"
@@ -168,6 +168,7 @@ export default {
       // return getDirectoryChildrenByDB(activeDirectoryName.value)
     })
 
+    // 计算文件夹大小
     const folderSize = (directoryName) => {
       // return getDirectoryChildrenByDB(directoryName).reduceRight(
       return getChildrenByLocalAndCloud(directoryName).reduceRight(
@@ -175,6 +176,19 @@ export default {
           return accumulator + currentFile.size
         }, 0
       )
+    }
+
+    // 文件夹同步态判断 => 文件夹只能判断是否同步完成, 无法判断是需要上传还是下载(因为可能会同时存在2种状态)
+    // Bug: 有几率不成功更新
+    const getFolderSyncStatus = (item) => {
+      // 当前文件夹名称
+      const gameDocDir = item.basename
+      // 获取本地文件列表
+      const localFileList = localFileListName.value.filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+      // 获取云文件列表
+      const coludFileList = cloudFilesName.value.filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+      // 本地文件列表和云文件列表 一致时,代表已同步
+      return localFileList.join() === coludFileList.join()
     }
 
     const handleSetDirectory = (directoryName = '') => {
@@ -291,7 +305,8 @@ export default {
       handleAction,
 
       allDirectory,
-      getFileSyncStatus
+      getFileSyncStatus,
+      getFolderSyncStatus
     }
   }
 }
