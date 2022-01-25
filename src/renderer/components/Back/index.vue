@@ -21,6 +21,7 @@
           :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
           :isSyncSuccess="getFolderSyncStatus(item)"
           :isCloudFile="!item.path"
+          :disabled="true"
           @handleClick="onClick"
           @handleAction="handleAction"
           />

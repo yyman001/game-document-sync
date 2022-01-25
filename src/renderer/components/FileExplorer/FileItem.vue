@@ -15,7 +15,7 @@
         </a-button-group>
       </div>
     </a-col>
-    <a-col flex="0 50px">
+    <a-col flex="0 50px" :class="{'is-disabled': disabled}">
       <a-tooltip placement="left">
         <template slot="title">
           <span>{{cloudText}}</span>
@@ -54,7 +54,9 @@ export default {
     // 是否已经同步(已存在云文件)
     isSyncSuccess: Boolean,
     // 正在同步
-    isSyncing: Boolean
+    isSyncing: Boolean,
+    // 引用同步状态
+    disabled: Boolean
   },
   computed: {
     isFolder () {
@@ -109,6 +111,8 @@ export default {
       })
     },
     handleAction (eventType) {
+      if (this.disabled) return
+
       this.$emit('handleAction', {
         ...this.item,
         eventType
@@ -119,5 +123,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.is-disabled {
+  opacity: .5;
+  cursor: no-drop;
+}
 </style>
