@@ -9,10 +9,13 @@ export default function () {
     isTrue ? messageSuccess(content, duration, onClose) : messageError(content, duration, onClose)
   }
 
+  const messageLoading = (content, duration, onClose) => { Message.loading(content, duration, onClose) }
+
   return {
     message,
     messageSuccess,
     messageError,
-    messageWarn
+    messageWarn,
+    messageLoading
   }
 }

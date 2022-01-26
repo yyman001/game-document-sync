@@ -5,7 +5,8 @@ import { WebDAVClient } from '../components/Config/config'
 import useMessage from './useMessage'
 
 export default function () {
-  const { message } = useMessage()
+  const { message, messageLoading, messageSuccess, messageError } = useMessage()
+  const isColudLoading = ref(false)
   const coludItems = reactive({
     directoryItems: [],
     fileItems: []
@@ -39,6 +40,10 @@ export default function () {
   }
 
   const pullCloudData = () => {
+    if (isColudLoading.value) return
+    isColudLoading.value = true
+    messageLoading({key: 'cloud-loading', content: '正在获取云文件...', duration: 0})
+
     WebDAVClient.getDirectoryStructure()
       .then(({directoryItems, fileItems}) => {
         coludItems.directoryItems = directoryItems
@@ -52,8 +57,15 @@ export default function () {
         })
         console.log('coludItems:', coludItems)
         console.log('cloudDownSymbol:', cloudDownSymbol)
+        messageSuccess({key: 'cloud-loading', content: '云列表读取成功!', duration: 2})
       })
-      .catch((e) => e)
+      .catch((e) => {
+        console.error(e)
+        messageError({key: 'cloud-loading', content: '云列表读取失败!', duration: 2})
+      })
+      .finally(() => {
+        isColudLoading.value = false
+      })
   }
 
   const uploadFile = async (file) => {
@@ -70,6 +82,7 @@ export default function () {
   })
 
   return {
+    isColudLoading,
     cloudDownSymbol,
     cloudUpSymbol,
     getCloudSyncSymbol,

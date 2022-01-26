@@ -36,6 +36,7 @@
         :item="item"
         :isSyncSuccess="getFileSyncStatus(item)"
         :isCloudFile="!item.path"
+        :disabled="isColudLoading"
         v-for="item in fileList"
         @handleClick="onClick"
         @handleAction="handleAction"
@@ -93,7 +94,7 @@ export default {
     const { formatTimestamp, formatFileSize } = useUtils()
     const { getGameDoc, findGameDocs } = useDocs()
     const { directoryItem, fileItem, localDirectoryListName, localFileListName, getDirectoryChildren, downloadFile } = useLocalBackupFile()
-    const { cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus, uploadFile } = useCloud()
+    const { isColudLoading, cloudDirectorys, directoryItems, cloudFilesName, coludItems, getFileSyncStatus, uploadFile } = useCloud()
 
     // 未同步的云文件夹
     const cloudSynchronizationDirectory = computed(() => {
@@ -307,7 +308,9 @@ export default {
 
       allDirectory,
       getFileSyncStatus,
-      getFolderSyncStatus
+      getFolderSyncStatus,
+
+      isColudLoading
     }
   }
 }
