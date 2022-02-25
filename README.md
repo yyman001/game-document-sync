@@ -260,7 +260,7 @@ npm run lint
  - [onedrive-api](https://github.com/dkatavic/onedrive-api)
  - [onedrive 官方开发文件](https://docs.microsoft.com/zh-cn/onedrive/developer/rest-api/api/driveitem_get?view=odsp-graph-online)
  - [生成 OneDrive API 令牌](https://github.com/spencerwooo/onedrive-cf-index/blob/main/README-CN.md)
- 
+ - [electron-log 日志](https://github.com/megahertz/electron-log)
 
 ### steam 相关
 steam 游戏预览图

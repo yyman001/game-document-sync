@@ -3488,6 +3488,11 @@ electron-localshortcut@^3.0.0:
     keyboardevent-from-electron-accelerator "^2.0.0"
     keyboardevents-areequal "^0.2.1"
 
+electron-log@^4.4.6:
+  version "4.4.6"
+  resolved "https://registry.npmmirror.com/electron-log/-/electron-log-4.4.6.tgz#e7824fc725370384f6edaaac0480c423e570dc69"
+  integrity sha512-nirYgRdY+F+vclr8ijdwy2vW03IzFpDHTaKNWu76dEN21Y76+smcES5knS7cgHUUB0qNLOi8vZO36taakjbSXA==
+
 electron-osx-sign@^0.4.1:
   version "0.4.17"
   resolved "https://registry.npmmirror.com/electron-osx-sign/download/electron-osx-sign-0.4.17.tgz#2727ca0c79e1e4e5ccd3861fb3da9c3c913b006c"

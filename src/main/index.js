@@ -3,6 +3,8 @@
 import { app, BrowserWindow } from 'electron'
 import '../utils/eventMessage'
 import '../renderer/store'
+import log from 'electron-log'
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -41,6 +43,7 @@ function createWindow () {
 }
 
 app.on('ready', () => {
+  log.info('==== ready ====')
   createWindow()
 })
 
