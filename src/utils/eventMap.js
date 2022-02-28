@@ -1,5 +1,5 @@
 
-import {outputFile} from './FileClass'
+import { outputFile } from './FileClass'
 
 export function saveFile ({fileName, text}) {
   return outputFile(fileName, JSON.stringify(text))

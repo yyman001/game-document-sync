@@ -15,7 +15,7 @@ const fs = require('fs-extra')
  * @param {*} dest
  * @param {boolean} [is_overwrite=true]
  */
-async function move (src, dest, is_overwrite = true) {
+export async function move (src, dest, is_overwrite = true) {
   try {
     await fs.move(srcpath, dstpath, {overwrite: is_overwrite})
     console.log('success!')
@@ -30,7 +30,7 @@ async function move (src, dest, is_overwrite = true) {
  * @param {*} [file_path=__dirname]
  * @param {string} [file_content='file_conetent']
  */
-async function outputFile (file_path = __dirname, file_content = 'file_conetent') {
+ export async function outputFile (file_path = __dirname, file_content = 'file_conetent') {
   try {
     await fs.outputFile(file_path, file_content)
 
@@ -47,7 +47,7 @@ async function outputFile (file_path = __dirname, file_content = 'file_conetent'
  *
  * @param {*} file_path
  */
-async function readJson (file_path) {
+ export async function readJson (file_path) {
   try {
     const packageObj = await fs.readJson(file_path)
 
