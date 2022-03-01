@@ -26,6 +26,7 @@
     "@vue/composition-api": "^1.4.0",
     "@vueuse/core": "^7.7.0",
     "@vueuse/rxjs": "^7.3.0",
+    "ali-oss": "^6.17.1",
     "ant-design-vue": "^1.7.8",
     "axios": "^0.18.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
