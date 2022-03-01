@@ -1049,10 +1049,15 @@ babel-helper-to-multiple-sequence-expressions@^0.1.1:
   resolved "https://registry.nlark.com/babel-helper-to-multiple-sequence-expressions/download/babel-helper-to-multiple-sequence-expressions-0.1.1.tgz#5f1b832b39e4acf954e9137f0251395c71196b35"
   integrity sha1-XxuDKznkrPlU6RN/AlE5XHEZazU=
 
-babel-helper-vue-jsx-merge-props@^2.0.0, babel-helper-vue-jsx-merge-props@^2.0.3:
+babel-helper-vue-jsx-merge-props@^2.0.0:
   version "2.0.3"
   resolved "https://registry.nlark.com/babel-helper-vue-jsx-merge-props/download/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
   integrity sha1-Iq69OzOQIyjlEyk6jkmSs4T58bY=
+
+babel-helper-vue-jsx-merge-props@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npmmirror.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
+  integrity sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==
 
 babel-helpers@^6.24.1:
   version "6.24.1"
@@ -1209,6 +1214,11 @@ babel-plugin-syntax-function-bind@^6.8.0:
   version "6.13.0"
   resolved "https://registry.nlark.com/babel-plugin-syntax-function-bind/download/babel-plugin-syntax-function-bind-6.13.0.tgz#48c495f177bdf31a981e732f55adc0bdd2601f46"
   integrity sha1-SMSV8Xe98xqYHnMvVa3AvdJgH0Y=
+
+babel-plugin-syntax-jsx@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.npmmirror.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
+  integrity sha512-qrPaCSo9c8RHNRHIotaufGbuOBN8rtdC4QrrFFc43vyWCCz7Kl7GL1PGaXtMGQZUXrkCjNEgxDfmAuAabr/rlw==
 
 babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
@@ -1578,6 +1588,13 @@ babel-plugin-transform-undefined-to-void@^6.8.2:
   resolved "https://registry.nlark.com/babel-plugin-transform-undefined-to-void/download/babel-plugin-transform-undefined-to-void-6.9.4.tgz#be241ca81404030678b748717322b89d0c8fe280"
   integrity sha1-viQcqBQEAwZ4t0hxcyK4nQyP4oA=
 
+babel-plugin-transform-vue-jsx@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.npmmirror.com/babel-plugin-transform-vue-jsx/-/babel-plugin-transform-vue-jsx-3.7.0.tgz#d40492e6692a36b594f7e9a1928f43e969740960"
+  integrity sha512-W39X07/n3oJMQd8tALBO+440NraGSF//Lo1ydd/9Nme3+QiRGFBb1Q39T9iixh0jZPPbfv3so18tNoIgLatymw==
+  dependencies:
+    esutils "^2.0.2"
+
 babel-preset-babili@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmmirror.com/babel-preset-babili/download/babel-preset-babili-0.1.4.tgz#ad9d6651002f5bc3f07cab300781167f54724bf2"
@@ -1609,8 +1626,8 @@ babel-preset-babili@^0.1.4:
 
 babel-preset-env@^1.7.0:
   version "1.7.0"
-  resolved "https://registry.nlark.com/babel-preset-env/download/babel-preset-env-1.7.0.tgz#dea79fa4ebeb883cd35dab07e260c1c9c04df77a"
-  integrity sha1-3qefpOvriDzTXasH4mDBycBN93o=
+  resolved "https://registry.npmmirror.com/babel-preset-env/-/babel-preset-env-1.7.0.tgz#dea79fa4ebeb883cd35dab07e260c1c9c04df77a"
+  integrity sha512-9OR2afuKDneX2/q2EurSftUYM0xGu4O2D9adAhVfADDhrYDaxXV0rBbevVYoY9n6nyX1PmQW/0jtpJvUNr9CHg==
   dependencies:
     babel-plugin-check-es2015-constants "^6.22.0"
     babel-plugin-syntax-trailing-function-commas "^6.22.0"

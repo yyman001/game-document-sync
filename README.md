@@ -262,6 +262,8 @@ npm run lint
  - [生成 OneDrive API 令牌](https://github.com/spencerwooo/onedrive-cf-index/blob/main/README-CN.md)
  - [electron-log 日志](https://github.com/megahertz/electron-log)
  - [PandaDB 简单得json 数据库](https://github.com/PandaDriver156/panda-db/blob/master/docs/api.md)
+
+ - [ vue支持jsx写法:babel-plugin-transform-vue-jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx)
  
 ### steam 相关
 steam 游戏预览图
