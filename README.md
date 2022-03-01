@@ -264,7 +264,8 @@ npm run lint
  - [PandaDB 简单得json 数据库](https://github.com/PandaDriver156/panda-db/blob/master/docs/api.md)
 
  - [ vue支持jsx写法:babel-plugin-transform-vue-jsx](https://github.com/vuejs/babel-plugin-transform-vue-jsx)
- 
+ - [Collection of essential Vue Composition Utilities](https://vueuse.org/guide/)
+
 ### steam 相关
 steam 游戏预览图
 https://cdn.cloudflare.steamstatic.com/steam/apps/457140/capsule_184x69.jpg
