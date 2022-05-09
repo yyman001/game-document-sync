@@ -7,8 +7,18 @@ const fs = require('fs-extra')
 export default function () {
   const { homedir } = useConfig()
 
-  const backupFile = async ({docPatch, tempPatch, backPatch, gameDocDir}) => {
-    const [error] = await copy(docPatch, tempPatch)
+  const backupFile = async ({docPatch, tempPatch, backPatch, gameDocDir, saveFiles}) => {
+    let error
+    if (Array.isArray(saveFiles) && saveFiles.length) {
+      [error] = await copy(docPatch, tempPatch, (input) => {
+        // 不勾选文件夹的情况下需要对文件夹路径返回真才可以继续后面的copy
+        if (fs.lstatSync(input).isDirectory()) {
+          return true
+        }
+        return saveFiles.includes(input)
+      })
+    }
+
     if (error) return [error, null]
     // 检查存档目录是否存在
     await ensureDir(backPatch)

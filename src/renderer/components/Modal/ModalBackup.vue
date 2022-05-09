@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { ref, toRefs } from '@vue/composition-api'
+import { ref, toRefs, unref } from '@vue/composition-api'
 import useConfig from '../../comApi/useConfig'
 import useBackupFile from '../../comApi/useBackupFile'
 import useBackup from '../../comApi/useBackup'
@@ -52,10 +52,15 @@ export default {
     // 存档路径
     gameDocPath: String,
     // 存档文件夹
-    gameDocDir: String
+    gameDocDir: String,
+    // 保存列表
+    saveFiles: {
+      type: Array,
+      default: () => []
+    }
   },
   setup (props, context) {
-    const { gameDocPath, gameDocDir } = toRefs(props)
+    const { gameDocPath, gameDocDir, saveFiles } = toRefs(props)
     const { homedir, rootDir, systemType } = useConfig()
     const { messageSuccess, messageError } = useMessage()
     const { searchGame } = useGames()
@@ -71,11 +76,13 @@ export default {
     const tempPatch = path.join(rootDir.value, 'temp', gameDocDir.value)
 
     const onStartBackup = async () => {
+      if (!unref(saveFiles).length) return messageError('请勾选要备份的文件!')
+
       loading.value = true
       const game = await searchGame(gameDocDir.value)
       if (!game) return messageError('查找游戏数据异常!')
 
-      const [errorText, backupData] = await backupFile({docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value})
+      const [errorText, backupData] = await backupFile({docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value, saveFiles: unref(saveFiles)})
       if (errorText) {
         messageError(errorText)
         return

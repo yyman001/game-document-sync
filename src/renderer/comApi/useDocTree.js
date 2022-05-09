@@ -7,8 +7,9 @@ export default function () {
   const treeData = ref([])
 
   async function createNode (docPatch, gameDocDir) {
-    const node = await createTree(docPatch, gameDocDir)
-    updateNode(node)
+    const { tree, filesPath } = await createTree(docPatch, gameDocDir)
+    selectedKeys.value = filesPath
+    updateNode(tree)
   }
 
   function updateNode (node) {

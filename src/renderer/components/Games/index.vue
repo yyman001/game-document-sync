@@ -19,22 +19,21 @@
       <FieldSetGroup v-if="treeData.length" title="文件列表">
         <div class="file-content">
             <a-directory-tree
-            default-expand-all
-            multiple
-            :checkable="true"
-            :height="280"
-            v-model:expandedKeys="expandedKeys"
-            v-model:selectedKeys="selectedKeys"
-            :tree-data="treeData"
-          ></a-directory-tree>
+              default-expand-all
+              multiple
+              :checkable="true"
+              :height="280"
+              v-model:selectedKeys="selectedKeys"
+              :tree-data="treeData"
+            />
         </div>
       </FieldSetGroup>
       <ModalBackup
+       :saveFiles="selectedKeys"
        :gameDocDir="gameDocDir"
        :gameDocPath="gameDocPath"
        @handleClose="onModelClose"
        />
-
     </a-modal>
 
   </div>

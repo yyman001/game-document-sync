@@ -4,7 +4,7 @@ const path = require('path')
 
 export function getTreeItem (filePath, rootDir) {
   let fileDetailedList = []
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     rd.each(
       filePath,
       function (fileFullPath, stats, next) {
@@ -22,7 +22,9 @@ export function getTreeItem (filePath, rootDir) {
           title: p.name,
           relative_path: relativePath,
           relative_parent_path: relativeParentPath,
-          parent_dir: relativeParentPath ? relativeParentPath.split('\\').pop() : null,
+          parent_dir: relativeParentPath
+            ? relativeParentPath.split('\\').pop()
+            : null,
           type: stats.isFile() ? 'file' : 'directory',
           dirname: p.dirname || null,
           basename: p.name,
@@ -47,12 +49,15 @@ export async function createTree (filePath, gameDocDir) {
   // const filePath = 'C:\\Users\\yyman001_cp\\Documents\\My Games\\Terraria'
   let rootDir = filePath.replace(gameDocDir, '')
   const fileDetailedList = await getTreeItem(filePath, rootDir)
-  const allDir = fileDetailedList.filter(f => f.type === 'directory')
-  allDir.forEach(dirItem => {
-    const children = fileDetailedList.filter(f => f.relative_parent_path === dirItem.relative_path)
+  const filesPath = fileDetailedList.map(({ path }) => path)
+  const allDir = fileDetailedList.filter((f) => f.type === 'directory')
+  allDir.forEach((dirItem) => {
+    const children = fileDetailedList.filter(
+      (f) => f.relative_parent_path === dirItem.relative_path
+    )
     dirItem.children = children
   })
 
-  const tree = allDir.find(f => f.depth === 0)
-  return tree
+  const tree = allDir.find((f) => f.depth === 0)
+  return { tree, filesPath }
 }
