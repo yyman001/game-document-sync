@@ -1,11 +1,12 @@
 // 云操作文件
 // eslint-disable-next-line no-unused-vars
-import { ref, reactive, onMounted, computed } from '@vue/composition-api'
+import { ref, unref, reactive, onMounted, computed } from '@vue/composition-api'
 import { WebDAVClient } from '../components/Config/config'
 import { AliOssSDK } from '../utils/ali-oss'
 import useMessage from './useMessage'
 // 云对象
-let cloudObject = null
+export let cloudObject = null
+
 export default function () {
   const { message, messageLoading, messageSuccess, messageError } = useMessage()
   // 默认云类型为: 坚果云 jianguoyun, 备用为: 阿里云, ali-oss
@@ -45,6 +46,8 @@ export default function () {
       default:
         throw new Error('未定义云类型!')
     }
+
+    pullCloudData()
   }
 
   const cloudUpSymbol = ref([])
@@ -71,7 +74,8 @@ export default function () {
             ...f,
             // 转换云文件文件名为 本地格式, 方便对比数据
             // /games_doc_sync/torchlight 2/torchlight 2_t1628915843842.zip => /torchlight 2/torchlight 2_t1628915843842.zip
-            comparsedName: f.filename.replace('/games_doc_sync/', '')
+            // TODO: 重新定制规范, 目前阿里云的url 是以 / 开头, 后台再统一这个规范,暂时使用 .replace(/^\//, ''), 移除开头的 斜杆
+            comparsedName: f.filename.replace('/games_doc_sync/', '').replace(/^\//, '')
           }
         })
         console.log('coludItems:', coludItems)
@@ -89,15 +93,16 @@ export default function () {
 
   const uploadFile = async (file) => {
     const { basename, dirname, path } = file
-    const isUpLoad = await WebDAVClient.uploadFile(path, dirname, basename)
+    const isUpLoad = await cloudObject.uploadFile(path, dirname, basename)
     message(isUpLoad, isUpLoad ? '上传成功!' : '上传失败!')
     if (isUpLoad) {
       coludItems.fileItems.push(file)
     }
   }
 
-  const downloadFile = async (file, dirname) => {
-
+  const downloadCloudFile = async (downloadUrl, filePath, cb) => {
+    const isDownload = await cloudObject.downloadFile(downloadUrl, filePath, cb)
+    message(isDownload, isDownload ? '下载成功!' : '下载失败!')
   }
 
   onMounted(() => {
@@ -122,6 +127,6 @@ export default function () {
     directoryItems,
 
     uploadFile,
-    downloadFile
+    downloadCloudFile
   }
 }
