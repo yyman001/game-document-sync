@@ -2,10 +2,14 @@
 // eslint-disable-next-line no-unused-vars
 import { ref, reactive, onMounted, computed } from '@vue/composition-api'
 import { WebDAVClient } from '../components/Config/config'
+import { AliOssSDK } from '../utils/ali-oss'
 import useMessage from './useMessage'
-
+// 云对象
+let cloudObject = null
 export default function () {
   const { message, messageLoading, messageSuccess, messageError } = useMessage()
+  // 默认云类型为: 坚果云 jianguoyun, 备用为: 阿里云, ali-oss
+  const cloudType = ref('')
   const isColudLoading = ref(false)
   const coludItems = reactive({
     directoryItems: [],
@@ -28,6 +32,21 @@ export default function () {
     return [...cloudFilesName, ...cloudDirectorys]
   })
 
+  const onSwitchCloud = (type) => {
+    cloudType.value = type
+    switch (type) {
+      case 'jianguoyun':
+        cloudObject = WebDAVClient
+        break
+      case 'ali-oss':
+        // TODO: 密钥从json配置读取
+        cloudObject = new AliOssSDK({})
+        break
+      default:
+        throw new Error('未定义云类型!')
+    }
+  }
+
   const cloudUpSymbol = ref([])
 
   const getCloudSyncSymbol = (fileName) => {
@@ -40,11 +59,11 @@ export default function () {
   }
 
   const pullCloudData = () => {
-    if (isColudLoading.value) return
+    if (cloudObject === null || isColudLoading.value) return
     isColudLoading.value = true
     messageLoading({key: 'cloud-loading', content: '正在获取云文件...', duration: 0})
 
-    WebDAVClient.getDirectoryStructure()
+    cloudObject.getDirectoryStructure()
       .then(({directoryItems, fileItems}) => {
         coludItems.directoryItems = directoryItems
         coludItems.fileItems = fileItems.map((f) => {
@@ -77,11 +96,19 @@ export default function () {
     }
   }
 
+  const downloadFile = async (file, dirname) => {
+
+  }
+
   onMounted(() => {
+    onSwitchCloud('ali-oss')
     pullCloudData()
   })
 
   return {
+    cloudType,
+    onSwitchCloud,
+
     isColudLoading,
     cloudDownSymbol,
     cloudUpSymbol,
@@ -94,6 +121,7 @@ export default function () {
     cloudFilesName,
     directoryItems,
 
-    uploadFile
+    uploadFile,
+    downloadFile
   }
 }
