@@ -76,29 +76,9 @@
     </a-tab-pane>
 
     <a-tab-pane key="4" tab="云同步设置">
-      <field-set-group title="oss配置">
-        <div style="margin-bottom: 16px">
-          <a-input
-            default-value="C:\Users\yyman001\AppData\Roaming\Electron\ali-oss.config.js"
-          >
-            <a-select
-              slot="addonBefore"
-              default-value="阿里云"
-              style="width: 90px"
-            >
-              <a-select-option value="ali-oss"> 阿里云 </a-select-option>
-              <a-select-option value="七牛oss"> 七牛 </a-select-option>
-            </a-select>
-            <a-icon slot="addonAfter" type="setting" />
-          </a-input>
-        </div>
-      </field-set-group>
-
-      <field-set-group title="webDAV配置">
-
+      <field-set-group title="云账号信息配置">
         <div>
-
-          <a-input v-model:value="configPath">
+          <a-input v-model:value="configFilePath">
             <a-tooltip slot="addonBefore" title="导入配置">
               <a-icon type="folder-open" @click="handleSetConfig"></a-icon>
             </a-tooltip>
@@ -109,7 +89,22 @@
           </a-input>
 
           <a-divider/>
+          <a-button @click="loadConfig">重新载入配置</a-button>
+          targetCloudACcount: {{targetCloudACcount}}
 
+          <div >
+            <a-select
+              style="width: 100px;"
+              size="small"
+              v-model:value="cloudType"
+              :options="cloudOptions"
+              @change="onSwitchCloud"
+            ></a-select>
+          </div>
+
+          <a-divider/>
+
+          <!-- 当类型是 webDAV 时 -->
           <a-form layout="inline" >
             <!-- 账号 -->
             <a-form-item>
@@ -150,6 +145,7 @@
 import fieldSetGroup from '../FieldSetGroup'
 import { useDB } from '../../comApi/useDB'
 import useWebDAV from '../../comApi/useWebDAV'
+import { useCloudConfig } from '../../comApi/useCloudConfig'
 import { configJson } from './config'
 import { toRefs } from '@vue/composition-api'
 
@@ -176,6 +172,8 @@ export default {
       handleSetConfig
     } = useWebDAV()
 
+    const { cloudType, configFilePath, cloudOptions, targetCloudACcount, onSwitchCloud, loadConfig } = useCloudConfig()
+
     return {
       progress,
       isLoading,
@@ -190,7 +188,14 @@ export default {
       hanldeSaveConfig,
       loadWebDavConfig,
       handleSetConfig,
-      ...toRefs(configJson)
+      ...toRefs(configJson),
+
+      cloudType,
+      configFilePath,
+      cloudOptions,
+      targetCloudACcount,
+      loadConfig,
+      onSwitchCloud
     }
   },
   data () {
