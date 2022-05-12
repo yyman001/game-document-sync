@@ -1,8 +1,22 @@
 
-import { ref, unref, computed } from '@vue/composition-api'
+import { ref, unref, computed, reactive, watch } from '@vue/composition-api'
 import useMessage from './useMessage'
 import { showOpenDialog } from '../utils/dialog'
 const fs = require('fs-extra')
+
+// from 信息: 直接这样暴露出的 reactive 变量是无法修改,为只读
+export const cloudFormState = reactive({
+  type: '',
+  // 坚果云
+  url: '',
+  usearname: '',
+  password: '',
+  rootDirectoryName: 'games_doc_sync',
+  // 阿里云
+  accessKeyId: '',
+  accessKeySecret: '',
+  bucket: ''
+})
 
 export function useCloudConfig () {
   const { messageSuccess, messageError } = useMessage()
@@ -24,7 +38,16 @@ export function useCloudConfig () {
   const loading = ref(false)
   const cloudType = ref('jianguoyun')
   const targetCloudACcount = computed(() => {
-    return unref(cloudList).find((x) => x.type === unref(cloudType))
+    return unref(cloudList).find((x) => x.type === unref(cloudType)) || {}
+  })
+
+  watch(targetCloudACcount, () => {
+    let keys = ['url', 'usearname', 'password', 'accessKeyId', 'accessKeySecret', 'bucket']
+    keys.forEach((key) => {
+      cloudFormState[key] = unref(targetCloudACcount)[key]
+    })
+  }, {
+    deep: true
   })
 
   const loadConfig = () => {
@@ -71,9 +94,11 @@ export function useCloudConfig () {
 
   const onSwitchCloud = (type) => {
     cloudType.value = type
+    console.log('onSwitchCloud:', type)
   }
 
   return {
+    cloudFormState,
     cloudType,
     configFilePath,
     targetCloudACcount,

@@ -103,10 +103,43 @@
           </div>
 
           <a-divider/>
+        <a-form
+            v-if="targetCloudACcount"
+            :model="cloudFormState"
+            name="basic"
+            :label-col="{ span: 8 }"
+            :wrapper-col="{ span: 16 }"
+            autocomplete="off"
+          >
+          <template v-if="targetCloudACcount.type === 'ali-oss'">
+            <a-form-item
+              label="AccessKeyId"
+              name="accessKeyId"
+              :rules="[{ required: true, message: 'Please input your accessKeyId!' }]"
+            >
+              <a-input v-model:value="accessKeyId" />
+            </a-form-item>
 
-          <!-- 当类型是 webDAV 时 -->
-          <a-form layout="inline" >
-            <!-- 账号 -->
+            <a-form-item
+              label="AccessKeySecret"
+              name="accessKeySecret"
+              :rules="[{ required: true, message: 'Please input your accessKeySecret!' }]"
+            >
+              <a-input v-model:value="accessKeySecret" />
+            </a-form-item>
+
+            <a-form-item
+              label="Bucket"
+              name="bucket"
+              :rules="[{ required: true, message: 'Please input your bucket!' }]"
+            >
+              <a-input v-model:value="bucket" />
+            </a-form-item>
+          </template>
+         
+
+          <template v-if="targetCloudACcount.type === 'jianguoyun' ">
+          <!-- 账号 -->
             <a-form-item>
               <a-input placeholder="账号" v-model:value="usearname">
                 <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
@@ -118,21 +151,14 @@
                 <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
               </a-input-password>
             </a-form-item>
-            <!-- 游戏存档根目录名 -->
-            <a-form-item>
-              <a-input placeholder="存档目录名" v-model:value="rootDirectoryName">
-                <a-icon slot="prefix" type="folder" style="color:rgba(0,0,0,.25)" />
-              </a-input>
-            </a-form-item>
-            <!-- 提交 -->
-            <a-form-item>
-              <a-button type="primary" :disabled="!usearname || !password || !rootDirectoryName" @click="hanldeSaveConfig"> 保存 </a-button>
-            </a-form-item>
+          </template>
 
-          </a-form>
+          <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+            <a-button type="primary" html-type="submit">Submit</a-button>
+          </a-form-item>
+        </a-form>
           
           <a-divider/>
-
         </div>
       </field-set-group>
     </a-tab-pane>
@@ -144,9 +170,7 @@
 <script>
 import fieldSetGroup from '../FieldSetGroup'
 import { useDB } from '../../comApi/useDB'
-import useWebDAV from '../../comApi/useWebDAV'
 import { useCloudConfig } from '../../comApi/useCloudConfig'
-import { configJson } from './config'
 import { toRefs } from '@vue/composition-api'
 
 export default {
@@ -163,16 +187,15 @@ export default {
     } = useDB()
 
     const {
-      loading,
-      configPath,
-      testResult,
-      handleCheckAccount,
-      hanldeSaveConfig,
-      loadWebDavConfig,
+      cloudFormState,
+      cloudType,
+      configFilePath,
+      cloudOptions,
+      targetCloudACcount,
+      onSwitchCloud,
+      loadConfig,
       handleSetConfig
-    } = useWebDAV()
-
-    const { cloudType, configFilePath, cloudOptions, targetCloudACcount, onSwitchCloud, loadConfig } = useCloudConfig()
+    } = useCloudConfig()
 
     return {
       progress,
@@ -181,21 +204,17 @@ export default {
       saveDatabaseToJson,
       improtDatabaseByJson,
       handleDeleteDatabse,
-      loading,
-      configPath,
-      testResult,
-      handleCheckAccount,
-      hanldeSaveConfig,
-      loadWebDavConfig,
-      handleSetConfig,
-      ...toRefs(configJson),
 
+      ...toRefs(cloudFormState),
+
+      cloudFormState,
       cloudType,
       configFilePath,
       cloudOptions,
       targetCloudACcount,
       loadConfig,
-      onSwitchCloud
+      onSwitchCloud,
+      handleSetConfig
     }
   },
   data () {
