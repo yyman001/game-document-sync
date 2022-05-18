@@ -61,8 +61,7 @@
         style="width: 100px;"
         size="small"
         v-model:value="cloudType"
-        :options="options"
-        @change="onSwitchCloud"
+        :options="cloudOptions"
       ></a-select>
     </div>
 
@@ -81,6 +80,8 @@ import useModel from '../../comApi/useModel'
 import useMessage from '../../comApi/useMessage'
 import useDocs from '../../comApi/useDocs'
 import useCloud from '../../comApi/useCloud'
+import { useCloudConfig } from '../../comApi/useCloudConfig'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -93,17 +94,23 @@ export default {
   },
   data () {
     return {
-      activeComponentName: 'games-mod',
-      options: [
-        {
-          label: '坚果云',
-          value: 'jianguoyun'
-        },
-        {
-          label: '阿里云',
-          value: 'ali-oss'
-        }
-      ]
+      activeComponentName: 'games-mod'
+    }
+  },
+  computed: {
+    ...mapGetters(['getCloudType', 'targetCloudAccount']),
+    cloudType: {
+      set (v) {
+        this.setCloudType(v)
+      },
+      get () {
+        return this.getCloudType
+      }
+    }
+  },
+  watch: {
+    targetCloudAccount (v) {
+      this.switchCloudAccount(v)
     }
   },
   setup () {
@@ -111,7 +118,8 @@ export default {
     const { isVisible, onModelOpen, onModelClose } = useModel()
     const { message } = useMessage()
     const { onAddDoc } = useDocs()
-    const { cloudType, onSwitchCloud } = useCloud()
+    const { switchCloudAccount } = useCloud()
+    const { cloudOptions } = useCloudConfig()
 
     const onAdd = async (docItem) => {
       const game = await onAddDoc(docItem)
@@ -131,12 +139,12 @@ export default {
       onModelClose,
       onAdd,
 
-      // 云操作
-      cloudType,
-      onSwitchCloud
+      cloudOptions,
+      switchCloudAccount
     }
   },
   methods: {
+    ...mapActions(['setCloudType']),
     handleChange (value) {
       console.log(`selected ${value}`)
     },

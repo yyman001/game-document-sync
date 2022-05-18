@@ -1,22 +1,10 @@
 
-import { ref, unref, computed, reactive, watch } from '@vue/composition-api'
+import { ref, unref, computed, reactive, watch, onMounted } from '@vue/composition-api'
 import useMessage from './useMessage'
 import { showOpenDialog } from '../utils/dialog'
-const fs = require('fs-extra')
+import $store from '../store'
 
-// from 信息: 直接这样暴露出的 reactive 变量是无法修改,为只读
-export const cloudFormState = reactive({
-  type: '',
-  // 坚果云
-  url: '',
-  usearname: '',
-  password: '',
-  rootDirectoryName: 'games_doc_sync',
-  // 阿里云
-  accessKeyId: '',
-  accessKeySecret: '',
-  bucket: ''
-})
+const fs = require('fs-extra')
 
 export function useCloudConfig () {
   const { messageSuccess, messageError } = useMessage()
@@ -36,16 +24,29 @@ export function useCloudConfig () {
   // 云账号配置信息列表
   const cloudList = ref([])
   const loading = ref(false)
-  const cloudType = ref('jianguoyun')
-  const targetCloudACcount = computed(() => {
+  const cloudType = ref('')
+  const targetCloudAccount = computed(() => {
     return unref(cloudList).find((x) => x.type === unref(cloudType)) || {}
   })
 
-  watch(targetCloudACcount, () => {
-    let keys = ['url', 'usearname', 'password', 'accessKeyId', 'accessKeySecret', 'bucket']
-    keys.forEach((key) => {
-      cloudFormState[key] = unref(targetCloudACcount)[key]
-    })
+  const cloudFormState = reactive({
+    type: '',
+    // 坚果云
+    url: '',
+    usearname: '',
+    password: '',
+    rootDirectoryName: 'games_doc_sync',
+    // 阿里云
+    accessKeyId: '',
+    accessKeySecret: '',
+    bucket: ''
+  })
+
+  watch(targetCloudAccount, () => {
+    Object.keys(unref(targetCloudAccount))
+      .forEach((key) => {
+        cloudFormState[key] = unref(targetCloudAccount)[key]
+      })
   }, {
     deep: true
   })
@@ -55,6 +56,7 @@ export function useCloudConfig () {
       const fileJson = fs.readJSONSync(unref(configFilePath))
       if (Array.isArray(fileJson)) {
         cloudList.value = fileJson
+        $store.dispatch('setCloudList', fileJson)
         messageSuccess('加载配置成功!')
         return true
       }
@@ -97,11 +99,19 @@ export function useCloudConfig () {
     console.log('onSwitchCloud:', type)
   }
 
+  onMounted(() => {
+    try {
+      onSwitchCloud($store.getters.getCloudType)
+      cloudList.value = $store.getters.getCloudList
+    } catch (error) {
+      console.log('?', error)
+    }
+  })
   return {
     cloudFormState,
     cloudType,
     configFilePath,
-    targetCloudACcount,
+    targetCloudAccount,
     cloudOptions,
     cloudList,
 

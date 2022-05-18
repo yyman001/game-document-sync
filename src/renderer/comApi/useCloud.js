@@ -1,7 +1,7 @@
 // 云操作文件
 // eslint-disable-next-line no-unused-vars
 import { ref, unref, reactive, onMounted, computed } from '@vue/composition-api'
-import { WebDAVClient } from '../components/Config/config'
+import WebDav from '../utils/WebDav'
 import { AliOssSDK } from '../utils/ali-oss'
 import useMessage from './useMessage'
 // 云对象
@@ -9,8 +9,7 @@ export let cloudObject = null
 
 export default function () {
   const { message, messageLoading, messageSuccess, messageError } = useMessage()
-  // 默认云类型为: 坚果云 jianguoyun, 备用为: 阿里云, ali-oss
-  const cloudType = ref('')
+
   const isColudLoading = ref(false)
   const coludItems = reactive({
     directoryItems: [],
@@ -33,15 +32,13 @@ export default function () {
     return [...cloudFilesName, ...cloudDirectorys]
   })
 
-  const onSwitchCloud = (type) => {
-    cloudType.value = type
-    switch (type) {
+  const switchCloudAccount = (targetCloudAccount) => {
+    switch (targetCloudAccount.type) {
       case 'jianguoyun':
-        cloudObject = WebDAVClient
+        cloudObject = new WebDav(targetCloudAccount)
         break
       case 'ali-oss':
-        // TODO: 密钥从json配置读取
-        cloudObject = new AliOssSDK({})
+        cloudObject = new AliOssSDK(targetCloudAccount)
         break
       default:
         throw new Error('未定义云类型!')
@@ -105,14 +102,8 @@ export default function () {
     message(isDownload, isDownload ? '下载成功!' : '下载失败!')
   }
 
-  onMounted(() => {
-    onSwitchCloud('ali-oss')
-    pullCloudData()
-  })
-
   return {
-    cloudType,
-    onSwitchCloud,
+    switchCloudAccount,
 
     isColudLoading,
     cloudDownSymbol,
@@ -127,6 +118,8 @@ export default function () {
     directoryItems,
 
     uploadFile,
-    downloadCloudFile
+    downloadCloudFile,
+
+    pullCloudData
   }
 }
