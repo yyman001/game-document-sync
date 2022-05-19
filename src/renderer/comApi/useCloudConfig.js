@@ -3,7 +3,6 @@ import { ref, unref, computed, reactive, watch, onMounted } from '@vue/compositi
 import useMessage from './useMessage'
 import { showOpenDialog } from '../utils/dialog'
 import $store from '../store'
-
 const fs = require('fs-extra')
 
 export function useCloudConfig () {
@@ -99,6 +98,32 @@ export function useCloudConfig () {
     console.log('onSwitchCloud:', type)
   }
 
+  const handleSave = () => {
+    console.log('cloudFormState:', JSON.stringify(cloudFormState))
+    // TODO: 校验数据
+    cloudList.value = unref(cloudList).map((config) => {
+      if (cloudFormState.type === 'jianguoyun') {
+        return {
+          ...config,
+          password: cloudFormState.password,
+          usearname: cloudFormState.usearname
+        }
+      } else if (cloudFormState.type === 'ali-oss') {
+        return {
+          ...config,
+          accessKeyId: cloudFormState.accessKeyId,
+          accessKeySecret: cloudFormState.accessKeySecret,
+          bucket: cloudFormState.bucket
+        }
+      }
+
+      return config
+    })
+    // 更新到vuex
+    $store.dispatch('setCloudList', unref(cloudList))
+    hanldeSaveConfig()
+  }
+
   onMounted(() => {
     try {
       onSwitchCloud($store.getters.getCloudType)
@@ -117,6 +142,8 @@ export function useCloudConfig () {
 
     loadConfig,
     handleSetConfig,
-    onSwitchCloud
+    onSwitchCloud,
+
+    handleSave
   }
 }
