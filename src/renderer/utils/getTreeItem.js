@@ -1,8 +1,11 @@
 /* 创建多选用的树结构 */
+import useUtils from '../comApi/useUtils'
 const rd = require('rd')
 const path = require('path')
 
 export function getTreeItem (filePath, rootDir) {
+  const { formatFileSize } = useUtils()
+
   let fileDetailedList = []
   return new Promise((resolve) => {
     rd.each(
@@ -12,14 +15,15 @@ export function getTreeItem (filePath, rootDir) {
         const relativeParentPath = p.dir.replace(rootDir, '')
         const relativePath = fileFullPath.replace(rootDir, '')
         const depth = relativePath.split('\\').length - 1
+        const isFile = stats.isFile()
 
         const pathObjct = {
           depth,
-          children: stats.isFile() ? null : [],
-          isLeaf: stats.isFile(),
+          children: isFile ? null : [],
+          isLeaf: isFile,
           key: fileFullPath,
           path: fileFullPath,
-          title: p.name,
+          title: isFile ? `${p.name} - ${formatFileSize(stats.size)}` : p.name,
           relative_path: relativePath,
           relative_parent_path: relativeParentPath,
           parent_dir: relativeParentPath
@@ -59,5 +63,5 @@ export async function createTree (filePath, gameDocDir) {
   })
 
   const tree = allDir.find((f) => f.depth === 0)
-  return { tree, filesPath }
+  return { tree, filesPath, fileDetailedList }
 }

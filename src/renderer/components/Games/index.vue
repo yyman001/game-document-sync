@@ -18,6 +18,7 @@
     >
       <FieldSetGroup v-if="treeData.length" title="文件列表">
         <div class="file-content">
+            勾选内容大小: {{nodeSize}}
             <a-directory-tree
               default-expand-all
               multiple
@@ -83,7 +84,7 @@ export default {
     const { customRestoreFile } = useFile()
     const { message } = useMessage()
     const { homedir } = useConfig()
-    const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
+    const { nodeSize, expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
     const gameDocPath = ref('')
     const gameDocDir = ref('')
 
@@ -140,6 +141,7 @@ export default {
       gameDocPath,
       gameDocDir,
 
+      nodeSize,
       expandedKeys,
       selectedKeys,
       treeData
