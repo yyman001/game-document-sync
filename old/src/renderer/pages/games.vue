@@ -1,0 +1,225 @@
+<template>
+      <el-container>
+      <!-- 右侧栏  -->
+      <el-header>
+        <searchHeader :action="action" :list="sortList" @change="handleSelect"></searchHeader>
+      </el-header>
+      <el-main>
+        <div class="x-main">
+          <div class="card-content">
+            <div class="card-box">
+              <div v-if="!gameList.length" class="card-empt">
+                暂无游戏记录
+              </div>
+              <card
+                :hasDoc="docMap.includes(item.gameDocDir)"
+                :key="item.gameName"
+                v-for="item in gameList"
+                :item="item"
+                @handleClick="handleClick">
+              </card>
+            </div>
+          </div>
+
+        </div>
+      </el-main>
+      <!-- 备份窗口  -->
+      <el-dialog :append-to-body="true" :title="`存档备份:${targetName}`" :show-close="false" :visible="isVisible">
+        <el-input disabled v-model="targetPatch" style="margin-bottom: 20px;">
+          <template slot="prepend">存档路径</template>
+          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir('doc', targetPatch)"></el-button>
+        </el-input>
+        <el-input placeholder="" v-model="backPatch" style="margin-bottom: 20px;">
+          <template slot="prepend">备份路径</template>
+          <el-button slot="append" icon="el-icon-folder-opened" @click.stop="handleOpenDir('back', backPatch)"></el-button>
+        </el-input>
+        <el-input type="text" v-model="remask" maxlength="20" show-word-limit >
+          <template slot="prepend">备注</template>
+        </el-input>
+
+        <div class="el-buttons-gorund">
+          <el-button type="primary" @click.stop="handleBackup" :loading="isLoading">立即备份</el-button>
+          <el-button :disabled="isLoading" @click.stop="onModelClose">取消</el-button>
+        </div>
+
+      </el-dialog>
+    </el-container>
+</template>
+
+<script>
+import { watch } from '@vue/composition-api'
+import searchHeader from '../components/searchHeader.vue'
+import card from '../components/Card'
+import newScan from '../components/Dialog/doc.vue'
+import eventMessage from '../mixins/eventMessage'
+import dirMixin from '../mixins/rootDir'
+import homeDirMixin from '../mixins/homedir'
+import useCheckDocs from '../comApi/useCheckDocs'
+import useGames from '../comApi/useGames'
+import useModel from '../comApi/useModel'
+
+const path = require('path')
+const {copy, ensureDir, remove} = require('../../utils/FileClass').default
+const {compressDir} = require('../../utils/compressClass').default
+
+export default {
+  components: {
+    card,
+    newScan,
+    searchHeader
+  },
+  mixins: [eventMessage, dirMixin, homeDirMixin],
+  setup () {
+    const { docMap, loadCheck, isLoadCheck } = useCheckDocs()
+    const { gameList, handleSearchGame } = useGames()
+    const { isVisible, onModelOpen, onModelClose } = useModel()
+
+    handleSearchGame()
+    watch(gameList, (gameList) => {
+      loadCheck(gameList)
+    })
+
+    return {
+      docMap,
+      isLoadCheck,
+      loadCheck,
+      gameList,
+      handleSearchGame,
+      isVisible,
+      onModelOpen,
+      onModelClose
+    }
+  },
+  data () {
+    return {
+      targetName: '',
+      targetPatch: '',
+      targetDir: '',
+      backPatch: '',
+      tempPatch: '',
+      gameDocPath: '',
+      scanList: [],
+      searchKeyword: '',
+      isLoading: false,
+      remask: '',
+      sortList: [
+        {
+          name: '游戏名'
+        },
+        {
+          name: '最后更新'
+        }
+      ],
+      action: ''
+    }
+  },
+  created () { },
+  methods: {
+    async handleClick ([type, game]) {
+      console.log(type, game)
+      const {gameName, gameDocDir, gameDocPath} = game
+      if (type === 'editor') {
+
+      } else if (type === 'del') {
+        const x = await this.$games.remove({gameDocDir})
+        if (x === null) {
+          this.$message.error('删除失败!')
+          return
+        }
+        this.handleSearchGame()
+        this.$message.success('删除成功!')
+      } else if (type === 'backup') {
+        this.onModelOpen()
+        this.targetDir = gameDocDir
+        this.targetName = gameName
+        this.gameDocPath = gameDocPath
+        this.targetPatch = path.join(this.homedir, gameDocPath)
+        this.backPatch = path.join('./', 'backup', gameDocDir)
+        this.tempPatch = path.join('./', 'temp', gameDocDir)
+      }
+    },
+    async handleBackup () {
+      this.isLoading = true
+      const platform = this.systemType === 'Windows_NT' ? 'zip' : 'tar'
+
+      // 复制存档到 当前软件运行目录下的 <temp>目录
+      const [error, isCopySuccess] = await copy(this.targetPatch, this.tempPatch)
+      console.log('isCopySuccess:', isCopySuccess)
+      if (error) {
+        console.log(`错误信息:`, error)
+        this.isLoading = false
+        this.$message.error(`${this.targetPatch},路径目录或文件不存在, 备份失败`)
+        return
+      }
+      // 检查存档目录是否存在
+      await ensureDir(this.backPatch)
+      const timeStamp = Date.now()
+      const fileName = `${this.targetName}_t${timeStamp}`
+      // 保存文件路径
+      const savePath = path.join(this.backPatch, fileName)
+      // 压缩存档
+      const [compressError] = await compressDir(this.tempPatch, savePath, platform)
+      if (compressError) {
+        this.$message.error('备份失败!')
+        this.isLoading = false
+        return
+      }
+
+      await remove(this.tempPatch)
+      // TODO: 备份信息录入 数据库(games-back.db)
+      const isAddHistory = await this.$backup.add({
+        gameName: this.targetName,
+        gameDocDir: this.targetDir,
+        gameDocPath: this.gameDocPath,
+        fileName: fileName,
+        filePath: `${savePath}.${platform}`,
+        platformTye: this.systemType,
+        fileType: platform,
+        timeStamp: timeStamp,
+        remask: this.remask
+      })
+
+      if (isAddHistory === null) {
+        this.$message.error('数据库录入备份信息失败!')
+        this.isLoading = false
+        return
+      }
+
+      // 更新游戏列表中显示的 时间字段
+      await this.$games.update({gameDocDir: this.targetDir}, {$set: {lastBackTime: timeStamp}})
+      // 刷新游戏列表(单个或整个列表)
+      this.handleSearchGame()
+      this.$message.success('备份成功!')
+      this.isLoading = false
+      this.remask = ''
+      this.onModelClose()
+    },
+    handleOpenDir (type, dirPath) {
+      const fullPath = type === 'back' ? path.join(this.rootDir, dirPath) : dirPath
+      this.$electron.shell.showItemInFolder(fullPath)
+    },
+    handleSelect (item) {
+      console.log('handleSelect', item)
+      this.action = item.name
+    }
+  }
+}
+</script>
+
+<style type="text/scss" lang="scss">
+ @import './../sass/_tools.scss';
+.el-main {
+  text-align: center;
+}
+
+.card-box {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+
+.el-buttons-gorund {
+  margin-top: 20px;
+}
+</style>
