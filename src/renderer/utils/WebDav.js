@@ -127,10 +127,11 @@ export default class WebDav {
    * @param {String} gameDocDir 游戏文件夹名
    * @param {String} fileName 存档名(带完整文件后缀)
    * @param {Boolean} isOverwrite 是否覆盖文件
-   * @param {Function} cb 上传进度回调函数
+   * @param {Function} cb 上传完成回调函数
+   * @param {Function} progressFn 上传进度回调函数
    * @returns {Promise<Boolean>} 是否成功
    */
-   uploadFile = async (filePath, gameDocDir, fileName, isOverwrite = false, cb) => {
+   uploadFile = async (filePath, gameDocDir, fileName, isOverwrite = false, cb, progressFn) => {
      try {
        let fileBuffer
        if (typeof filePath === 'string') {
@@ -140,7 +141,7 @@ export default class WebDav {
        }
 
        const onUploadProgress = progress => {
-         cb(gameDocDir, fileName, progress)
+         progressFn(gameDocDir, fileName, progress)
        }
        // 确保根目录存在
        await this.ensureDir(`/${this.rootDirectoryName}`)
@@ -149,8 +150,10 @@ export default class WebDav {
        await this.client.putFileContents(`/${this.rootDirectoryName}/${gameDocDir}/${fileName}`, fileBuffer, {
          overwrite: isOverwrite,
          contentLength: false,
-         onUploadProgress: cb ? onUploadProgress : null
+         onUploadProgress: progressFn ? onUploadProgress : null
        })
+       // 成功回调
+       cb && cb()
        return true
      } catch (error) {
        return false
@@ -162,19 +165,22 @@ export default class WebDav {
     *
     * @param {String} coludFilename - 云盘中文件名
     * @param {String} writeFilePath - 写入文件路径
-    * @param {Function} cb - 下载进度回调
+    * @param {Function} cb - 下载完成回调
+    * @param {Function} progressFn - 下载进度回调
     * @returns {Promise<Boolean>} - 是否成功
     */
-   downloadFile = async (coludFilename, writeFilePath, cb) => {
+   downloadFile = async (coludFilename, writeFilePath, cb, progressFn) => {
      const onDownloadProgress = progress => {
-       cb(coludFilename, writeFilePath, progress)
+       progressFn(coludFilename, writeFilePath, progress)
      }
 
      try {
        const fileBuffer = await this.getFileContents(coludFilename, {
-         onDownloadProgress: cb ? onDownloadProgress : null
+         onDownloadProgress: progressFn ? onDownloadProgress : null
        })
        await fs.outputFile(writeFilePath, Buffer.from(fileBuffer))
+       // 成功回调
+       cb && cb()
        return true
      } catch (error) {
        console.error(error)

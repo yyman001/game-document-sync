@@ -55,6 +55,16 @@
         </div>
       </a-layout-content>
     </a-layout>
+
+    <div class="cloud-select">
+      <a-select
+        style="width: 100px;"
+        size="small"
+        v-model:value="cloudType"
+        :options="cloudOptions"
+      ></a-select>
+    </div>
+
   </a-layout>
 </template>
 
@@ -69,6 +79,9 @@ import DocDialog from '../Dialog/index.vue'
 import useModel from '../../comApi/useModel'
 import useMessage from '../../comApi/useMessage'
 import useDocs from '../../comApi/useDocs'
+import useCloud from '../../comApi/useCloud'
+import { useCloudConfig } from '../../comApi/useCloudConfig'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -84,11 +97,29 @@ export default {
       activeComponentName: 'games-mod'
     }
   },
+  computed: {
+    ...mapGetters(['getCloudType', 'targetCloudAccount']),
+    cloudType: {
+      set (v) {
+        this.setCloudType(v)
+      },
+      get () {
+        return this.getCloudType
+      }
+    }
+  },
+  watch: {
+    targetCloudAccount (v) {
+      this.switchCloudAccount(v)
+    }
+  },
   setup () {
     const { searchText, onSearch } = useSearch()
     const { isVisible, onModelOpen, onModelClose } = useModel()
     const { message } = useMessage()
     const { onAddDoc } = useDocs()
+    const { switchCloudAccount } = useCloud()
+    const { cloudOptions } = useCloudConfig()
 
     const onAdd = async (docItem) => {
       const game = await onAddDoc(docItem)
@@ -106,10 +137,14 @@ export default {
       isVisible,
       onModelOpen,
       onModelClose,
-      onAdd
+      onAdd,
+
+      cloudOptions,
+      switchCloudAccount
     }
   },
   methods: {
+    ...mapActions(['setCloudType']),
     handleChange (value) {
       console.log(`selected ${value}`)
     },
@@ -196,4 +231,10 @@ export default {
   border-radius: 5px;
 }
 
+.cloud-select {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 9;
+}
 </style>

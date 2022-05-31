@@ -1,13 +1,12 @@
 import { ref, computed, onMounted } from '@vue/composition-api'
 import { getDirectoryItem } from '../../utils/index'
 import useCofig from '../comApi/useConfig'
-import useMessage from './useMessage'
-import { WebDAVClient } from '../components/Config/config'
+import useCloud from './useCloud'
 const path = require('path')
 
 export default function () {
   const { rootDir } = useCofig()
-  const { message } = useMessage()
+  const { downloadCloudFile } = useCloud()
   const directoryItem = ref([])
   const fileItem = ref([])
 
@@ -50,13 +49,12 @@ export default function () {
     const downloadUrl = file.filename
     // TODO: 备份文件夹名称读配置
     const filePath = path.join(rootDir.value, 'backup', dirname, file.basename)
-    const isDownload = await WebDAVClient.downloadFile(downloadUrl, filePath)
-    message(isDownload, isDownload ? '下载成功!' : '下载失败!')
-    if (isDownload) {
+    // TODO: 下载方法迁移到 cloud 模块
+    downloadCloudFile(downloadUrl, filePath, () => {
       file.path = filePath
       file.dirname = dirname
       fileItem.value.push(file)
-    }
+    })
   }
 
   onMounted(() => {
