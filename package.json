@@ -42,6 +42,7 @@
   ],
   "dependencies": {
     "ant-design-vue": "^3.2.4",
-    "pinia": "^2.0.14"
+    "pinia": "^2.0.14",
+    "vue-router": "4"
   }
 }

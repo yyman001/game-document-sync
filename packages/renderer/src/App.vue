@@ -5,28 +5,40 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div class="logo-box">
-    <img style="height:140px;" src="./assets/electron.png" >
-    <span/>
-    <img style="height:140px;" src="./assets/vite.svg" >
-    <span/>
-    <img style="height:140px;" src="./assets/vue.png" >
-  </div>
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <div class="static-public">
+  <!-- <div class="logo-box">
+    
+  </div> -->
+  
+  <!-- <div class="static-public">
     Place static files into the <code>src/renderer/public</code> folder
     <img style="width:90px;" :src="'./images/node.png'" >
-  </div>
+  </div> -->
+  <a-layout>
+    <a-layout-sider>
+      <a-button @click="$router.push('/games')">游戏列表</a-button>
+      <a-button @click="$router.push('/backup')">备份列表</a-button>
+      <a-button @click="$router.push('/docs')">游戏配置列表</a-button>
+      <a-button @click="$router.push('/config')">配置</a-button>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-header>Header</a-layout-header>
+      <a-layout-content>
+        <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+        <router-view></router-view>
+      </a-layout-content>
+      <a-layout-footer>Footer</a-layout-footer>
+    </a-layout>
+  </a-layout>
 </template>
 
 <style>
 #app {
+  display: flex;
+  height: 100%;
+
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .logo-box {
