@@ -102,7 +102,7 @@ async function copy (copy_path, save_path, filter_funtion) {
   try {
     console.log('copy_path:', copy_path)
     console.log('save_path:', save_path)
-    await fs.copy(copy_path, save_path, {filter: filter_funtion})
+    await fs.copy(copy_path, save_path, filter_funtion ? {filter: filter_funtion}: undefined)
     console.log(`copy ${copy_path} is success!`)
     return [null, true]
   } catch (err) {

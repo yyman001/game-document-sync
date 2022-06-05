@@ -16,7 +16,21 @@
       :footer="null"
       :maskClosable="false"
     >
+      <FieldSetGroup v-if="treeData.length" title="文件列表">
+        <div class="file-content">
+            勾选内容大小: {{nodeSize}}
+            <a-directory-tree
+              default-expand-all
+              multiple
+              :checkable="true"
+              :height="280"
+              v-model:selectedKeys="selectedKeys"
+              :tree-data="treeData"
+            />
+        </div>
+      </FieldSetGroup>
       <ModalBackup
+       :saveFiles="selectedKeys"
        :gameDocDir="gameDocDir"
        :gameDocPath="gameDocPath"
        @handleClose="onModelClose"
@@ -28,6 +42,7 @@
 
 <script>
 import Card from '../Card'
+import FieldSetGroup from '../FieldSetGroup'
 import { watch, toRefs, ref } from '@vue/composition-api'
 import useCheckDocs from '../../comApi/useCheckDocs'
 import useGames from '../../comApi/useGames'
@@ -36,10 +51,17 @@ import ModalBackup from '../../components/Modal/ModalBackup.vue'
 import { showOpenDialog } from '../../utils/dialog'
 import useFile from '../../comApi/useBackupFile'
 import useMessage from '../../comApi/useMessage'
+import useConfig from '../../comApi/useConfig'
+import useDocTree from '../../comApi/useDocTree'
+const path = require('path')
 
 export default {
   name: 'games-mod',
-  components: { Card, ModalBackup },
+  components: {
+    Card,
+    FieldSetGroup,
+    ModalBackup
+  },
   props: {
     searchText: String
   },
@@ -61,6 +83,8 @@ export default {
     const { isVisible, onModelOpen, onModelClose } = useModel()
     const { customRestoreFile } = useFile()
     const { message } = useMessage()
+    const { homedir } = useConfig()
+    const { nodeSize, expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
     const gameDocPath = ref('')
     const gameDocDir = ref('')
 
@@ -83,6 +107,9 @@ export default {
           onModelOpen()
           gameDocPath.value = data.gameDocPath
           gameDocDir.value = data.gameDocDir
+          const docPatch = path.join(homedir.value, gameDocPath.value)
+          createNode(docPatch, gameDocDir)
+
           break
 
         case 'editor':
@@ -112,11 +139,22 @@ export default {
       onModelOpen,
       onModelClose,
       gameDocPath,
-      gameDocDir
+      gameDocDir,
+
+      nodeSize,
+      expandedKeys,
+      selectedKeys,
+      treeData
     }
   }
 
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.file-content {
+  max-height: 250px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>
