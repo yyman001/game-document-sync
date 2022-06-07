@@ -1,37 +1,46 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <!-- <div class="logo-box">
-    
-  </div> -->
   
   <!-- <div class="static-public">
     Place static files into the <code>src/renderer/public</code> folder
     <img style="width:90px;" :src="'./images/node.png'" >
   </div> -->
   <a-layout>
-    <a-layout-sider>
-      <a-button @click="$router.push('/games')">游戏列表</a-button>
-      <a-button @click="$router.push('/backup')">备份列表</a-button>
-      <a-button @click="$router.push('/docs')">游戏配置列表</a-button>
-      <a-button @click="$router.push('/config')">配置</a-button>
+    <a-layout-sider 
+      class="layout-sider"
+      collapsed-width="0">
+      <div class="logo" />
+      <!-- 菜单导航 -->
+      <Menu />
+
     </a-layout-sider>
     <a-layout>
-      <a-layout-header>Header</a-layout-header>
+      <!-- <a-layout-header>Header</a-layout-header> -->
       <a-layout-content>
-        <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
         <router-view></router-view>
       </a-layout-content>
-      <a-layout-footer>Footer</a-layout-footer>
+      <!-- <a-layout-footer>Footer</a-layout-footer> -->
     </a-layout>
   </a-layout>
 </template>
 
-<style>
+<script setup lang="ts">
+// This starter template is using Vue 3 <script setup> SFCs
+// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
+import HelloWorld from './components/HelloWorld.vue'
+import Menu from './components/Menu/index.vue'
+
+</script>
+
+<style lang="scss">
+@import './sass/themes.scss';
+
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  font-family: "Motiva Sans", Sans-serif;
+}
+
 #app {
   display: flex;
   height: 100%;
@@ -39,6 +48,16 @@ import HelloWorld from './components/HelloWorld.vue'
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
+
+  /* 重写框架样式 */
+  .ant-layout-sider {
+    background: none;
+  }
+}
+
+.logo {
+  height: 80px;
+  border: 1px solid #ccc;
 }
 
 .logo-box {
@@ -64,4 +83,5 @@ import HelloWorld from './components/HelloWorld.vue'
   border-radius: 4px;
   color: #304455;
 }
+
 </style>

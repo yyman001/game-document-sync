@@ -1,0 +1,98 @@
+@charset "utf-8";
+/* 
+主题配置
+*/
+@import './tools';
+
+$themes-map: (
+  white: (
+    main-backrond-color: #f5f5f5,
+    aside-background-color: #ffffff,
+    header-background-color: #fff,
+    header-box-shadow: 14px 14px 40px 0 rgba(158, 158, 158, 0.2),
+    menu-text-color: #0a1f44,
+    active-text-color: '',
+    border-color: #ebecf0
+  ),
+  back: (
+    main-backrond-color: #333840,
+    aside-background-color: #2a2d34,
+    header-background-color: #2a2d34,
+    header-box-shadow: 0px 1px 10px 5px #282c34,
+    menu-text-color: #656568,
+    active-text-color: rgba(242, 246, 252, 0.8),
+    border-color: #4a4a4a
+  )
+);
+
+.themes {
+
+  @each $keyName, $themeValue in $themes-map {
+    &--#{$keyName} {
+      // 左侧栏
+      .el-aside {
+        text-align: left;
+        line-height: 200px;
+        background-color: map-get($themeValue, aside-background-color);
+      }
+
+      .el-menu-item {
+        font-weight: 700;
+        color: map-get($themeValue, menu-text-color);
+        background-color: map-get($themeValue, aside-background-color);
+        &.is-active,
+        &:hover {
+          color: map-get($themeValue, active-text-color);
+          background-color:  map-get($themeValue, main-backrond-color);
+        }
+
+        i {
+          color: inherit;
+        }
+      }
+
+      // 右侧
+      .el-container {
+        background-color: map-get($themeValue, main-backrond-color);
+      }
+
+      .el-main {
+        @include scroll($scrollbar-background-color:  map-get($themeValue, main-backrond-color));
+      }
+
+      .el-header {
+        background-color: map-get($themeValue, header-background-color);
+        box-shadow: map-get($themeValue, header-box-shadow);
+      }
+
+      .search-header {
+        .el-input__inner {
+          border-radius: 0;
+          border: 1px solid map-get($themeValue, border-color);
+          background-color: map-get($themeValue, aside-background-color);
+        }
+      }
+
+      .el-table {
+        &::before {
+          content: none;
+        }
+        border: 1px solid map-get($themeValue, border-color);
+        border-bottom: none;
+        tr:hover > td {
+          background-color: map-get($themeValue, main-backrond-color)!important;
+        }
+      }
+
+      .el-table,
+      .el-table th,
+      .el-table tr,
+      .el-table td {
+        border-color: map-get($themeValue, border-color)!important;
+        background-color: map-get($themeValue, aside-background-color);
+      }
+
+    }
+  }
+    
+}
