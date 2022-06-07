@@ -7,18 +7,18 @@
     "tables": [
       {
         "name": "backupTable",
-        "schema": "fileName,steamId,gameName,nickName,gameDocDir",
-        "rowCount": 0
+        "schema": "fileName,steamId,gameName,nickName,gameDocDir,fileType",
+        "rowCount": 15
       },
       {
         "name": "docsTable",
         "schema": "gameDocDir,steamId,gameName,nickName",
-        "rowCount": 38
+        "rowCount": 42
       },
       {
         "name": "gamesTable",
         "schema": "gameDocDir,steamId,gameName,nickName,systemType",
-        "rowCount": 18
+        "rowCount": 22
       },
       {
         "name": "steamApp",
@@ -29,7 +29,188 @@
     "data": [{
       "tableName": "backupTable",
       "inbound": true,
-      "rows": []
+      "rows": [
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1651668926252",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1651668926252.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1651668926252,
+          "remask": ""
+        },
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1652105533842",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105533842.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1652105533842,
+          "remask": "1"
+        },
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1652105543225",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105543225.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1652105543225,
+          "remask": "2"
+        },
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1652105930541",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105930541.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1652105930541,
+          "remask": "3"
+        },
+        {
+          "steamId": "280160",
+          "gameName": "Aragami",
+          "gameDocDir": "Aragami",
+          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
+          "fileName": "Aragami_t1652191112167",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652191112167.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1652191112167,
+          "remask": ""
+        },
+        {
+          "steamId": "1366540",
+          "gameName": "Dyson Sphere Program",
+          "gameDocDir": "Dyson Sphere Program",
+          "gameDocPath": "\\Documents\\Dyson Sphere Program",
+          "fileName": "Dyson Sphere Program_t1645351326145",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\Dyson Sphere Program_t1645351326145.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645351326145,
+          "remask": ""
+        },
+        {
+          "steamId": "367520",
+          "gameName": "Hollow Knight",
+          "gameDocDir": "Hollow Knight",
+          "gameDocPath": "\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+          "fileName": "Hollow Knight_t1652102633697",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Hollow Knight\\Hollow Knight_t1652102633697.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1652102633697,
+          "remask": ""
+        },
+        {
+          "steamId": "814380",
+          "gameName": "Sekiro",
+          "gameDocDir": "Sekiro",
+          "gameDocPath": "\\AppData\\Roaming\\Sekiro",
+          "fileName": "Sekiro_t1642853956265",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Sekiro\\Sekiro_t1642853956265.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1642853956265,
+          "remask": ""
+        },
+        {
+          "steamId": "312660",
+          "gameName": "SniperElite4",
+          "gameDocDir": "SniperElite4",
+          "gameDocPath": "\\AppData\\Local\\SniperElite4",
+          "fileName": "SniperElite4_t1645353586187",
+          "filePath": "E:\\git\\game-document-sync\\backup\\SniperElite4\\SniperElite4_t1645353586187.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645353586187,
+          "remask": ""
+        },
+        {
+          "steamId": "",
+          "gameName": "StarCraft",
+          "gameDocDir": "StarCraft",
+          "gameDocPath": "\\Documents\\StarCraft",
+          "fileName": "StarCraft_t1645351404081",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\StarCraft_t1645351404081.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645351404081,
+          "remask": ""
+        },
+        {
+          "steamId": "105600",
+          "gameName": "Terraria",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "fileName": "Terraria_t1645351355564",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\Terraria_t1645351355564.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645351355564,
+          "remask": ""
+        },
+        {
+          "steamId": "105600",
+          "gameName": "Terraria",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "fileName": "Terraria_t1645353337811",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Terraria\\Terraria_t1645353337811.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645353337811,
+          "remask": ""
+        },
+        {
+          "steamId": "105600",
+          "gameName": "Terraria",
+          "gameDocDir": "Terraria",
+          "gameDocPath": "\\Documents\\My Games\\Terraria",
+          "fileName": "Terraria_t1646059713386",
+          "filePath": "E:\\git\\game-document-sync\\backup\\Terraria\\Terraria_t1646059713386.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1646059713386,
+          "remask": ""
+        },
+        {
+          "steamId": "780310",
+          "gameName": "The Riftbreaker",
+          "gameDocDir": "The Riftbreaker",
+          "gameDocPath": "\\Documents\\The Riftbreaker",
+          "fileName": "The Riftbreaker_t1645353255112",
+          "filePath": "E:\\git\\game-document-sync\\backup\\The Riftbreaker\\The Riftbreaker_t1645353255112.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645353255112,
+          "remask": ""
+        },
+        {
+          "steamId": "1237970",
+          "gameName": "Titanfall2",
+          "gameDocDir": "Titanfall2",
+          "gameDocPath": "\\Documents\\Respawn\\Titanfall2",
+          "fileName": "Titanfall2_t1645353591626",
+          "filePath": "E:\\git\\game-document-sync\\backup\\SniperElite4\\Titanfall2_t1645353591626.zip",
+          "platformTye": "Windows_NT",
+          "fileType": "zip",
+          "timeStamp": 1645353591626,
+          "remask": ""
+        }
+      ]
     },{
       "tableName": "docsTable",
       "inbound": true,
@@ -219,12 +400,28 @@
           "systemType": "Windows"
         },
         {
+          "steamId": "814380",
+          "nickName": "只狼",
+          "gameDocDir": "Sekiro",
+          "gameDocPath": "\\AppData\\Roaming\\Sekiro",
+          "gameName": "Sekiro",
+          "systemType": "Windows"
+        },
+        {
           "nickName": "暗影觉醒",
           "gameDocDir": "Shadows Awakening",
           "gameDocPath": "\\AppData\\LocalLow\\Games Farm\\Shadows_ Awakening",
           "gameName": "Shadows  Awakening",
           "systemType": "Windows",
           "steamId": "585450"
+        },
+        {
+          "steamId": "312660",
+          "gameName": "SniperElite4",
+          "nickName": "狙击精英4",
+          "gameDocDir": "SniperElite4",
+          "gameDocPath": "\\AppData\\Local\\SniperElite4",
+          "systemType": "Windows"
         },
         {
           "steamId": "",
@@ -275,6 +472,14 @@
           "steamId": "764790"
         },
         {
+          "steamId": "780310",
+          "nickName": "银河破裂者",
+          "gameDocDir": "The Riftbreaker",
+          "gameDocPath": "\\Documents\\The Riftbreaker",
+          "gameName": "The Riftbreaker",
+          "systemType": "Windows"
+        },
+        {
           "nickName": "岛屿生存者",
           "gameDocDir": "The Survivalists",
           "gameDocPath": "\\AppData\\LocalLow\\Team17 Digital Ltd_\\The Survivalists",
@@ -289,6 +494,14 @@
           "gameName": "The Witcher 3",
           "systemType": "Windows",
           "steamId": "292030"
+        },
+        {
+          "steamId": "1237970",
+          "nickName": "泰坦2",
+          "gameDocDir": "Titanfall2",
+          "gameDocPath": "\\Documents\\Respawn\\Titanfall2",
+          "gameName": "Titanfall2",
+          "systemType": "Windows"
         },
         {
           "nickName": "未成战士",
@@ -465,6 +678,22 @@
           "lastBackTime": null
         },
         {
+          "steamId": "814380",
+          "nickName": "只狼",
+          "gameDocDir": "Sekiro",
+          "gameDocPath": "\\AppData\\Roaming\\Sekiro",
+          "gameName": "Sekiro",
+          "systemType": "Windows"
+        },
+        {
+          "steamId": "312660",
+          "gameName": "SniperElite4",
+          "nickName": "狙击精英4",
+          "gameDocDir": "SniperElite4",
+          "gameDocPath": "\\AppData\\Local\\SniperElite4",
+          "systemType": "Windows"
+        },
+        {
           "steamId": "",
           "gameName": "StarCraft",
           "nickName": "星际争霸",
@@ -507,6 +736,22 @@
           "gamePlatform": [],
           "createTime": 1627979217301,
           "lastBackTime": 1631010082014
+        },
+        {
+          "steamId": "780310",
+          "nickName": "银河破裂者",
+          "gameDocDir": "The Riftbreaker",
+          "gameDocPath": "\\Documents\\The Riftbreaker",
+          "gameName": "The Riftbreaker",
+          "systemType": "Windows"
+        },
+        {
+          "steamId": "1237970",
+          "nickName": "泰坦2",
+          "gameDocDir": "Titanfall2",
+          "gameDocPath": "\\Documents\\Respawn\\Titanfall2",
+          "gameName": "Titanfall2",
+          "systemType": "Windows"
         },
         {
           "steamId": "408410",
