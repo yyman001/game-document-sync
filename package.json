@@ -50,6 +50,7 @@
     "vue"
   ],
   "dependencies": {
+    "@vueuse/rxjs": "^8.6.0",
     "ant-design-vue": "^3.2.4",
     "blob-to-buffer": "^1.2.9",
     "dexie": "^3.2.2",
@@ -58,6 +59,7 @@
     "eslint-config-standard": "^17.0.0",
     "fs-extra": "^10.1.0",
     "pinia": "^2.0.14",
+    "rxjs": "^7.5.5",
     "stream-to-blob": "^2.0.1",
     "vue-router": "4"
   }
