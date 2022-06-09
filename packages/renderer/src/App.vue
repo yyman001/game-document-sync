@@ -1,11 +1,10 @@
 <template>
-  
   <!-- <div class="static-public">
     Place static files into the <code>src/renderer/public</code> folder
     <img style="width:90px;" :src="'./images/node.png'" >
   </div> -->
   <a-layout>
-    <a-layout-sider 
+    <a-layout-sider
       class="layout-sider"
       collapsed-width="0">
       <div class="logo" />
@@ -32,7 +31,7 @@ import Menu from './components/Menu/index.vue'
 </script>
 
 <style lang="scss">
-@import './sass/themes.scss';
+// @import './sass/themes.scss';
 
 body, html {
   padding: 0;

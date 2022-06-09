@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.21.1",
+    "@types/blob-to-buffer": "^1.2.0",
+    "@types/fs-extra": "^9.0.13",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "@vitejs/plugin-vue": "^2.3.2",
@@ -49,9 +51,14 @@
   ],
   "dependencies": {
     "ant-design-vue": "^3.2.4",
+    "blob-to-buffer": "^1.2.9",
+    "dexie": "^3.2.2",
+    "dexie-export-import": "^1.0.3",
     "eslint": "^8.0.1",
     "eslint-config-standard": "^17.0.0",
+    "fs-extra": "^10.1.0",
     "pinia": "^2.0.14",
+    "stream-to-blob": "^2.0.1",
     "vue-router": "4"
   }
 }
