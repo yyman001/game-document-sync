@@ -50,6 +50,7 @@
     "vue"
   ],
   "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
     "@vueuse/rxjs": "^8.6.0",
     "ant-design-vue": "^3.2.4",
     "blob-to-buffer": "^1.2.9",

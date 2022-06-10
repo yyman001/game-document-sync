@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import resolve, { lib2esm } from 'vite-plugin-resolve'
 import electron from 'vite-plugin-electron/renderer'
 import pkg from '../../package.json'
@@ -17,6 +18,7 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     vue(),
+    vueJsx(),
     electron(),
     resolve(
       /**
@@ -46,21 +48,21 @@ export default defineConfig({
           // export memebers
           [
             'SerialPort',
-            'SerialPortMock',
+            'SerialPortMock'
           ],
-          { format: 'cjs' },
-        ),
+          { format: 'cjs' }
+        )
       }
-    ),
+    )
   ],
   base: './',
   build: {
     outDir: '../../dist/renderer',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: true
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,
-    port: pkg.env.VITE_DEV_SERVER_PORT,
-  },
+    port: pkg.env.VITE_DEV_SERVER_PORT
+  }
 })
