@@ -17,5 +17,6 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+    'vue/no-v-for-template-key': 'off'
   }
 }
