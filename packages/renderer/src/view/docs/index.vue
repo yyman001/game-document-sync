@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, unref } from 'vue'
+import { computed, defineComponent, toRefs, unref } from 'vue'
 import useDocs from './useDocs'
 import { horizontalCover } from '@/utils/steamPrivew'
 
@@ -27,8 +27,8 @@ export default defineComponent({
   },
 
   setup (props) {
+    const { searchText } = toRefs(props)
     const { result } = useDocs()
-    console.log('result:', result)
 
     const tableColumns = [
       {
@@ -61,7 +61,7 @@ export default defineComponent({
       if (!props.searchText) return unref(result)
 
       return unref(result).filter((game: any) => {
-        const regExp = new RegExp(props.searchText, 'i')
+        const regExp = new RegExp(unref(searchText) as string, 'i')
         return regExp.test(game.gameName) || regExp.test(game.nickName)
       })
     })
