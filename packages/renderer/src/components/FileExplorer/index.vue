@@ -21,18 +21,27 @@ export default {}
 </script>
 
 <style lang="scss">
+@import "@/sass/_var.scss";
+
 .file-explorer {
   &__header {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 10px 0;
+
     width: 100%;
     height: 100%;
-    position: relative;
+
+    background: $color-master;
+    box-shadow: 0px 0px 5px 1px rgb(158 158 158 / 20%);
   }
   &__body {
+    position: relative;
+    display: block;
+
     width: 100%;
     height: 100%;
-    display: block;
-    position: relative;
-    background: #fff;
+    background: $color-master;
   }
 }
 
@@ -43,7 +52,7 @@ export default {}
     border-bottom: 1px solid #f7f7f7;
     text-align: left;
     &:hover {
-      background-color: #efefef;
+      background-color: $color-side;
       .file__action {
         display: block;
       }

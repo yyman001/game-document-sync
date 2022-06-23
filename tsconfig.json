@@ -10,6 +10,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "strict": true,
+    "allowJs": true,
     "paths": {},
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true

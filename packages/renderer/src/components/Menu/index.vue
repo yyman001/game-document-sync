@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="menu__item" v-for="item in menuList" :key="item.key">
         <router-link
-          :class="['menu__link', selectedKeys === item.key ? 'action' : '']"
+          :class="['menu__link', selectedKeys === item.key ? 'is-active' : '']"
           :to="item.path"
           @click.stop="onMenuSelected(item)"
         >
@@ -18,7 +18,7 @@
 import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const selectedKeys = ref('games')
     const menuList = ref([
       {
@@ -64,27 +64,35 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/sass/_var.scss";
+
 .menu-wrap {
   display: flex;
   height: 100vh;
-  background-color: #fff;
+  background-color: $color-master;
 }
 
 .menu {
   width: 100%;
 
   &__item {
-    padding: 10px 8px;
+    padding:0 20px;
   }
 
   &__link {
     display: block;
-    color: #ccc;
+    padding: 10px 8px;
     line-height: 1.8;
+    border-radius: 5px;
+    text-align: left;
+    font-weight: 700;
+    color: $color-font;
+    background-color: transparent;
 
-    &:hover,
-    &.action {
-      color: #000;
+    &.is-active,
+    &:hover {
+      color: $color-font-selected;
+      background-color: $color-side;
     }
   }
 }

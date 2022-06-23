@@ -132,7 +132,7 @@ export default defineComponent({
   &__wrap {
     box-sizing: border-box;
     width: 25%;
-    padding: 0.5em 1em;
+    padding: 1em;
     overflow: hidden;
   }
 

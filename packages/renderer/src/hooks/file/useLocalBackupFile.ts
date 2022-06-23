@@ -56,7 +56,7 @@ export default function () {
 
   onMounted(() => {
     // TODO: 主线程不支持直接调用node模块
-    // loadLocalFileDirectoryItem()
+    loadLocalFileDirectoryItem()
   })
 
   return {

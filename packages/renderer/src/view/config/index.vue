@@ -1,5 +1,6 @@
 <template>
-  <a-tabs type="card" @change="callback">
+  <div class="config-page">
+    <a-tabs type="card" @change="callback">
     <a-tab-pane key="1" tab="基本设置">
       <a-checkbox> 随开机启动 </a-checkbox>
     </a-tab-pane>
@@ -79,6 +80,8 @@
 
     <a-tab-pane key="5" tab="关于"> 这是一个免费开源程序 </a-tab-pane>
   </a-tabs>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -119,7 +122,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/sass/_var.scss";
 .ant-form-item {
   margin-bottom: 12px;
+}
+.config-page {
+  background: $color-master;
 }
 </style>

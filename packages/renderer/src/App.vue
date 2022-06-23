@@ -1,11 +1,8 @@
 <template>
-  <!-- <div class="static-public">
-    Place static files into the <code>src/renderer/public</code> folder
-    <img style="width:90px;" :src="'./images/node.png'" >
-  </div> -->
   <a-layout>
     <a-layout-sider
       class="layout-sider"
+      width="250"
       collapsed-width="0">
       <div class="logo" />
       <!-- 菜单导航 -->
@@ -13,9 +10,15 @@
 
     </a-layout-sider>
     <a-layout>
-      <!-- <a-layout-header>Header</a-layout-header> -->
+      <a-layout-header class="">
+        <div class="header">
+          头部
+        </div>
+      </a-layout-header>
       <a-layout-content>
-        <router-view></router-view>
+        <div class="layout-content">
+          <router-view></router-view>
+        </div>
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
     </a-layout>
@@ -31,12 +34,13 @@ import Menu from './components/Menu/index.vue'
 </script>
 
 <style lang="scss">
-// @import './sass/themes.scss';
+@import "@/sass/_var.scss";
 
 body, html {
   padding: 0;
   margin: 0;
   height: 100%;
+  overflow: hidden;
   font-family: "Motiva Sans", Sans-serif;
 }
 
@@ -50,13 +54,20 @@ body, html {
 
   /* 重写框架样式 */
   .ant-layout-sider {
+    background: $color-master;
+    box-shadow: 14px 14px 40px 0 rgba(158, 158, 158, 0.2);
+  }
+
+  .ant-layout-header {
+    padding: 15px 15px 5px;
+    height: auto;
     background: none;
   }
 }
 
 .logo {
   height: 80px;
-  border: 1px solid #ccc;
+  // border: 1px solid #ccc;
 }
 
 .logo-box {
@@ -69,18 +80,18 @@ body, html {
   width: 74px;
 }
 
-.static-public {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.layout-content {
+  margin: 15px;
+  height: 100%;
+
+  // background: $color-master;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.static-public code {
-  background-color: #eee;
-  padding: 2px 4px;
-  margin: 0 4px;
-  border-radius: 4px;
-  color: #304455;
+.header {
+  background: $color-master;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 5px rgb(158 158 158 / 20%);
 }
-
 </style>
