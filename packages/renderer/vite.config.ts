@@ -9,10 +9,26 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-      components: path.resolve(__dirname, 'src/components')
-    }
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve(__dirname, 'src')
+      },
+      {
+        find: 'components',
+        replacement: path.resolve(__dirname, 'src/components')
+      },
+      // /@/xxxx => src/xxxx
+      {
+        find: /\/@\//,
+        replacement: path.resolve(__dirname, 'src') + '/'
+      },
+      // /#/xxxx => types/xxxx
+      {
+        find: /\/#\//,
+        replacement: path.resolve(__dirname, 'types') + '/'
+      }
+    ]
   },
   mode: process.env.NODE_ENV,
   root: __dirname,

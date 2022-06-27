@@ -12,7 +12,10 @@
     "esModuleInterop": true,
     "allowJs": true,
     "lib": ["esnext", "dom"],
+    "baseUrl": ".",
     "paths":{
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"],
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"]
      }
