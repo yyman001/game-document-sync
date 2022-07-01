@@ -18,14 +18,14 @@ export default defineConfig({
         find: 'components',
         replacement: path.resolve(__dirname, 'src/components')
       },
-      // /@/xxxx => src/xxxx
+      // @/xxxx => src/xxxx
       {
-        find: /\/@\//,
+        find: /@\//,
         replacement: path.resolve(__dirname, 'src') + '/'
       },
-      // /#/xxxx => types/xxxx
+      // #/xxxx => types/xxxx
       {
-        find: /\/#\//,
+        find: /#\//,
         replacement: path.resolve(__dirname, 'types') + '/'
       }
     ]
