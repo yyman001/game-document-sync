@@ -1,6 +1,7 @@
 <template>
   <a-row type="flex" class="file__row" :class="{'is-cloud-file': isCloudFile }">
     <a-col flex="0 50px"><slot name="checkbox"></slot></a-col>
+    <!-- 文件名 -->
     <a-col flex="auto" class="action-col">
       <div class="file__icon" :class="fileIcon"></div>
       <div class="file__name" @click="handleClick">{{fileName}}</div>
@@ -8,25 +9,24 @@
         <a-button-group>
           <a-button icon="rollback" @click="handleAction('rollback')"/>
           <a-popconfirm title="确定要删除吗？" @confirm="handleAction('delete')">
-            <a-icon slot="icon" type="question-circle-o" style="color: red" />
             <a-button icon="delete"/>
           </a-popconfirm>
           <a-button icon="folder-open" @click="handleAction('folder-open')"/>
         </a-button-group>
       </div>
     </a-col>
-    <a-col flex="0 50px" :class="{'is-disabled': disabled}">
-      <a-tooltip placement="left">
-        <slot name="title">
-          <span>{{cloudText}}</span>
-        </slot>
+    <!-- 状态 -->
+    <a-col flex="0 80px" :class="{'is-disabled': disabled}">
+      <a-tooltip placement="left" :title="cloudText">
         <div class="file__cloud-status" :class="cloudStatus" @click="handleAction(cloudType)"></div>
       </a-tooltip>
 
     </a-col>
-    <a-col flex="0 120px">{{fileSize}}</a-col>
-    <a-col flex="0 120px">{{fileTypeName}}</a-col>
-    <!--  2021-12-28 17:12  -->
+    <!-- 大小 -->
+    <a-col flex="0 100px">{{fileSize}}</a-col>
+    <!-- 类型 -->
+    <a-col flex="0 100px">{{fileTypeName}}</a-col>
+    <!--  修改时间: 2021-12-28 17:12  -->
     <a-col flex="0 200px">{{time}}</a-col>
   </a-row>
 </template>

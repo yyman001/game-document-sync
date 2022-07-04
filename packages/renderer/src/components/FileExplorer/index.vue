@@ -4,9 +4,9 @@
       <a-row type="flex">
         <a-col flex="0 50px"><slot name="checkbox"/></a-col>
         <a-col flex="auto">文件名</a-col>
-        <a-col flex="0 50px" style="text-align: center;">状态</a-col>
-        <a-col flex="0 120px">大小</a-col>
-        <a-col flex="0 120px">类型</a-col>
+        <a-col flex="0 80px" style="text-align: center;">状态</a-col>
+        <a-col flex="0 100px">大小</a-col>
+        <a-col flex="0 100px">类型</a-col>
         <a-col flex="0 200px">修改时间</a-col>
       </a-row>
     </div>
@@ -112,7 +112,7 @@ export default {}
   }
   background-repeat: no-repeat;
   background-position: 50%;
-  background-size: 55%;
+  background-size: 35%;
 }
   // 操作
   &__action {

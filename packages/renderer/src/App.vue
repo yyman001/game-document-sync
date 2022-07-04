@@ -49,7 +49,6 @@ body, html {
   height: 100%;
 
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
   color: #2c3e50;
 
   /* 重写框架样式 */
