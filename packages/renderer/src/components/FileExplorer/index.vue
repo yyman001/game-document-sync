@@ -25,7 +25,10 @@ export default {}
 
 .file-explorer {
   &__header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 9;
+
     margin-bottom: 10px;
     padding: 10px 0;
 
