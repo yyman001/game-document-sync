@@ -7,13 +7,13 @@
     />
     <FileExplorer>
       <div class="file-content">
-        <!-- 一级文件夹 -->
-        <template :key="item.basename" v-for="item in directoryItem">
+        <!-- 文件夹/文件 -->
           <FileItem
-            v-show="!activeDirectoryName"
+            v-for="item in fileList"
+            :key="item.basename"
             :fileName="item.basename"
             :fileType="item.type"
-            :fileSize="formatFileSize(folderSize(item.basename))"
+            :fileSize="formatFileSize(fileOrDirSize(item))"
             :item="item"
             :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
             :isSyncSuccess="false"
@@ -22,30 +22,14 @@
             @handleOpenFile="handleOpenFile"
             @handleAction="handleAction"
           />
-        </template>
 
-        <!-- 二级文件列表 -->
-        <FileItem
-          :key="item.basename"
-          :fileType="item.type"
-          :fileName="item.basename"
-          :fileSize="formatFileSize(item.size)"
-          :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
-          :item="item"
-          :isSyncSuccess="false"
-          :isCloudFile="!item.path"
-          :disabled="false"
-          v-for="item in fileList"
-          @handleOpenFile="handleOpenFile"
-          @handleAction="handleAction"
-        />
       </div>
     </FileExplorer>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 import FileExplorer from '@/components/FileExplorer/index.vue'
 import FileItem from '@/components/FileExplorer/FileItem.vue'
 
@@ -83,13 +67,31 @@ export default defineComponent({
     }
 
     const fileList = computed(() => {
+      // 未选择文件夹, 返回文件夹列表
+      if (!unref(activeDirectoryName)) return unref(directoryItem)
+
+      // 返回文件夹文件列表
       return getChildrenByLocalAndCloud(unref(activeDirectoryName))
     })
 
     // TODO
     const folderSize = (directoryName: string) => {
-      return 0
+      return getChildrenByLocalAndCloud(directoryName).reduceRight(
+        (accumulator: number, currentFile: any) => {
+          return accumulator + currentFile.size
+        }, 0
+      )
     }
+
+    const fileOrDirSize = (file: any) => {
+      if (file.type === 'directory') {
+        return folderSize(file.basename)
+      }
+
+      return file.size
+    }
+
+    console.log('fileList:', fileList)
 
     return {
       activeDirectoryName,
@@ -106,6 +108,7 @@ export default defineComponent({
 
       formatTimestamp,
       formatFileSize,
+      fileOrDirSize,
 
       handleOpenFile,
       handleAction
