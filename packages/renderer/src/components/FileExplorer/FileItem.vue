@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     handleClick () {
-      this.$emit('handleClick', {
+      this.$emit('handleOpenFile', {
         ...this.item,
         fileType: this.item.type
       })

@@ -1,5 +1,10 @@
 <template>
   <div class="backup">
+    <a-page-header
+      v-show="activeDirectoryName"
+      :title="activeDirectoryName"
+      @back="handleSetDirectory()"
+    />
     <FileExplorer>
       <div class="file-content">
         <!-- 一级文件夹 -->
@@ -14,6 +19,8 @@
             :isSyncSuccess="false"
             :isCloudFile="!item.path"
             :disabled="true"
+            @handleOpenFile="handleOpenFile"
+            @handleAction="handleAction"
           />
         </template>
 
@@ -29,6 +36,8 @@
           :isCloudFile="!item.path"
           :disabled="false"
           v-for="item in fileList"
+          @handleOpenFile="handleOpenFile"
+          @handleAction="handleAction"
         />
       </div>
     </FileExplorer>
@@ -45,6 +54,8 @@ import useLocalBackupFile from '@/hooks/file/useLocalBackupFile'
 import { formatTimestamp } from '@/utils/formatTimestamp'
 import { formatFileSize } from '@/utils/formatFileSize'
 
+import useFile from './useFile'
+
 export default defineComponent({
   components: { FileExplorer, FileItem },
   props: {
@@ -59,11 +70,7 @@ export default defineComponent({
       getDirectoryChildren
     } = useLocalBackupFile()
 
-    // 当前打开的文件夹
-    const activeDirectoryName = ref<string>('')
-    const handleSetDirectory = (directoryName = '') => {
-      activeDirectoryName.value = directoryName
-    }
+    const { activeDirectoryName, handleSetDirectory, handleOpenFile, handleAction } = useFile()
 
     // 本地文件列表 + 云文件列表
     const getChildrenByLocalAndCloud = (gameDocDir: string) => {
@@ -98,11 +105,13 @@ export default defineComponent({
       folderSize,
 
       formatTimestamp,
-      formatFileSize
+      formatFileSize,
+
+      handleOpenFile,
+      handleAction
     }
   }
 })
 </script>
 
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>
