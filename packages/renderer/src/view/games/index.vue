@@ -1,10 +1,12 @@
 <template>
   <div class="card-content">
+  <button @click="refreshScanGames">刷新</button>
     <div class="card-box">
       <Card
         :key="item.gameName"
         v-for="item in list"
         :item="item"
+        :hasGameDoc="hasGameDoc(item.gameDocDir)"
       />
     </div>
   </div>
@@ -15,7 +17,9 @@ import { defineComponent, computed, unref, toRefs, Ref } from 'vue'
 import Card from '@/components/Card/index.vue'
 
 import useGames from './useGames'
-import { GameItem } from '@/model'
+import useScanGamesDoc from './useScanGamesDoc'
+
+import { GameItem } from '../../model'
 
 export default defineComponent({
   components: { Card },
@@ -27,6 +31,7 @@ export default defineComponent({
   setup (props) {
     const { searchText } = toRefs(props)
     const { gameList } = useGames()
+    const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
 
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
@@ -40,7 +45,9 @@ export default defineComponent({
     })
 
     return {
-      list
+      list,
+      hasGameDoc,
+      refreshScanGames
     }
   }
 })

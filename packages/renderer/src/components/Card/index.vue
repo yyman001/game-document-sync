@@ -7,8 +7,8 @@
         <div class="card__info">
           <div class="card__name">{{ item.gameName }}</div>
           <div class="card__buttons">
-            <a-button :disabled="!hasDoc" type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
-            <a-button :disabled="!hasDoc" type="primary" size="small" @click.stop="onClick('backup')">备份</a-button>
+            <a-button :disabled="!hasGameDoc" type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
+            <a-button :disabled="!hasGameDoc" type="primary" size="small" @click.stop="onClick('backup')">备份</a-button>
           </div>
           <div>
             <slot></slot>
@@ -34,7 +34,7 @@ import { horizontalCover, verticalCover } from '@/utils/steamPrivew'
 export default defineComponent({
   components: {},
   props: {
-    hasDoc: {
+    hasGameDoc: {
       type: Boolean,
       default: false
     },
@@ -49,7 +49,7 @@ export default defineComponent({
     })
 
     const cardStyle = computed(() => {
-      return [props.hasDoc ? '' : 'is-empty', `card--border-shadow${props.hasDoc ? '' : '__empty'}`]
+      return [props.hasGameDoc ? '' : 'is-empty', `card--border-shadow${props.hasGameDoc ? '' : '__empty'}`]
     })
 
     const onClick = (type: string) => {
