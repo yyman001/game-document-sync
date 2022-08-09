@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { app, BrowserWindow, shell } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
@@ -16,14 +17,17 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null
 
-async function createWindow() {
+async function createWindow () {
   win = new BrowserWindow({
     title: 'Main window',
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
+      // 设置为true就可以在这个渲染进程中调用Node.js
       nodeIntegration: true,
       contextIsolation: false,
-    },
+      // 允许跨域请求
+      webSecurity: false
+    }
   })
 
   if (app.isPackaged) {

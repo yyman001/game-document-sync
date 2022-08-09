@@ -7,7 +7,15 @@
       <div class="logo" />
       <!-- 菜单导航 -->
       <Menu />
-
+      <div class="cloud-select">
+      <a-select
+        style="width: 100px;"
+        size="small"
+        v-model:value="cloudType"
+        :options="cloudOptions"
+      ></a-select>
+      <a-button @click="reLoadCloudData"><ReloadOutlined /></a-button>
+    </div>
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="">
@@ -28,8 +36,21 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 import Menu from './components/Menu/index.vue'
+import { ReloadOutlined } from '@ant-design/icons-vue'
+
+import useCloudConfig from '@/hooks/cloud/useCloudConfig'
+import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
+import { useCloudStoreWhitOut } from '@/store/cloud'
+
+const cloudStore = useCloudStoreWhitOut()
+const cloudFileStore = useCloudFileStoreWhitOut()
+const { cloudType, cloudOptions } = useCloudConfig()
+
+const reLoadCloudData = () => {
+  cloudFileStore.switchCloudAccount(cloudStore.targetCloudAccount)
+}
 
 </script>
 
@@ -92,5 +113,12 @@ body, html {
   background: $color-master;
   border-radius: 8px;
   box-shadow: 0 0 10px 5px rgb(158 158 158 / 20%);
+}
+
+.cloud-select {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 9;
 }
 </style>
