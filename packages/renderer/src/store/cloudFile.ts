@@ -20,14 +20,9 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
     fileItems: [] as WebDavFile[]
   })
 
-  // 云文件夹项
-  const coludDirectoryItems = computed(() => {
-    return coludItems.coludDirectoryItems.filter(f => f.type === 'directory')
-  })
-
   // 云文件夹名列表
   const cloudDirectorys = computed(() => {
-    return unref(coludDirectoryItems).map(x => x.basename)
+    return coludItems.coludDirectoryItems.map(x => x.basename)
   })
 
   // 云文件名列表
@@ -77,7 +72,7 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
     cloudObject.getDirectoryStructure()
       .then(({ directoryItems, fileItems }) => {
         coludItems.coludDirectoryItems = directoryItems
-        coludItems.fileItems = fileItems.map((f: FileItem) => {
+        coludItems.fileItems = fileItems.map((f: WebDavFile) => {
           return {
             ...f,
             // 转换云文件文件名为 本地格式, 方便对比数据
@@ -130,7 +125,6 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
     cloudDirectorys,
 
     cloudFilesName,
-    coludDirectoryItems,
 
     uploadFile,
     downloadCloudFile,

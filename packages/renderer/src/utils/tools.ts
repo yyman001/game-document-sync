@@ -7,6 +7,8 @@
  * @FilePath: \game-document-sync\src\utils\index.js
  */
 
+import { FileItem } from '@/model'
+
 const fs = require('fs')
 // https://www.npmjs.com/package/rd
 const rd = require('rd')
@@ -122,4 +124,24 @@ export function getDirectoryItem (filePath: string) {
       }
     )
   })
+}
+
+/**
+ * 获取文件夹列表
+ *
+ * @param list <FileItem>
+ * @returns Array<dir>
+ */
+export function getDirItems (list: FileItem[]) {
+  return list.filter(f => f.type === 'directory')
+}
+
+/**
+ * 获取文件列表
+ *
+ * @param list <FileItem>
+ * @returns Array<file>
+ */
+export function getFileItems (list: FileItem[]) {
+  return list.filter(f => f.type === 'file')
 }

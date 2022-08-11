@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer'
 import { createClient } from 'webdav/web'
+import { getDirItems } from './tools'
 const fs = require('fs-extra')
 export default class WebDav {
   /**
@@ -101,7 +102,7 @@ export default class WebDav {
 
     return {
       // todo:? 过滤非文件夹
-      directoryItems: rootDirectoryItems,
+      directoryItems: getDirItems(rootDirectoryItems),
       fileItems
     }
   }

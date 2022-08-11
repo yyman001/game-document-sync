@@ -2,7 +2,6 @@ import { computed, unref } from 'vue'
 import useLocalBackupFile from '@/hooks/file/useLocalBackupFile'
 
 import useFile from './useFile'
-import useCloud from '@/hooks/cloud/useCloud'
 // import { storeToRefs } from 'pinia'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 
@@ -45,7 +44,7 @@ export default function () {
 
   // 未同步到云盘的本地文件
   const localSyncDirectory = computed(() => {
-    return directoryItem.value.filter(file => !cloudFileStore.cloudDirectorys.value.includes(file.basename))
+    return directoryItem.value.filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
   })
 
   const allDirectory = computed(() => {
