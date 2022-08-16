@@ -11,18 +11,17 @@ export let cloudObject = {}
 
 export const useCloudFileStore = defineStore('cloudFile', () => {
   const cloudStore = useCloudStoreWhitOut()
-  console.log('cloudStore', cloudStore)
 
   const { loading: messageLoading, success: messageSuccess, error: messageError } = message
   const isColudLoading = ref(false)
   const coludItems = reactive({
-    coludDirectoryItems: [] as WebDavDirectory[],
+    directoryItem: [] as WebDavDirectory[],
     fileItems: [] as WebDavFile[]
   })
 
   // 云文件夹名列表
   const cloudDirectorys = computed(() => {
-    return coludItems.coludDirectoryItems.map(x => x.basename)
+    return coludItems.directoryItem.map(x => x.basename)
   })
 
   // 云文件名列表
@@ -71,7 +70,7 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
 
     cloudObject.getDirectoryStructure()
       .then(({ directoryItems, fileItems }) => {
-        coludItems.coludDirectoryItems = directoryItems
+        coludItems.directoryItem = directoryItems
         coludItems.fileItems = fileItems.map((f: WebDavFile) => {
           return {
             ...f,

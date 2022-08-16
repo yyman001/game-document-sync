@@ -19,10 +19,10 @@ export default function () {
   console.log('cloudFileStore:', cloudFileStore)
   // 未同步的云文件夹
   const cloudSynchronizationDirectory = computed(() => {
-    return unref(cloudFileStore.coludDirectoryItems)
+    return unref(cloudFileStore.coludItems.coludDirectoryItems)
       .filter(file => !localDirectoryListName.value.includes(file.basename))
       .map((f) => {
-      // TODO: 使用 path 作为云下载标识?
+        // 使用 path 作为云下载标识
         return { ...f, timeStamp: f.lastmod, path: '' }
       })
   })
@@ -30,7 +30,6 @@ export default function () {
   // 云文件注入本地文件参数
   const cloudSynchronizationFile = computed(() => {
     // 过滤已经存在的云文件(已同步): 云文件 过滤 本地文件
-
     return cloudFileStore.coludItems.fileItems
       .filter(f => !localFileListName.value.includes(f.comparsedName))
       .map((f) => {
