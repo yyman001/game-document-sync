@@ -16,6 +16,7 @@
     "node": ">=14.17.0"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.16.4",
     "@playwright/test": "^1.21.1",
     "@types/blob-to-buffer": "^1.2.0",
     "@types/fs-extra": "^9.0.13",

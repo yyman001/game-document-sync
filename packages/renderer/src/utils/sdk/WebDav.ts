@@ -1,8 +1,16 @@
 import { Buffer } from 'buffer'
 import { createClient } from 'webdav/web'
-import { getDirItems } from './tools'
+import { getDirItems } from '../tools'
 const fs = require('fs-extra')
+
 export default class WebDav {
+  url: any
+  usearname: any
+  password: any
+  rootDirectoryName: any
+  loading: boolean
+  client: any
+
   /**
    * 初始化数据
    *
@@ -11,7 +19,7 @@ export default class WebDav {
    * @param {*} password - 密码
    * @param {*} rootDirectoryName - 指定根目录
    */
-  constructor ({ url, usearname, password, rootDirectoryName = '' }) {
+  constructor ({ url, usearname, password, rootDirectoryName = '' }: any) {
     if (!url || !usearname || !password) {
       throw new Error('must input url&usearname&password!')
     }
@@ -21,7 +29,7 @@ export default class WebDav {
     this.rootDirectoryName = rootDirectoryName
     this.client = null
     this.loading = false
-    this.getWebDavClient()
+    this.getClient()
   }
 
   /**
@@ -29,7 +37,7 @@ export default class WebDav {
    *
    * @returns { webdav } client
    */
-  getWebDavClient = () => {
+  getClient = () => {
     if (this.client) return this.client
 
     this.client = createClient(this.url, {
@@ -61,7 +69,7 @@ export default class WebDav {
     * @param {String} filename 文件名
     * @returns
     */
-  getFileContents = async (filename) => {
+  getFileContents = async (filename: string) => {
     const fileBuffer = await this.client.getFileContents(filename)
     return fileBuffer
   }
@@ -112,7 +120,7 @@ export default class WebDav {
    *
    * @param {String} path 创建目录路径
    */
-  ensureDir = async (path) => {
+  ensureDir = async (path: string) => {
     try {
       await this.client.createDirectory(path)
       return true
@@ -132,7 +140,7 @@ export default class WebDav {
    * @param {Function} progressFn 上传进度回调函数
    * @returns {Promise<Boolean>} 是否成功
    */
-  uploadFile = async (filePath, gameDocDir, fileName, isOverwrite = false, cb, progressFn) => {
+  uploadFile = async (filePath: Buffer | string, gameDocDir: string, fileName: string, isOverwrite: boolean = false, cb: Function, progressFn: Function): Promise<boolean> => {
     try {
       let fileBuffer
       if (typeof filePath === 'string') {
@@ -141,7 +149,7 @@ export default class WebDav {
         fileBuffer = filePath
       }
 
-      const onUploadProgress = progress => {
+      const onUploadProgress = (progress: any) => {
         progressFn(gameDocDir, fileName, progress)
       }
       // 确保根目录存在
@@ -170,7 +178,7 @@ export default class WebDav {
     * @param {Function} progressFn - 下载进度回调
     * @returns {Promise<Boolean>} - 是否成功
     */
-  downloadFile = async (coludFilename, writeFilePath, cb, progressFn) => {
+  downloadFile = async (coludFilename: string, writeFilePath: string, cb: Function, progressFn: Function): Promise<boolean> => {
     const onDownloadProgress = progress => {
       progressFn(coludFilename, writeFilePath, progress)
     }

@@ -1,7 +1,7 @@
 // 云操作文件
 import { ref, unref, reactive, computed } from 'vue'
-import WebDav from '@/utils/WebDav'
-// import { AliOssSDK } from '../utils/ali-oss'
+import WebDav from '@/utils/sdk/WebDav'
+import { AliOssSDK } from '@/utils/sdk/AliOss'
 import { message } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 import { useCloudStoreWhitOut } from '@/store/cloud'
@@ -42,7 +42,7 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
         cloudObject = new WebDav(targetCloudAccount)
         break
       case 'ali-oss':
-        // cloudObject = new AliOssSDK(targetCloudAccount)
+        cloudObject = new AliOssSDK(targetCloudAccount)
         break
       default:
         throw new Error('未定义云类型!')
