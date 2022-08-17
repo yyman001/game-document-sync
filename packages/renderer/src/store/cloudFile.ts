@@ -1,6 +1,6 @@
 // 云操作文件
 import { ref, unref, reactive, computed } from 'vue'
-import WebDav from '@/utils/WebDav'
+import WebDav from '@/utils/sdk/WebDav'
 // import { AliOssSDK } from '../utils/ali-oss'
 import { message } from 'ant-design-vue'
 import { defineStore } from 'pinia'
