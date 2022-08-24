@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, toRefs, unref } from 'vue'
-import useDocs from './useDocs'
+import useDocs from '@/hooks/db/useDocs'
 import { horizontalCover } from '@/utils/steamPrivew'
 
 export default defineComponent({

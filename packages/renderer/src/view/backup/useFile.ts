@@ -36,9 +36,11 @@ export default function () {
         break
       case 'cloud-down':
         // 云下载
+        downloadCloudFile(file)
         break
       case 'cloud-up':
         // 云上传
+        uploadFile(file)
         break
       default:
         break

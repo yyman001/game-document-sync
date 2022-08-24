@@ -2,32 +2,35 @@ import { ref, unref } from 'vue'
 import { message } from 'ant-design-vue'
 import path from 'path'
 import useSystem from '../core/useSystem'
+import useGames from '@/hooks/db/useGames'
+import useBackup from '@/hooks/db/useBackup'
+import { backupFile } from '@/utils/file'
 
-export default function (gameDocPath:string, gameDocDir:string, saveFiles:string[]) {
+export default function () {
   const rootDir = ''
   const { HOME_DIR, SYSTEM_TYPE } = useSystem()
   const { success: messageSuccess, error: messageError } = message
 
   const { searchGame } = useGames()
   const { addBackup } = useBackup()
-  const { backupFile } = useBackupFile()
 
   const remask = ref('')
   const loading = ref(false)
   // eslint-disable-next-line no-unused-vars
   const progress = ref(0) // 进度条
-  const docPatch = path.join(HOME_DIR, gameDocPath)
-  const backPatch = path.join(rootDir, 'backup', gameDocDir)
-  const tempPatch = path.join(rootDir, 'temp', gameDocDir)
 
-  const onStartBackup = async () => {
+  const onStartBackup = async (gameDocPath:string, gameDocDir:string, saveFiles:string[]) => {
+    const docPatch = path.join(HOME_DIR, gameDocPath)
+    const backPatch = path.join(rootDir, 'backup', gameDocDir)
+    const tempPatch = path.join(rootDir, 'temp', gameDocDir)
+
     if (!unref(saveFiles).length) return messageError('请勾选要备份的文件!')
 
     loading.value = true
     const game = await searchGame(gameDocDir)
-    if (!game) return messageError('查找游戏数据异常!')
+    if (!game) return messageError('未查找游戏数据!')
 
-    const [errorText, backupData] = await backupFile({ docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value, saveFiles: unref(saveFiles) })
+    const [errorText, backupData] = await backupFile({ HOME_DIR, docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value, saveFiles: unref(saveFiles) })
     if (errorText) {
       messageError(errorText)
       return
@@ -57,8 +60,6 @@ export default function (gameDocPath:string, gameDocDir:string, saveFiles:string
   }
 
   return {
-    docPatch,
-    backPatch,
     onStartBackup,
     remask,
     loading

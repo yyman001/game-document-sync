@@ -19,7 +19,7 @@ import { defineComponent, computed, unref, toRefs, Ref, ref } from 'vue'
 import Card from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
-import useGames from './useGames'
+import useGames from '../../hooks/db/useGames'
 import useScanGamesDoc from './useScanGamesDoc'
 
 import { GameItem } from '../../model'

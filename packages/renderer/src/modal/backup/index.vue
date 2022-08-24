@@ -32,7 +32,7 @@
 
     <div class="steps-action">
       <a-button @click="$emit('handleClose')"> 取消 </a-button>
-      <a-button :disabled="loading" type="primary" @click="onStartBackup"> 备份 </a-button>
+      <a-button :disabled="loading" type="primary" @click="handleStartBackup"> 备份 </a-button>
     </div>
   </a-modal>
 </template>
@@ -59,7 +59,7 @@ export default defineComponent({
     const { visible, gameDocPath, gameDocDir } = toRefs(props)
     const { HOME_DIR } = useSystem()
     const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
-    const { loading, onStartBackup } = useBackupFile(gameDocPath, gameDocDir, selectedKeys)
+    const { loading, onStartBackup } = useBackupFile()
     watch(
       () => unref(visible),
       isVisible => {
@@ -72,6 +72,10 @@ export default defineComponent({
       }
     )
 
+    const handleStartBackup = () => {
+      onStartBackup(unref(gameDocPath), unref(gameDocDir), unref(selectedKeys))
+    }
+
     return {
       expandedKeys,
       selectedKeys,
@@ -80,7 +84,7 @@ export default defineComponent({
 
       openItem,
       loading,
-      onStartBackup
+      handleStartBackup
     }
   }
 })

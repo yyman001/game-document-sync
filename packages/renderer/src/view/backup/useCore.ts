@@ -1,6 +1,6 @@
 import { computed, unref } from 'vue'
+import path from 'path'
 import useLocalBackupFile from '@/hooks/file/useLocalBackupFile'
-
 import useFile from './useFile'
 // import { storeToRefs } from 'pinia'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
@@ -120,6 +120,20 @@ export default function () {
     return getFolderSyncStatus(item)
   }
 
+  const downloadFile = async (file: any, dirname: string) => {
+    // 组成: 配置的存档文件夹/游戏目录/游戏存档文件.后缀
+    // eg: "/games_doc_sync/test/game.file.config.json"
+    const downloadUrl = file.filename
+    // TODO: 备份文件夹名称读配置
+    const filePath = path.join(rootDir.value, 'backup', dirname, file.basename)
+    // TODO: 下载方法迁移到 cloud 模块
+    cloudFileStore.downloadCloudFile(downloadUrl, filePath, () => {
+      file.path = filePath
+      file.dirname = dirname
+      fileItem.value.push(file)
+    })
+  }
+
   return {
     activeDirectoryName,
     handleSetDirectory,
@@ -138,6 +152,7 @@ export default function () {
     handleOpenFile,
     handleAction,
 
-    getSyncStatus
+    getSyncStatus,
+    downloadFile
   }
 }
