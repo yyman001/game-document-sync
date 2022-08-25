@@ -21,24 +21,23 @@
 
       <a-row>
         <a-input addon-before="备份路径:" :value="backPatch">
-          <a-icon slot="addonAfter" type="setting" />
         </a-input>
       </a-row>
 
       <a-row>
-        <a-input addon-before="备注:" v-model:value="remask"> </a-input>
+        <a-textarea addon-before="备注:" v-model:value="remask"> </a-textarea>
       </a-row>
     </div>
 
     <div class="steps-action">
-      <a-button @click="$emit('handleClose')"> 取消 </a-button>
+      <a-button @click="onModalClose"> 取消 </a-button>
       <a-button :disabled="loading" type="primary" @click="handleStartBackup"> 备份 </a-button>
     </div>
   </a-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, unref, watch } from 'vue'
+import { defineComponent, inject, InjectionKey, toRefs, unref, watch } from 'vue'
 import FieldSetGroup from '@/components/FieldSetGroup/index.vue'
 
 import useDocTree from '@/hooks/file/useDocTree'
@@ -46,7 +45,8 @@ import useSystem from '@/hooks/core/useSystem'
 import useBackupFile from '@/hooks/file/useBackupFile'
 
 import { openItem } from '@/utils/shell'
-import { getPath } from '@/utils'
+import { getPath, injectStrict } from '@/utils'
+import { Modal, modal } from '@/hooks/useModal'
 
 export default defineComponent({
   name: 'modal-backup',
@@ -56,6 +56,7 @@ export default defineComponent({
   props: ['visible', 'gameDocPath', 'gameDocDir'],
 
   setup (props: any) {
+    const { onModalClose } = injectStrict<Modal>(modal)
     const { visible, gameDocPath, gameDocDir } = toRefs(props)
     const { HOME_DIR } = useSystem()
     const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
@@ -85,7 +86,9 @@ export default defineComponent({
 
       openItem,
       loading,
-      handleStartBackup
+      handleStartBackup,
+
+      onModalClose
     }
   }
 })

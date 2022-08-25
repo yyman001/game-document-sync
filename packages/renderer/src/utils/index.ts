@@ -1,7 +1,6 @@
 import type { RouteLocationNormalized, RouteRecordNormalized } from 'vue-router'
-import type { App, Plugin } from 'vue'
+import { App, inject, InjectionKey, Plugin, unref } from 'vue'
 
-import { unref } from 'vue'
 import { isObject } from '@/utils/is'
 import { join } from 'path'
 
@@ -102,4 +101,12 @@ export const getBackupPath = (...params: any) => {
 
 export const getTempPath = (...params: any) => {
   return getPath((window as any).APP_HOME_DIR, 'temp', ...params)
+}
+
+export function injectStrict<T> (key: InjectionKey<T>, fallback?: T) {
+  const resolved = inject(key, fallback)
+  if (!resolved) {
+    throw new Error(`Could not resolve ${key.description}`)
+  }
+  return resolved
 }

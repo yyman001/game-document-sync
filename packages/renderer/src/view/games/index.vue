@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, unref, toRefs, Ref, ref } from 'vue'
+import { defineComponent, computed, unref, toRefs, Ref, ref, provide } from 'vue'
 import Card from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
-import useGames from '../../hooks/db/useGames'
+import useGames from '@/hooks/db/useGames'
 import useScanGamesDoc from './useScanGamesDoc'
+import useModel, { modal } from '@/hooks/useModal'
 
 import { GameItem } from '../../model'
-
 export default defineComponent({
   components: { Card, ModalBackUp },
 
@@ -35,7 +35,7 @@ export default defineComponent({
     const { searchText } = toRefs(props)
     const { gameList } = useGames()
     const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
-
+    const { isVisible, onModalOpen, onModalClose } = useModel()
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
 
@@ -47,9 +47,13 @@ export default defineComponent({
       })
     })
 
-    const isVisible = ref(false)
     const gameDocPath = ref('')
     const gameDocDir = ref('')
+
+    // 注入参数
+    provide(modal, {
+      onModalClose
+    })
 
     const handleClick = ([type, data]) => {
       console.log('data', data)
@@ -60,7 +64,7 @@ export default defineComponent({
         case 'backup':
           gameDocPath.value = data.gameDocPath
           gameDocDir.value = data.gameDocDir
-          isVisible.value = true
+          onModalOpen()
           break
 
         case 'editor':
