@@ -42,7 +42,7 @@ async function createWindow () {
 
   // Test active push message to Renderer-process
   win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString())
+    win?.webContents.send('main-process-message', app.getPath('exe'))
   })
 
   // Make all links open with the browser, not with the application

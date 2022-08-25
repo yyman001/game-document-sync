@@ -2,7 +2,8 @@ import type { RouteLocationNormalized, RouteRecordNormalized } from 'vue-router'
 import type { App, Plugin } from 'vue'
 
 import { unref } from 'vue'
-import { isObject } from '/@/utils/is'
+import { isObject } from '@/utils/is'
+import path from 'path'
 
 export const noop = () => {}
 
@@ -89,4 +90,16 @@ export const withInstall = <T>(component: T, alias?: string) => {
     }
   }
   return component as T & Plugin
+}
+
+export const getPath = (inputPath:string[]) => {
+  return path.join.apply(path, inputPath)
+}
+
+export const getAppDirPath = (path:string):string => {
+  if (/node_modules/.test(path)) {
+    return path.split('node_modules')[0]
+  }
+
+  return path.replace('game-document-sync.exe', '')
 }
