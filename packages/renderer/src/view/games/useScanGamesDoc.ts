@@ -1,7 +1,7 @@
 import { Ref, ref, unref, watch } from 'vue'
 import useSystem from '@/hooks/core/useSystem'
-import path from 'path'
 import { GameItem } from '@/model'
+import { getPath } from '@/utils/index'
 const fs = require('fs-extra')
 
 export default function (gameList: Readonly<Ref<any>>) {
@@ -25,7 +25,7 @@ export default function (gameList: Readonly<Ref<any>>) {
     for (let i = 0; i < docList.length; i++) {
       // TODO: 目前先判断是否有 存档目录, 后面精确到某个文件的存档再另外确定字段
       const { gameDocDir, gameDocPath } = docList[i]
-      const docPath = path.join(HOME_DIR, gameDocPath)
+      const docPath = getPath(HOME_DIR, gameDocPath)
       const exists = await fs.pathExists(docPath)
       exists && mapGames.value.push(gameDocDir)
     }

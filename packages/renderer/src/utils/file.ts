@@ -1,6 +1,7 @@
 import { copy, ensureDir, remove } from '@/utils/FileClass'
 import { compressDir, unCompress } from '@/utils/compressClass'
 import path from 'path'
+import { getPath } from '@/utils/index'
 const fs = require('fs-extra')
 
 /**
@@ -34,7 +35,7 @@ export const backupFile = async ({
   const timeStamp = Date.now()
   const fileName = `${gameDocDir}_t${timeStamp}`
   // 保存文件路径
-  const savePath = path.join(backPatch, fileName)
+  const savePath = getPath(backPatch, fileName)
   // 压缩存档
   const [compressError, compressData] = await compressDir(tempPatch, savePath, platform)
 
@@ -74,6 +75,6 @@ export const restoreFile = async (backPatch: string, docPatch: string) => {
 export const customRestoreFile = async (homedir: string, backPatch:string, gameItem: any) => {
   const { gameDocPath, gameDocDir } = gameItem
   if (backPatch.indexOf(gameDocDir) === -1) throw new Error('无效文件!')
-  const docPath = path.join(homedir, gameDocPath.replace(gameDocDir, ''))
+  const docPath = getPath(homedir, gameDocPath.replace(gameDocDir, ''))
   return restoreFile(backPatch, docPath)
 }

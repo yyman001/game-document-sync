@@ -1,13 +1,12 @@
 import { ref, unref } from 'vue'
 import { message } from 'ant-design-vue'
-import path from 'path'
 import useSystem from '../core/useSystem'
 import useGames from '@/hooks/db/useGames'
 import useBackup from '@/hooks/db/useBackup'
 import { backupFile } from '@/utils/file'
+import { getBackupPath, getPath, getTempPath } from '@/utils/index'
 
 export default function () {
-  const rootDir = ''
   const { HOME_DIR, SYSTEM_TYPE } = useSystem()
   const { success: messageSuccess, error: messageError } = message
 
@@ -20,9 +19,9 @@ export default function () {
   const progress = ref(0) // 进度条
 
   const onStartBackup = async (gameDocPath:string, gameDocDir:string, saveFiles:string[]) => {
-    const docPatch = path.join(HOME_DIR, gameDocPath)
-    const backPatch = path.join(rootDir, 'backup', gameDocDir)
-    const tempPatch = path.join(rootDir, 'temp', gameDocDir)
+    const docPatch = getPath(HOME_DIR, gameDocPath)
+    const backPatch = getBackupPath(gameDocDir)
+    const tempPatch = getTempPath(gameDocDir)
 
     if (!unref(saveFiles).length) return messageError('请勾选要备份的文件!')
 
@@ -32,7 +31,7 @@ export default function () {
 
     const [errorText, backupData] = await backupFile({ HOME_DIR, docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value, saveFiles: unref(saveFiles) })
     if (errorText) {
-      messageError(errorText)
+      messageError(errorText as string)
       return
     }
 

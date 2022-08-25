@@ -3,7 +3,7 @@ import type { App, Plugin } from 'vue'
 
 import { unref } from 'vue'
 import { isObject } from '@/utils/is'
-import path from 'path'
+import { join } from 'path'
 
 export const noop = () => {}
 
@@ -92,8 +92,8 @@ export const withInstall = <T>(component: T, alias?: string) => {
   return component as T & Plugin
 }
 
-export const getPath = (inputPath:string[]) => {
-  return path.join.apply(path, inputPath)
+export const getPath = (...params: any) => {
+  return join(...params)
 }
 
 export const getAppDirPath = (path:string):string => {
@@ -102,4 +102,12 @@ export const getAppDirPath = (path:string):string => {
   }
 
   return path.replace('game-document-sync.exe', '')
+}
+
+export const getBackupPath = (...params: any) => {
+  return getPath((window as any).APP_HOME_DIR, 'backup', ...params)
+}
+
+export const getTempPath = (...params: any) => {
+  return getPath((window as any).APP_HOME_DIR, 'temp', ...params)
 }

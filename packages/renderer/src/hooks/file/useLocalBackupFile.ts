@@ -1,6 +1,7 @@
 import { ref, computed, onMounted, unref } from 'vue'
 import { getDirectoryItem } from '@/utils/tools'
 import path from 'path'
+import { getBackupPath } from '@/utils'
 
 export default function () {
   const rootDir = ''
@@ -19,7 +20,7 @@ export default function () {
   const loadLocalFileDirectoryItem = async () => {
     try {
       // TODO: 获取配置的 备份文件夹
-      const filePath = path.join(rootDir, 'backup')
+      const filePath = getBackupPath()
       const list = await getDirectoryItem(filePath)
       directoryItem.value = list.filter(f => f.type === 'directory')
       // 移除第一个备份目录
@@ -41,17 +42,7 @@ export default function () {
   }
 
   const downloadFile = async (file: any, dirname: string) => {
-    // 组成: 配置的存档文件夹/游戏目录/游戏存档文件.后缀
-    // eg: "/games_doc_sync/test/game.file.config.json"
-    const downloadUrl = file.filename
-    // TODO: 备份文件夹名称读配置
-    const filePath = path.join(rootDir.value, 'backup', dirname, file.basename)
-    // TODO: 下载方法迁移到 cloud 模块
-    /* downloadCloudFile(downloadUrl, filePath, () => {
-      file.path = filePath
-      file.dirname = dirname
-      fileItem.value.push(file)
-    }) */
+
   }
 
   onMounted(() => {

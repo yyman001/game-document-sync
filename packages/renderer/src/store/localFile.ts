@@ -1,13 +1,10 @@
 import { getDirectoryItem, getDirItems, getFileItems } from '@/utils/tools'
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
-import path from 'path'
 import { FileItem } from '@/model'
+import { getBackupPath } from '@/utils'
 
 export const useLocalFileStore = defineStore('localFile', () => {
-  // TODO: 获取软件根目录
-  const rootDir = ''
-
   const localFiles = reactive({
     directoryItem: [] as FileItem[],
     fileItems: [] as FileItem[]
@@ -30,7 +27,7 @@ export const useLocalFileStore = defineStore('localFile', () => {
   const loadLocalFileDirectoryItem = async () => {
     try {
       // TODO: 获取配置的 备份文件夹
-      const filePath = path.join(rootDir, 'backup')
+      const filePath = getBackupPath()
       const list: FileItem[] = await getDirectoryItem(filePath) as FileItem[]
       localFiles.directoryItem = getDirItems(list)
       // 移除第一个备份目录

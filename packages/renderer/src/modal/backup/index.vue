@@ -46,7 +46,7 @@ import useSystem from '@/hooks/core/useSystem'
 import useBackupFile from '@/hooks/file/useBackupFile'
 
 import { openItem } from '@/utils/shell'
-import path from 'path'
+import { getPath } from '@/utils'
 
 export default defineComponent({
   name: 'modal-backup',
@@ -60,15 +60,16 @@ export default defineComponent({
     const { HOME_DIR } = useSystem()
     const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
     const { loading, onStartBackup } = useBackupFile()
+
     watch(
       () => unref(visible),
       isVisible => {
         console.log('isVisible', isVisible)
         if (!isVisible) return
-        const docPatch = path.join(HOME_DIR, unref(gameDocPath))
+        const docPatch = getPath(HOME_DIR, unref(gameDocPath))
         console.log('docPatch', docPatch)
 
-        createNode(docPatch, gameDocDir)
+        createNode(docPatch, unref(gameDocDir))
       }
     )
 
