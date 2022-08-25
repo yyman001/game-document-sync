@@ -96,14 +96,6 @@ export const getPath = (...params: any) => {
   return join(...params)
 }
 
-export const getAppDirPath = (path:string):string => {
-  if (/node_modules/.test(path)) {
-    return path.split('node_modules')[0]
-  }
-
-  return path.replace('game-document-sync.exe', '')
-}
-
 export const getBackupPath = (...params: any) => {
   return getPath((window as any).APP_HOME_DIR, 'backup', ...params)
 }
