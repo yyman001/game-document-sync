@@ -66,6 +66,7 @@
     "pinia": "^2.0.14",
     "rd": "^2.0.1",
     "rxjs": "^7.5.5",
+    "sql.js": "^1.7.0",
     "stream-to-blob": "^2.0.1",
     "vue-router": "4",
     "webdav": "^4.10.0"
