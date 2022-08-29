@@ -7,7 +7,7 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
 import router from './router/index'
-import '@/utils/db/sql'
+// import '@/utils/db/sql'
 
 createApp(App)
   .use(router)

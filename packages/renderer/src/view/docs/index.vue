@@ -2,6 +2,13 @@
   <a-table rowKey="gameName" :columns="tableColumns" :data-source="list">
 
     <template #bodyCell="{ column, record }">
+      <template v-if="column.key === 'gameName'">
+        <a>
+          <img :src="horizontalCover(record.steamId)" :alt="record.gameName">
+          {{ record.gameName }}
+        </a>
+      </template>
+
       <a-button-group v-if="column.key === 'action'">
         <a-button icon="plus" @click="onAdd(record)"/>
         <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameDocDir)">
@@ -38,10 +45,7 @@ export default defineComponent({
       },
       {
         title: '游戏名',
-        key: 'gameName',
-        customRender ({ record }) {
-          return record.gameName
-        }
+        key: 'gameName'
       },
       {
         title: '译名',

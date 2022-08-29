@@ -20,7 +20,7 @@
     <a-layout>
       <a-layout-header class="">
         <div class="header">
-          头部
+          <AddDoc />
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -39,6 +39,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import Menu from './components/Menu/index.vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
+import AddDoc from './view/header/addDoc.vue'
 
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'

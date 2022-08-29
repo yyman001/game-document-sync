@@ -3,7 +3,7 @@ import { useObservable } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
 
 export default function () {
-  const onAddDoc = async (object: string) => {
+  const onAddDoc = async (object: any) => {
     try {
       return await db.docsTable.add(object)
     } catch (error) {
