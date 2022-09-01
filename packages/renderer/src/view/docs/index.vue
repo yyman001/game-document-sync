@@ -3,18 +3,22 @@
 
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'gameName'">
-        <a>
+        <p>
           <img :src="horizontalCover(record.steamId)" :alt="record.gameName">
-          {{ record.gameName }}
-        </a>
+        </p>
+        <p>{{ record.gameName }}</p>
+        <p>{{ record.nickName }}</p>
       </template>
 
       <a-button-group v-if="column.key === 'action'">
-        <a-button icon="plus" @click="onAdd(record)"/>
+        <a-button @click="onAdd(record)">
+          <template #icon><plus-outlined /></template>
+        </a-button>
         <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameDocDir)">
-          <a-button icon="delete"/>
+          <a-button>
+            <template #icon><close-outlined /></template>
+          </a-button>
         </a-popconfirm>
-        <a-button icon="file" :data-name="record.gameName"/>
       </a-button-group>
     </template>
 
@@ -23,20 +27,28 @@
 
 <script lang="ts">
 import { computed, defineComponent, toRefs, unref } from 'vue'
+import { message } from 'ant-design-vue'
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons-vue'
+
 import useDocs from '@/hooks/db/useDocs'
+import useGames from '@/hooks/db/useGames'
 import { horizontalCover } from '@/utils/steamPrivew'
 
 export default defineComponent({
   name: 'doc-mod',
-  components: { },
+  components: {
+    PlusOutlined,
+    CloseOutlined
+  },
   props: {
     searchText: String
   },
 
   setup (props) {
     const { searchText } = toRefs(props)
-    const { result } = useDocs()
-
+    const { result, onDelDoc } = useDocs()
+    const { addGame } = useGames()
+    const { success: messageSuccess, error: messageError } = message
     const tableColumns = [
       {
         title: 'steamId',
@@ -47,11 +59,11 @@ export default defineComponent({
         title: '游戏名',
         key: 'gameName'
       },
-      {
+      /* {
         title: '译名',
         dataIndex: 'nickName',
         key: 'nickName'
-      },
+      }, */
       {
         title: '操作',
         key: 'action',
@@ -70,8 +82,36 @@ export default defineComponent({
       })
     })
 
-    const onAdd = () => {}
-    const onDel = () => {}
+    const onAdd = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId }:any) => {
+      const result = await addGame({
+        steamId,
+        gameName,
+        nickName,
+        gameDocDir,
+        gameDocPath,
+        systemType,
+        gamePlatform: [],
+        createTime: Date.now(),
+        lastBackTime: null
+      })
+
+      if (result === null) {
+        messageError('创建游戏存档失败!')
+        return
+      }
+
+      messageSuccess('创建游戏存档成功!')
+    }
+
+    const onDel = async (gameDocDir:string) => {
+      const x = await onDelDoc(gameDocDir)
+      if (x === null) {
+        messageError('删除失败!')
+        return
+      }
+
+      messageSuccess('删除成功!')
+    }
 
     return {
       tableColumns,
