@@ -23,13 +23,13 @@ export default function () {
     const backPatch = getBackupPath(gameDocDir)
     const tempPatch = getTempPath(gameDocDir)
 
-    if (!unref(saveFiles).length) return messageError('请勾选要备份的文件!')
+    if (!saveFiles.length) return messageError('请勾选要备份的文件!')
 
     loading.value = true
     const game = await searchGame(gameDocDir)
     if (!game) return messageError('未查找游戏数据!')
 
-    const [errorText, backupData] = await backupFile({ HOME_DIR, docPatch, tempPatch, backPatch, gameDocDir: gameDocDir.value, saveFiles: unref(saveFiles) })
+    const [errorText, backupData] = await backupFile({ HOME_DIR, docPatch, tempPatch, backPatch, gameDocDir, saveFiles })
     if (errorText) {
       messageError(errorText as string)
       return

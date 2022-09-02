@@ -14,8 +14,8 @@
     </FieldSetGroup>
     <div class="backup-content">
       <a-row>
-        <a-input :disabled="true" addon-before="存档路径:" :value="docPatch">
-          <a-icon slot="addonAfter" type="folder-open" @click="openItem(docPatch)" />
+        <a-input :disabled="true" addon-before="存档路径:" :value="formDocPatch">
+          <a-icon slot="addonAfter" type="folder-open" @click="openItem(formDocPatch)" />
         </a-input>
       </a-row>
 
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, InjectionKey, toRefs, unref, watch } from 'vue'
+import { defineComponent, ref, toRefs, unref, watch } from 'vue'
 import FieldSetGroup from '@/components/FieldSetGroup/index.vue'
 
 import useDocTree from '@/hooks/file/useDocTree'
@@ -45,7 +45,7 @@ import useSystem from '@/hooks/core/useSystem'
 import useBackupFile from '@/hooks/file/useBackupFile'
 
 import { openItem } from '@/utils/shell'
-import { getPath, injectStrict } from '@/utils'
+import { getBackupPath, getPath, injectStrict } from '@/utils'
 import { Modal, modal } from '@/hooks/useModal'
 
 export default defineComponent({
@@ -56,20 +56,22 @@ export default defineComponent({
   props: ['visible', 'gameDocPath', 'gameDocDir'],
 
   setup (props: any) {
-    const { onModalClose } = injectStrict<Modal>(modal)
     const { visible, gameDocPath, gameDocDir } = toRefs(props)
+    const { onModalClose } = injectStrict<Modal>(modal)
     const { HOME_DIR } = useSystem()
     const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
     const { loading, onStartBackup } = useBackupFile()
 
+    const formDocPatch = ref('')
+    const backPatch = getBackupPath(unref(gameDocDir))
+
     watch(
       () => unref(visible),
       isVisible => {
-        console.log('isVisible', isVisible)
         if (!isVisible) return
         const docPatch = getPath(HOME_DIR, unref(gameDocPath))
         console.log('docPatch', docPatch)
-
+        formDocPatch.value = docPatch
         createNode(docPatch, unref(gameDocDir))
       }
     )
@@ -88,7 +90,9 @@ export default defineComponent({
       loading,
       handleStartBackup,
 
-      onModalClose
+      onModalClose,
+      formDocPatch,
+      backPatch
     }
   }
 })
