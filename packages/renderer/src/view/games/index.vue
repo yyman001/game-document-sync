@@ -10,7 +10,7 @@
         @handleClick="handleClick"
       />
     </div>
-    <ModalBackUp :visible="isVisible" :gameDocPath="gameDocPath" :gameDocDir="gameDocDir"/>
+    <ModalBackUp @submit="handleStartBackup"/>
   </div>
 </template>
 
@@ -24,6 +24,10 @@ import useScanGamesDoc from './useScanGamesDoc'
 import useModel, { modal } from '@/hooks/useModal'
 
 import { GameItem } from '../../model'
+import useSystem from '@/hooks/core/useSystem'
+import useDocTree from '@/hooks/file/useDocTree'
+import useBackupFile from '@/hooks/file/useBackupFile'
+import { getBackupPath, getPath } from '@/utils'
 export default defineComponent({
   components: { Card, ModalBackUp },
 
@@ -36,6 +40,11 @@ export default defineComponent({
     const { gameList } = useGames()
     const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
+
+    const { HOME_DIR } = useSystem()
+    const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
+    const { loading, onStartBackup } = useBackupFile()
+
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
 
@@ -47,23 +56,25 @@ export default defineComponent({
       })
     })
 
-    const gameDocPath = ref('')
-    const gameDocDir = ref('')
-
-    // 注入参数
-    provide(modal, {
-      onModalClose
-    })
+    const GAME_DOC_PATH = ref('')
+    const GAME_DOC_DIR = ref('')
+    const docPath = ref('')
+    const backPath = ref('')
 
     const handleClick = ([type, data]) => {
       console.log('data', data)
+      const { gameDocPath, gameDocDir, pathType } = data
+      GAME_DOC_PATH.value = gameDocPath
+      GAME_DOC_DIR.value = gameDocDir
+
       switch (type) {
         case 'restore':
           break
 
         case 'backup':
-          gameDocPath.value = data.gameDocPath
-          gameDocDir.value = data.gameDocDir
+          docPath.value = getPath(pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDocPath)
+          backPath.value = getBackupPath(gameDocDir)
+          createNode(docPath.value, gameDocDir)
           onModalOpen()
           break
 
@@ -78,6 +89,35 @@ export default defineComponent({
       }
     }
 
+    const handleStartBackup = async (data:any) => {
+      try {
+        await onStartBackup({
+          docPath: unref(docPath),
+          backPath: unref(backPath),
+          gameDocPath: unref(GAME_DOC_PATH),
+          gameDocDir: unref(GAME_DOC_DIR),
+          saveFiles: unref(selectedKeys)
+        })
+        onModalClose()
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    // 注入参数
+    provide(modal, {
+      isVisible,
+      onModalClose,
+
+      loading,
+      expandedKeys,
+      selectedKeys,
+      treeData,
+
+      docPath,
+      backPath
+    })
+
     return {
       list,
       hasGameDoc,
@@ -85,8 +125,7 @@ export default defineComponent({
 
       isVisible,
       handleClick,
-      gameDocPath,
-      gameDocDir
+      handleStartBackup
     }
   }
 })

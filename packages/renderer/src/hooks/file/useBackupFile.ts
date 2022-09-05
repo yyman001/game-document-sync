@@ -4,7 +4,7 @@ import useSystem from '../core/useSystem'
 import useGames from '@/hooks/db/useGames'
 import useBackup from '@/hooks/db/useBackup'
 import { backupFile } from '@/utils/file'
-import { getBackupPath, getPath, getTempPath } from '@/utils/index'
+import { getTempPath } from '@/utils/index'
 
 export default function () {
   const { HOME_DIR, SYSTEM_TYPE } = useSystem()
@@ -18,10 +18,8 @@ export default function () {
   // eslint-disable-next-line no-unused-vars
   const progress = ref(0) // 进度条
 
-  const onStartBackup = async (gameDocPath:string, gameDocDir:string, saveFiles:string[]) => {
-    const docPatch = getPath(HOME_DIR, gameDocPath)
-    const backPatch = getBackupPath(gameDocDir)
-    const tempPatch = getTempPath(gameDocDir)
+  const onStartBackup = async ({ docPath, backPath, gameDocPath, gameDocDir, saveFiles }:any) => {
+    const tempPath = getTempPath(gameDocDir)
 
     if (!saveFiles.length) return messageError('请勾选要备份的文件!')
 
@@ -29,7 +27,7 @@ export default function () {
     const game = await searchGame(gameDocDir)
     if (!game) return messageError('未查找游戏数据!')
 
-    const [errorText, backupData] = await backupFile({ HOME_DIR, docPatch, tempPatch, backPatch, gameDocDir, saveFiles })
+    const [errorText, backupData] = await backupFile({ HOME_DIR, docPath, tempPath, backPath, gameDocDir, saveFiles })
     if (errorText) {
       messageError(errorText as string)
       return

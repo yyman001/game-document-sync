@@ -228,20 +228,13 @@
       "inbound": true,
       "rows": [
         {
-          "gameDocPath": "",
-          "gameName": "",
-          "nickName": "",
-          "steamId": "",
-          "systemType": "Windows_NT",
-          "gameDocDir": ""
-        },
-        {
-          "gameDocPath": "\\Documents\\Steam\\CODEX",
+          "gameDocPath": "\\Documents\\Steam\\CODEX\\1432050",
           "gameName": "Nobody Saves the World",
           "nickName": "没人拯救世界",
           "steamId": "1432050",
           "systemType": "Windows_NT",
-          "gameDocDir": "1432050"
+          "gameDocDir": "1432050",
+          "pathType": "PUBLIC"
         },
         {
           "nickName": "20XX-洛克人",
