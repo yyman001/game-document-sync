@@ -41,21 +41,22 @@ export function getTreeItem (filePath: string, rootDir: string) {
         const relativeParentPath = p.dir.replace(rootDir, '')
         const relativePath = fileFullPath.replace(rootDir, '')
         const depth = relativePath.split('\\').length - 1
+        const isFile = stats.isFile()
 
         const pathObjct = {
           depth,
-          children: stats.isFile() ? null : [],
-          isLeaf: stats.isFile(),
+          children: isFile ? null : [],
+          isLeaf: isFile,
           key: fileFullPath,
           path: fileFullPath,
-          title: p.name,
+          title: isFile ? p.name + p.ext : p.name,
           relative_path: relativePath,
           relative_parent_path: relativeParentPath,
           parent_dir: relativeParentPath ? relativeParentPath.split('\\').pop() : null,
-          type: stats.isFile() ? 'file' : 'directory',
+          type: isFile ? 'file' : 'directory',
           dirname: p.dirname || null,
           basename: p.name,
-          filename: stats.isFile() ? p.name + p.ext : null,
+          filename: isFile ? p.name + p.ext : null,
           size: stats.size,
           timeStamp: stats.ctimeMs,
           ext: p.ext
@@ -83,6 +84,6 @@ export async function createTree (filePath: string, gameDocDir: string) {
     dirItem.children = children
   })
 
-  const tree = allDir.find(f => f.depth === 0)
+  const tree = allDir.find(f => f.depth === 0) as TreeItem
   return { tree, filesPath }
 }

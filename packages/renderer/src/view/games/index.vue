@@ -42,7 +42,7 @@ export default defineComponent({
     const { isVisible, onModalOpen, onModalClose } = useModel()
 
     const { HOME_DIR } = useSystem()
-    const { expandedKeys, selectedKeys, treeData, createNode } = useDocTree()
+    const { selectedKeys, treeData, createNode } = useDocTree()
     const { loading, onStartBackup } = useBackupFile()
 
     const list = computed(() => {
@@ -110,7 +110,6 @@ export default defineComponent({
       onModalClose,
 
       loading,
-      expandedKeys,
       selectedKeys,
       treeData,
 

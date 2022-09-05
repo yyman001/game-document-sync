@@ -1,3 +1,4 @@
+import { TreeItem } from '@/utils/getTreeItem'
 import { ref } from 'vue'
 
 export default function useModal () {
@@ -19,9 +20,17 @@ export default function useModal () {
 }
 
 export interface Modal {
-  isVisible?:boolean,
-  onModalOpen: Function,
-  onModalClose: Function,
+  isVisible?: boolean
+  onModalOpen: Function
+  onModalClose: Function
 }
 
 export const modal = Symbol('')
+
+export interface BackModal extends Modal {
+  loading?: boolean
+  selectedKeys: string[]
+  treeData: TreeItem[]
+  docPath: string
+  backPath: string
+}

@@ -1,10 +1,9 @@
 import { ref } from 'vue'
-import { createTree } from '@/utils/getTreeItem'
+import { createTree, TreeItem } from '@/utils/getTreeItem'
 
 export default function () {
-  const expandedKeys = ref<string[]>([])
   const selectedKeys = ref<string[]>([])
-  const treeData = ref<any[]>([])
+  const treeData = ref<TreeItem[]>([])
 
   async function createNode (docPatch:string, gameDocDir:string) {
     const { tree, filesPath } = await createTree(docPatch, gameDocDir)
@@ -12,12 +11,11 @@ export default function () {
     updateNode(tree)
   }
 
-  function updateNode (node:any) {
+  function updateNode (node:TreeItem) {
     treeData.value = [node]
   }
 
   return {
-    expandedKeys,
     selectedKeys,
     treeData,
 

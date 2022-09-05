@@ -1,13 +1,14 @@
 <template>
-  <a-modal title="备份" :visible="isVisible" :footer="null" :maskClosable="false">
+  <a-modal title="备份" :visible="isVisible" :footer="null" :maskClosable="false" @cancel="onModalClose">
     <FieldSetGroup v-if="treeData.length" title="文件列表">
       <div class="file-content">
         <a-directory-tree
           default-expand-all
           multiple
+          :treeLine="true"
           :checkable="true"
           :height="280"
-          v-model:selectedKeys="selectedKeys"
+          v-model:checkedKeys="selectedKeys"
           :tree-data="treeData"
         />
       </div>
@@ -15,12 +16,21 @@
     <div class="backup-content">
       <a-row>
         <a-input :disabled="true" addon-before="存档路径:" :value="docPath">
-          <a-icon slot="addonAfter" type="folder-open" @click="openItem(docPath)" />
+          <template #addonAfter>
+            <a-tooltip placement="left" title="打开路径">
+              <FolderOpenOutlined @click="openItem(docPath)"/>
+            </a-tooltip>
+          </template>
         </a-input>
       </a-row>
 
       <a-row>
         <a-input addon-before="备份路径:" :value="backPath">
+          <template #addonAfter>
+            <a-tooltip placement="left" title="修改路径">
+              <FolderOpenOutlined />
+            </a-tooltip>
+          </template>
         </a-input>
       </a-row>
 
@@ -39,33 +49,31 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import FieldSetGroup from '@/components/FieldSetGroup/index.vue'
+import { FolderOpenOutlined } from '@ant-design/icons-vue'
 
 import { openItem } from '@/utils/shell'
 import { injectStrict } from '@/utils'
-import { Modal, modal } from '@/hooks/useModal'
+import { BackModal, modal } from '@/hooks/useModal'
 
 export default defineComponent({
   name: 'modal-backup',
   components: {
-    FieldSetGroup
+    FieldSetGroup,
+    FolderOpenOutlined
   },
-  // props: ['visible', 'gameDocPath', 'gameDocDir'],
 
   setup (props: any, { emit }) {
-    // const { visible, gameDocPath, gameDocDir } = toRefs(props)
     const {
       isVisible,
       onModalClose,
 
       loading,
-      expandedKeys,
       selectedKeys,
       treeData,
 
       docPath,
       backPath
-
-    } = injectStrict<Modal>(modal)
+    } = injectStrict<BackModal>(modal)
 
     const onSbumit = () => {
       emit('submit', {
@@ -83,7 +91,6 @@ export default defineComponent({
       backPath,
 
       loading,
-      expandedKeys,
       selectedKeys,
       treeData,
 
