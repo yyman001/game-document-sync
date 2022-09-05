@@ -16,6 +16,7 @@ export default function (gameList: Readonly<Ref<any>>) {
   const clearMapGames = () => {
     mapGames.value = []
   }
+
   const scanGames = async (docList: GameItem[]) => {
     if (unref(isLoading)) return
 
@@ -24,8 +25,10 @@ export default function (gameList: Readonly<Ref<any>>) {
 
     for (let i = 0; i < docList.length; i++) {
       // TODO: 目前先判断是否有 存档目录, 后面精确到某个文件的存档再另外确定字段
-      const { gameDocDir, gameDocPath } = docList[i]
-      const docPath = getPath(HOME_DIR, gameDocPath)
+      const { pathType, gameDocDir, gameDocPath } = docList[i]
+
+      const docPath = getPath(pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDocPath)
+
       const exists = await fs.pathExists(docPath)
       exists && mapGames.value.push(gameDocDir)
     }

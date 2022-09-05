@@ -10,6 +10,16 @@ export interface GameItem {
   systemType: string
 }
 
+export interface GameDocItem {
+  pathType?: string
+  steamId?: string
+  gameDocDir: string
+  gameDocPath: string
+  gameName: string
+  nickName: string
+  systemType: string
+}
+
 export interface FileItem {
   basename: string
   dirname: string
@@ -42,12 +52,12 @@ export interface WebDavDirectory {
 }
 
 export interface SdkConfig {
-  type: string;
-  url: string;
-  usearname: string;
-  password: string;
-  rootDirectoryName?: string;
-  accessKeyId?: string;
-  accessKeySecret?: string;
-  bucket?: string;
+  type: string
+  url: string
+  usearname: string
+  password: string
+  rootDirectoryName?: string
+  accessKeyId?: string
+  accessKeySecret?: string
+  bucket?: string
 }

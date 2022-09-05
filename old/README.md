@@ -205,21 +205,34 @@
   本地还原和云还原,数据跟上面一致
 
 ### 游戏存档位置
-
+(路径类型 + 游戏目录)
  - 游戏存在位置,不同游戏厂商的游戏存档位置是不一样的
-   - `C:\Users\${用户名}\Saved Games\${游戏名}`
-   - `C:\Users\${用户名}\AppData\Local\${游戏名}`
-   - `C:\Users\${用户名}\AppData\LocalLow\${游戏名}`
-   - `C:\Users\${用户名}\AppData\LocalLow\${游戏厂商}\${游戏名}`
+   - `C:\Users\${USERNAME}\Saved Games\${游戏名}`     => USERPROFILE + \Saved Games\${游戏名}
+   - `C:\Users\${USERNAME}\AppData\Local\${游戏名}`   => LOCALAPPDATA + 游戏名
+   - `C:\Users\${USERNAME}\AppData\LocalLow\${游戏名}`
+   - `C:\Users\${USERNAME}\AppData\LocalLow\${游戏厂商}\${游戏名}`
      - Team Cherry (空洞骑士)
      - Southpaw Games
      - Rebuilt Games
      - Ninja Kiwi
-   - `C:\Users\${用户名}\AppData\Roaming\${游戏名}`
+   - `C:\Users\${USERNAME}\AppData\Roaming\${游戏名}`  => APPDATA +  游戏名
      - StardewValley => Stardew Valley(星谷物语), 这个单词中间是没有空格的
-   - `C:\Users\${用户名}\Documents\${游戏名}`
+   - `C:\Users\${USERNAME}\Documents\${游戏名}`        => DOCUMENTS + 游戏名
    - `X:\Steam\userdata\steam_id\app_id\remote` steam部分类型游戏存档位置
+   - C:\Users\Public\Documents\Steam\CODEX\1432050 => `C:\Users\Public\Documents\Steam\CODEX\{steam_id}` 学习版 => PUBLIC
   - 扫描配置文件, 记录游戏存档相关信息
+
+### 路径类型
+
+LOCALAPPDATA: "C:\\Users\\yyman001_cp\\AppData\\Local"
+APPDATA: "C:\\Users\\yyman001_cp\\AppData\\Roaming"
+HOME: "C:\\Users\\yyman001_cp"
+PUBLIC: "C:\\Users\\Public"
+USERPROFILE: "C:\\Users\\yyman001_cp"
+DOCUMENTS:"\\Documents"
+DOCUMENTS_MY_GAMES:"\\Documents\\My Games"
+USERNAME: "yyman001_cp"
+
 
 ## 关于云同步数据库设计
  跟平时的同步数据库不一样, 本软件云同步只会拉取云同步存档(存在跳过),不进行本地多余存档进行删除(因为游戏存档是非常重要的,所有不加自动删除功能,不要的存档请自己手动删除),也就是说数据不一样跟云上面的一样,本地拉取云同步只做(增加数据,不进行删除配对)

@@ -82,7 +82,7 @@ export default defineComponent({
       })
     })
 
-    const onAdd = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId }:any) => {
+    const onAdd = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId, pathType = '' }:any) => {
       const result = await addGame({
         steamId,
         gameName,
@@ -92,7 +92,8 @@ export default defineComponent({
         systemType,
         gamePlatform: [],
         createTime: Date.now(),
-        lastBackTime: null
+        lastBackTime: null,
+        pathType
       })
 
       if (result === null) {
