@@ -7,17 +7,26 @@
       <div class="file__name" @click="handleClick">{{fileName}}</div>
       <div v-if="fileType === 'file' " class="file__action">
         <a-button-group>
-          <a-button icon="rollback" @click="handleAction('rollback')"/>
+          <!-- 还原 -->
+          <a-button @click="handleAction('rollback')">
+            <template #icon><RollbackOutlined /></template>
+          </a-button>
+          <!-- 删除 -->
           <a-popconfirm title="确定要删除吗？" @confirm="handleAction('delete')">
-            <a-button icon="delete"/>
+            <a-button>
+              <template #icon><DeleteOutlined/></template>
+            </a-button>
           </a-popconfirm>
-          <a-button icon="folder-open" @click="handleAction('folder-open')"/>
+          <!-- 打开目录 -->
+          <a-button>
+            <template #icon><FolderOpenOutlined @click="handleAction('folder-open')"/></template>
+          </a-button>
         </a-button-group>
       </div>
     </a-col>
     <!-- 状态 -->
     <a-col flex="0 80px" :class="{'is-disabled': disabled}">
-      <a-tooltip placement="left" :title="cloudText">
+      <a-tooltip placement="top" :title="cloudText">
         <div class="file__cloud-status" :class="cloudStatus" @click="handleAction(cloudType)"></div>
       </a-tooltip>
 
@@ -32,8 +41,15 @@
 </template>
 
 <script>
+import { RollbackOutlined, DeleteOutlined, FolderOpenOutlined } from '@ant-design/icons-vue'
+
 export default {
   name: 'file-item',
+  components: {
+    RollbackOutlined,
+    DeleteOutlined,
+    FolderOpenOutlined
+  },
   props: {
     item: {
       type: Object,

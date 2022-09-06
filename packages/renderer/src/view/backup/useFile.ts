@@ -1,7 +1,11 @@
 import { ref } from 'vue'
+import { remove } from '@/utils/FileClass'
 import { openItem, showItemInFolder } from '@/utils/shell'
+import { useLocalFileStoreWhitOut } from '@/store/localFile'
 
 export default function () {
+  const localFileStore = useLocalFileStoreWhitOut()
+
   // 当前打开的文件夹
   const activeDirectoryName = ref<string>('')
   const handleSetDirectory = (directoryName = '') => {
@@ -29,6 +33,13 @@ export default function () {
         break
       case 'delete':
         // 删除文件
+        try {
+          await remove(file.path)
+          localFileStore.removeFile(file.comparsedName)
+        } catch (error) {
+
+        }
+
         break
       case 'folder-open':
         // 打开所在文件夹
@@ -36,11 +47,11 @@ export default function () {
         break
       case 'cloud-down':
         // 云下载
-        downloadCloudFile(file)
+        // downloadCloudFile(file)
         break
       case 'cloud-up':
         // 云上传
-        uploadFile(file)
+        // uploadFile(file)
         break
       default:
         break

@@ -1,27 +1,17 @@
 import { computed, unref } from 'vue'
-import path from 'path'
-import useLocalBackupFile from '@/hooks/file/useLocalBackupFile'
 import useFile from './useFile'
-// import { storeToRefs } from 'pinia'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { getBackupPath } from '@/utils'
+import { useLocalFileStoreWhitOut } from '@/store/localFile'
 
 export default function () {
-  const {
-    directoryItem,
-    fileItem,
-    localDirectoryListName,
-    localFileListName,
-    getDirectoryChildren
-  } = useLocalBackupFile()
-
-  const { activeDirectoryName, handleSetDirectory, handleOpenFile, handleAction } = useFile()
+  const localFileStore = useLocalFileStoreWhitOut()
   const cloudFileStore = useCloudFileStoreWhitOut()
-  console.log('cloudFileStore:', cloudFileStore)
+  const { activeDirectoryName, handleSetDirectory, handleOpenFile, handleAction } = useFile()
   // 未同步的云文件夹
   const cloudSynchronizationDirectory = computed(() => {
-    return unref(cloudFileStore.coludItems.coludDirectoryItems)
-      .filter(file => !localDirectoryListName.value.includes(file.basename))
+    return unref(cloudFileStore.coludItems.directoryItem)
+      .filter(file => !localDirectoryListName.includes(file.basename))
       .map((f) => {
         // 使用 path 作为云下载标识
         return { ...f, timeStamp: f.lastmod, path: '' }
@@ -32,7 +22,7 @@ export default function () {
   const cloudSynchronizationFile = computed(() => {
     // 过滤已经存在的云文件(已同步): 云文件 过滤 本地文件
     return cloudFileStore.coludItems.fileItems
-      .filter(f => !localFileListName.value.includes(f.comparsedName))
+      .filter(f => !localFileListName.includes(f.comparsedName))
       .map((f) => {
         return {
           ...f,
@@ -44,11 +34,12 @@ export default function () {
 
   // 未同步到云盘的本地文件
   const localSyncDirectory = computed(() => {
-    return directoryItem.value.filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
+    return localFileStore.directoryItem.filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
   })
 
+  // 本地文件夹&云文件夹
   const allDirectory = computed(() => {
-    return [...directoryItem.value, ...cloudSynchronizationDirectory.value]
+    return [...localFileStore.directoryItem, ...cloudSynchronizationDirectory.value]
   })
 
   const getDirectoryChildrenByCloud = (gameDocDir: string) => {
@@ -57,18 +48,18 @@ export default function () {
   }
 
   console.log('allDirectory', unref(allDirectory))
-  console.log('本地目录', unref(localDirectoryListName))
+  console.log('本地目录', unref(localFileStore.localDirectoryListName))
   console.log('云目录', unref(cloudFileStore.cloudDirectorys))
   console.log('未同步的云目录', unref(cloudSynchronizationDirectory))
   console.log('未同步到本地目录', unref(localSyncDirectory))
-  console.log('本地文件', unref(localFileListName))
+  console.log('本地文件', unref(localFileStore.localFileListName))
   console.log('云文件', unref(cloudFileStore.cloudFilesName))
 
   // 本地文件列表 + 云文件列表
   const getChildrenByLocalAndCloud = (gameDocDir: string) => {
     if (!gameDocDir) return []
 
-    const localFile = getDirectoryChildren(gameDocDir)
+    const localFile = localFileStore.getDirectoryChildren(gameDocDir)
     const cloudFile = getDirectoryChildrenByCloud(gameDocDir)
 
     return localFile.concat(cloudFile)
@@ -77,7 +68,7 @@ export default function () {
   // 全部文件列表
   const fileList = computed(() => {
     // 未选择文件夹, 返回文件夹列表
-    if (!unref(activeDirectoryName)) return unref(directoryItem)
+    if (!unref(activeDirectoryName)) return unref(localFileStore.directoryItem)
 
     // 返回文件夹文件列表
     return getChildrenByLocalAndCloud(unref(activeDirectoryName))
@@ -107,7 +98,7 @@ export default function () {
     // 当前文件夹名称
     const gameDocDir = item.basename
     // 获取本地文件列表
-    const localFileList = unref(localFileListName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+    const localFileList = unref(localFileStore.localFileListName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
     // 获取云文件列表
     const coludFileList = unref(cloudFileStore.cloudFilesName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
     // 本地文件列表和云文件列表 一致时,代表已同步
@@ -131,19 +122,13 @@ export default function () {
     cloudFileStore.downloadCloudFile(downloadUrl, filePath, () => {
       file.path = filePath
       file.dirname = dirname
-      fileItem.value.push(file)
+      localFileStore.fileItems.push(file)
     })
   }
 
   return {
     activeDirectoryName,
     handleSetDirectory,
-
-    directoryItem,
-    fileItem,
-    localDirectoryListName,
-    localFileListName,
-    getDirectoryChildren,
 
     fileList,
     folderSize,

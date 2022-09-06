@@ -18,7 +18,7 @@
             :time="formatTimestamp(item.timeStamp, 'YYYY-MM-DD HH:mm')"
             :isSyncSuccess="getSyncStatus(item)"
             :isCloudFile="!item.path"
-            :disabled="true"
+            :disabled="false"
             @handleOpenFile="handleOpenFile"
             @handleAction="handleAction"
           />
