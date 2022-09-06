@@ -1,27 +1,25 @@
 import { getDirectoryItem, getDirItems, getFileItems } from '@/utils/tools'
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
+import { computed, ref, unref } from 'vue'
 import { FileItem } from '@/model'
 import { getBackupPath } from '@/utils'
 
 export const useLocalFileStore = defineStore('localFile', () => {
-  const localFiles = reactive({
-    directoryItem: [] as FileItem[],
-    fileItems: [] as FileItem[]
-  })
+  const directoryItem = ref<FileItem[]>([])
+  const fileItems = ref<FileItem[]>([])
 
   // 文件夹名称列表
   const localDirectoryListName = computed(() => {
-    return localFiles.directoryItem.map(f => f.basename)
+    return unref(directoryItem).map(f => f.basename)
   })
 
   // 本地文件名: 格式规范 = (文件夹/文件名) = Aragami/Aragami_t1641735966693.zip
   const localFileListName = computed(() => {
-    return localFiles.fileItems.map(f => f.comparsedName)
+    return unref(fileItems).map(f => f.comparsedName)
   })
 
   const getDirectoryChildren = (dirname: string) => {
-    return localFiles.fileItems.filter(f => f.dirname === dirname)
+    return unref(fileItems).filter(f => f.dirname === dirname)
   }
 
   const loadLocalFileDirectoryItem = async () => {
@@ -29,10 +27,10 @@ export const useLocalFileStore = defineStore('localFile', () => {
       // TODO: 获取配置的 备份文件夹
       const filePath = getBackupPath()
       const list: FileItem[] = await getDirectoryItem(filePath) as FileItem[]
-      localFiles.directoryItem = getDirItems(list)
+      directoryItem.value = getDirItems(list)
       // 移除第一个备份目录
-      localFiles.directoryItem.shift()
-      localFiles.fileItems = getFileItems(list)
+      directoryItem.value.shift()
+      fileItems.value = getFileItems(list)
         .map((f: FileItem) => {
           return {
             ...f,
@@ -45,12 +43,21 @@ export const useLocalFileStore = defineStore('localFile', () => {
     }
   }
 
+  const removeFile = (comparsedName:string) => {
+    fileItems.value = unref(fileItems).filter((f:any) => f.comparsedName !== comparsedName)
+  }
+
   return {
+    fileItems,
+    directoryItem,
+
+    localFileListName,
+    localDirectoryListName,
+
     loadLocalFileDirectoryItem,
     getDirectoryChildren,
 
-    localFileListName,
-    localDirectoryListName
+    removeFile
   }
 })
 
