@@ -97,7 +97,7 @@ export function readdirSync(dir_path: string) {
  * @param {*} filter_funtion
  * @returns
  */
-export async function copy(copy_path: string, save_path: string, filter_funtion: Function) {
+export async function copy(copy_path: string, save_path: string, filter_funtion?: Function) {
   try {
     console.log('copy_path:', copy_path)
     console.log('save_path:', save_path)

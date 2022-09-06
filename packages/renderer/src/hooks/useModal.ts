@@ -34,3 +34,16 @@ export interface BackModal extends Modal {
   docPath: string
   backPath: string
 }
+
+export interface RestoreModal extends Modal {
+  loading?: boolean
+  selectedKeys: string[]
+  treeData: TreeItem[]
+  docPath: string
+  filePath: string
+  setDocPath: Function
+  setFilePath: Function
+  onCreateNode: Function
+  isSubmit: boolean
+  onSbumit: Function
+}

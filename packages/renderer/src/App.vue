@@ -21,6 +21,7 @@
       <a-layout-header class="">
         <div class="header">
           <AddDoc />
+          <RestoreModal />
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -40,10 +41,14 @@
 import Menu from './components/Menu/index.vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import AddDoc from './view/header/addDoc.vue'
+import RestoreModal from '@/modal/restore/index.vue'
 
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
+import useRestore from './modal/restore/useRestore'
+import { provide } from 'vue'
+import { modal } from './hooks/useModal'
 
 const cloudStore = useCloudStoreWhitOut()
 const cloudFileStore = useCloudFileStoreWhitOut()
@@ -52,6 +57,44 @@ const { cloudType, cloudOptions } = useCloudConfig()
 const reLoadCloudData = () => {
   cloudFileStore.switchCloudAccount(cloudStore.targetCloudAccount)
 }
+
+const {
+  isVisible,
+  onModalOpen,
+  onModalClose,
+
+  selectedKeys,
+  treeData,
+  onCreateNode,
+
+  docPath,
+  setDocPath,
+
+  filePath,
+  setFilePath,
+
+  isSubmit,
+  onSbumit
+} = useRestore()
+
+provide(modal, {
+  isVisible,
+  onModalOpen,
+  onModalClose,
+
+  selectedKeys,
+  treeData,
+  onCreateNode,
+
+  docPath,
+  setDocPath,
+
+  filePath,
+  setFilePath,
+
+  isSubmit,
+  onSbumit
+})
 
 </script>
 
