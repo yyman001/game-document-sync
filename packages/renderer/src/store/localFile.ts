@@ -18,8 +18,19 @@ export const useLocalFileStore = defineStore('localFile', () => {
     return unref(fileItems).map(f => f.comparsedName)
   })
 
+  // 获取文件夹的备份列表
   const getDirectoryChildren = (dirname: string) => {
-    return unref(fileItems).filter(f => f.dirname === dirname)
+    return unref(fileItems).filter(f => f.dirname === dirname).sort((a, b) => b.timeStamp - a.timeStamp)
+  }
+
+  // 还原文件需要获取最后更新的一个文件
+  const getLastFile = (dirname: string) => {
+    const list = getDirectoryChildren(dirname)
+    if (list.length) {
+      return list[0]
+    }
+
+    return null
   }
 
   const loadLocalFileDirectoryItem = async () => {
@@ -57,7 +68,8 @@ export const useLocalFileStore = defineStore('localFile', () => {
     loadLocalFileDirectoryItem,
     getDirectoryChildren,
 
-    removeFile
+    removeFile,
+    getLastFile
   }
 })
 
