@@ -8,16 +8,16 @@
     <a-tab-pane key="2" tab="备份/还原设置">
       <field-set-group title="临时操作路径">
         <div style="margin-bottom: 16px">
-          <a-input default-value="C:\Users\yyman001\AppData\Roaming\Electron">
+          <a-input :value="tempPath">
             <template #addonBefore>
               <a-tooltip title="设置临时操作目录">
-                <a-icon type="folder-open"></a-icon>
+                <SettingOutlined />
               </a-tooltip>
             </template>
 
             <template #addonAfter>
               <a-tooltip title="恢复默认">
-                <a-icon type="rollback" />
+                <ReloadOutlined @click="setDefaultTempPath"/>
               </a-tooltip>
             </template>
 
@@ -27,16 +27,16 @@
 
       <field-set-group title="备份路径">
         <div style="margin-bottom: 16px">
-          <a-input default-value=".\backup">
+          <a-input :value="backPath">
             <template #addonBefore>
               <a-tooltip title="设置备份目录">
-                <a-icon type="folder-open"></a-icon>
+                <SettingOutlined />
               </a-tooltip>
             </template>
 
             <template #addonAfter>
               <a-tooltip title="恢复默认">
-                <a-icon type="rollback" />
+                <ReloadOutlined @click="setDefaultBackPath"/>
               </a-tooltip>
             </template>
           </a-input>
@@ -46,6 +46,17 @@
 
     <a-tab-pane key="3" tab="数据库设置">
       <field-set-group title="数据库恢复">
+
+        <div style="margin-bottom: 16px">
+          <a-input default-value=".\">
+            <template #addonBefore>
+              <a-tooltip title="选择数据库文件">
+                <SettingOutlined />
+              </a-tooltip>
+            </template>
+          </a-input>
+        </div>
+
         <a-checkbox @change="handleDeleteDatabse">
           导入前删除旧数据库
         </a-checkbox>
@@ -60,13 +71,13 @@
           <a-input default-value=".\">
             <template #addonBefore>
               <a-tooltip title="设置备份导出目录">
-                <a-icon type="folder-open"></a-icon>
+                <SettingOutlined />
               </a-tooltip>
             </template>
 
             <template #addonAfter>
               <a-tooltip title="恢复默认">
-                <a-icon type="rollback" />
+                <ReloadOutlined />
               </a-tooltip>
             </template>
           </a-input>
@@ -82,15 +93,17 @@
       <field-set-group title="云配置">
         <div>
           <a-input v-model:value="configFilePath">
-            <a-tooltip slot="addonBefore" title="导入配置">
-              <a-icon type="folder-open" @click="handleSetConfig"></a-icon>
-            </a-tooltip>
-
-            <a-tooltip slot="addonAfter" title="恢复默认">
-              <a-icon type="rollback" />
-            </a-tooltip>
+            <template #addonBefore>
+              <a-tooltip title="导入配置">
+                <SettingOutlined @click="handleSetConfig"/>
+              </a-tooltip>
+            </template>
+            <template #addonAfter>
+              <a-tooltip  title="恢复默认">
+                <RedoOutlined />
+              </a-tooltip>
+            </template>
           </a-input>
-
           <a-divider/>
           <a-button type="primary" @click="loadConfig">重新载入配置</a-button>
           <a-divider/>
@@ -174,13 +187,22 @@
 
 <script lang="ts">
 import { defineComponent, toRefs } from 'vue'
+import { SettingOutlined, RedoOutlined, InteractionOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import FieldSetGroup from '@/components/FieldSetGroup/index.vue'
 import useDB from '@/hooks/db/useDB'
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
+import { useConfigStoreWhitOut } from '@/store/config'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'config-mod',
-  components: { FieldSetGroup },
+  components: {
+    FieldSetGroup,
+    SettingOutlined,
+    RedoOutlined,
+    InteractionOutlined,
+    ReloadOutlined
+  },
   setup () {
     const {
       progress,
@@ -207,6 +229,9 @@ export default defineComponent({
       handleSave
     } = useCloudConfig()
 
+    const useConfig = useConfigStoreWhitOut()
+    const { tempPath, backPath } = storeToRefs(useConfig)
+
     return {
       progress,
       isLoading,
@@ -225,7 +250,12 @@ export default defineComponent({
       onSwitchCloud,
       loadConfig,
       handleSetConfig,
-      handleSave
+      handleSave,
+
+      tempPath,
+      backPath,
+      setDefaultTempPath: useConfig.setDefaultTempPath,
+      setDefaultBackPath: useConfig.setDefaultBackPath
     }
   }
 })
