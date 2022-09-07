@@ -67,6 +67,12 @@
       </field-set-group>
 
       <field-set-group title="数据库备份路径">
+        <FieldSetGroup title="勾选导出的数据表">
+          <a-checkbox-group v-model:value="exportTableName" name="checkboxgroup" :options="exportTableOptions" />
+        </FieldSetGroup>
+
+        <!-- <a-divider /> -->
+
         <div style="margin-bottom: 16px">
           <a-input default-value=".\">
             <template #addonBefore>
@@ -210,7 +216,10 @@ export default defineComponent({
       isDeleteOldDatabse,
       handleDeleteDatabse,
       saveDatabaseToJson,
-      improtDatabaseByJson
+      improtDatabaseByJson,
+
+      exportTableOptions,
+      exportTableName
     } = useDB()
 
     const callback = (key) => {
@@ -239,6 +248,8 @@ export default defineComponent({
       saveDatabaseToJson,
       improtDatabaseByJson,
       handleDeleteDatabse,
+      exportTableOptions,
+      exportTableName,
 
       callback,
 

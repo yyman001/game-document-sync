@@ -23,6 +23,13 @@ export function useDB () {
   const progress = ref(0)
   const isLoading = ref(false)
   const isDeleteOldDatabse = ref(false)
+  // 导出表
+  const exportTableName = ref(['gamesTable', 'docsTable'])
+  const exportTableOptions = ref([
+    { label: '游戏存档', value: 'gamesTable' },
+    { label: '备份文件', value: 'backupTable' },
+    { label: '配置存档', value: 'docsTable' }
+  ])
 
   const fileName:string = 'backupDatabase.json'
 
@@ -35,12 +42,17 @@ export function useDB () {
     console.log(`Progress: ${completedRows} of ${totalRows} rows completed`, progress.value)
   }
 
+  function filterTable (table: string, value: any, key?: any) {
+    console.log('table:', table, value, key)
+    return exportTableName.value.includes(table)
+  }
+
   async function saveDatabaseToJson () {
     if (isLoading.value) return
     isLoading.value = true
 
     try {
-      const blob = await db.export({ prettyJson: true, progressCallback })
+      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterTable })
       const buffer = await toBufferPromise(blob)
       await fs.outputFile(fileName, buffer)
     } catch (error) {
@@ -72,7 +84,10 @@ export function useDB () {
     isDeleteOldDatabse,
     handleDeleteDatabse,
     saveDatabaseToJson,
-    improtDatabaseByJson
+    improtDatabaseByJson,
+
+    exportTableOptions,
+    exportTableName
   }
 }
 
