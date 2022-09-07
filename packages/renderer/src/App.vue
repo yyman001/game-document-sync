@@ -47,8 +47,6 @@ import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
 import useRestore from './modal/restore/useRestore'
-import { provide } from 'vue'
-import { modal } from './hooks/useModal'
 
 const cloudStore = useCloudStoreWhitOut()
 const cloudFileStore = useCloudFileStoreWhitOut()
@@ -58,43 +56,8 @@ const reLoadCloudData = () => {
   cloudFileStore.switchCloudAccount(cloudStore.targetCloudAccount)
 }
 
-const {
-  isVisible,
-  onModalOpen,
-  onModalClose,
-
-  selectedKeys,
-  treeData,
-  onCreateNode,
-
-  docPath,
-  setDocPath,
-
-  filePath,
-  setFilePath,
-
-  isSubmit,
-  onSbumit
-} = useRestore()
-
-provide(modal, {
-  isVisible,
-  onModalOpen,
-  onModalClose,
-
-  selectedKeys,
-  treeData,
-  onCreateNode,
-
-  docPath,
-  setDocPath,
-
-  filePath,
-  setFilePath,
-
-  isSubmit,
-  onSbumit
-})
+const { restoreProvide } = useRestore()
+restoreProvide()
 
 </script>
 

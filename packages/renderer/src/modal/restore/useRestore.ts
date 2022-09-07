@@ -1,6 +1,6 @@
+import { ref, unref, watch, provide } from 'vue'
 import useDocTree from '@/hooks/file/useDocTree'
-import useModal from '@/hooks/useModal'
-import { ref, unref, watch } from 'vue'
+import useModal, { modal } from '@/hooks/useModal'
 
 export default function () {
   const { isVisible, onModalOpen, onModalClose } = useModal()
@@ -26,11 +26,35 @@ export default function () {
     createNode(docPatch, gameDocDir)
   }
 
+  // 暴露属性&方法
+  const restoreProvide = () => {
+    provide(modal, {
+      isVisible,
+      onModalOpen,
+      onModalClose,
+
+      selectedKeys,
+      treeData,
+      onCreateNode,
+
+      docPath,
+      setDocPath,
+
+      filePath,
+      setFilePath,
+
+      isSubmit,
+      onSbumit
+    })
+  }
+
   watch(() => unref(isVisible), (value:boolean) => {
     if (!value) isSubmit.value = false
   })
 
   return {
+    restoreProvide,
+
     isVisible,
     onModalOpen,
     onModalClose,
