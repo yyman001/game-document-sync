@@ -42,8 +42,7 @@ export function useDB () {
     console.log(`Progress: ${completedRows} of ${totalRows} rows completed`, progress.value)
   }
 
-  function filterTable (table: string, value: any, key?: any) {
-    console.log('table:', table, value, key)
+  function filterExportTable (table: string, value: any, key?: any) {
     return exportTableName.value.includes(table)
   }
 
@@ -52,7 +51,7 @@ export function useDB () {
     isLoading.value = true
 
     try {
-      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterTable })
+      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterExportTable })
       const buffer = await toBufferPromise(blob)
       await fs.outputFile(fileName, buffer)
     } catch (error) {
