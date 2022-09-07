@@ -28,6 +28,10 @@ import useSystem from '@/hooks/core/useSystem'
 import useDocTree from '@/hooks/file/useDocTree'
 import useBackupFile from '@/hooks/file/useBackupFile'
 import { getBackupPath, getPath } from '@/utils'
+
+import useRestoreFile from '@/view/backup/useRestoreFile'
+import { useLocalFileStoreWhitOut } from '@/store/localFile'
+
 export default defineComponent({
   components: { Card, ModalBackUp },
 
@@ -44,6 +48,8 @@ export default defineComponent({
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode } = useDocTree()
     const { loading, onStartBackup } = useBackupFile()
+    const { showRestoreFile } = useRestoreFile()
+    const localFile = useLocalFileStoreWhitOut()
 
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
@@ -60,7 +66,7 @@ export default defineComponent({
     const GAME_DOC_DIR = ref('')
     const docPath = ref('')
     const backPath = ref('')
-
+    let lastFile = null
     const handleClick = ([type, data]) => {
       console.log('data', data)
       const { gameDocPath, gameDocDir, pathType } = data
@@ -69,6 +75,9 @@ export default defineComponent({
 
       switch (type) {
         case 'restore':
+          lastFile = localFile.getLastFile(gameDocDir)
+          if (!lastFile) return
+          showRestoreFile(lastFile)
           break
 
         case 'backup':
