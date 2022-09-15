@@ -95,6 +95,10 @@ export const getPath = (...params: any) => {
   return join(...params)
 }
 
+export const getAppPath = (...params: any) => {
+  return getPath((window as any).APP_HOME_DIR, ...params)
+}
+
 export const getBackupPath = (...params: any) => {
   return getPath((window as any).APP_HOME_DIR, 'backup', ...params)
 }

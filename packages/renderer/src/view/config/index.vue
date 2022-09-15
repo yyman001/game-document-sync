@@ -98,20 +98,20 @@
  <a-tab-pane key="4" tab="云同步设置">
       <field-set-group title="云配置">
         <div>
-          <a-input v-model:value="configFilePath">
+          <a-input :value="configFilePath">
             <template #addonBefore>
               <a-tooltip title="导入配置">
                 <SettingOutlined @click="handleSetConfig"/>
               </a-tooltip>
             </template>
             <template #addonAfter>
-              <a-tooltip  title="恢复默认">
+              <a-tooltip  title="恢复默认" @click="setDefalutConfigPath">
                 <RedoOutlined />
               </a-tooltip>
             </template>
           </a-input>
           <a-divider/>
-          <a-button type="primary" @click="loadConfig">重新载入配置</a-button>
+          <a-button type="primary" @click="loadConfig(configFilePath)">重新载入配置</a-button>
           <a-divider/>
 
           <field-set-group title="账号设置">
@@ -210,6 +210,7 @@ export default defineComponent({
     ReloadOutlined
   },
   setup () {
+    const useConfigStore = useConfigStoreWhitOut()
     const {
       progress,
       isLoading,
@@ -229,7 +230,6 @@ export default defineComponent({
     const {
       cloudFormState,
       cloudType,
-      configFilePath,
       cloudOptions,
       targetCloudAccount,
       onSwitchCloud,
@@ -238,8 +238,7 @@ export default defineComponent({
       handleSave
     } = useCloudConfig()
 
-    const useConfig = useConfigStoreWhitOut()
-    const { tempPath, backPath } = storeToRefs(useConfig)
+    const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
 
     return {
       progress,
@@ -265,8 +264,9 @@ export default defineComponent({
 
       tempPath,
       backPath,
-      setDefaultTempPath: useConfig.setDefaultTempPath,
-      setDefaultBackPath: useConfig.setDefaultBackPath
+      setDefaultTempPath: useConfigStore.setDefaultTempPath,
+      setDefaultBackPath: useConfigStore.setDefaultBackPath,
+      setDefalutConfigPath: useConfigStore.setDefaultBackPath
     }
   }
 })
