@@ -1,27 +1,17 @@
-import { ref, unref, computed, reactive, watch, onMounted } from 'vue'
+import { ref, unref, computed, reactive, watch } from 'vue'
 import { showOpenDialog } from '@/utils/dialog'
 import { message } from 'ant-design-vue'
 import { useCloudStoreWhitOut } from '@/store/cloud'
+import { useConfigStoreWhitOut } from '@/store/config'
+import { storeToRefs } from 'pinia'
 const fs = require('fs-extra')
 
 export default function useCloudConfig () {
   const { success: messageSuccess, error: messageError } = message
   const cloudStore = useCloudStoreWhitOut()
-  console.log('cloudStore:', cloudStore)
+  const useConfigStore = useConfigStoreWhitOut()
+  const { configFilePath } = storeToRefs(useConfigStore)
 
-  // 云配置文件
-  const configFilePath = ref('./static/cloud.config.json')
-  // 支持的云类型
-  const cloudOptions = ref([
-    {
-      label: '坚果云',
-      value: 'jianguoyun'
-    },
-    {
-      label: '阿里云',
-      value: 'ali-oss'
-    }
-  ])
   // 云账号配置信息列表
   const cloudList = ref([])
   const loading = ref(false)
@@ -43,24 +33,11 @@ export default function useCloudConfig () {
     bucket: ''
   })
 
-  watch(
-    targetCloudAccount,
-    () => {
-      Object.keys(unref(targetCloudAccount)).forEach(key => {
-        cloudFormState[key] = unref(targetCloudAccount)[key]
-      })
-    },
-    {
-      deep: true
-    }
-  )
-
-  const loadConfig = () => {
+  const loadConfig = (path:string) => {
     try {
-      const fileJson: Array<any> = fs.readJSONSync(unref(configFilePath))
+      const fileJson: Array<any> = fs.readJSONSync(path)
       if (Array.isArray(fileJson)) {
-        cloudList.value = fileJson
-        cloudStore.setCloudList(fileJson)
+        cloudStore.setConfigList(fileJson)
         messageSuccess('加载配置成功!')
         return true
       }
@@ -98,7 +75,7 @@ export default function useCloudConfig () {
     loading.value = false
   }
 
-  const onSwitchCloud = type => {
+  const onSwitchCloud = (type:string) => {
     cloudType.value = type
     console.log('onSwitchCloud:', type)
   }
@@ -125,30 +102,20 @@ export default function useCloudConfig () {
       return config
     })
     // 更新到vuex
-    cloudStore.setCloudList(unref(cloudList))
+    cloudStore.setConfigList(unref(cloudList))
     hanldeSaveConfig()
   }
 
-  onMounted(() => {
-    try {
-      onSwitchCloud(cloudStore.getCloudType)
-      cloudList.value = cloudStore.getCloudList
-    } catch (error) {
-      console.log('?', error)
-    }
-  })
   return {
     cloudFormState,
     cloudType,
-    configFilePath,
-    targetCloudAccount,
-    cloudOptions,
     cloudList,
 
-    loadConfig,
     handleSetConfig,
     onSwitchCloud,
 
-    handleSave
+    handleSave,
+
+    loadConfig
   }
 }

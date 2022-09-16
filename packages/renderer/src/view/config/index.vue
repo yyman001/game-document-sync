@@ -1,6 +1,6 @@
 <template>
   <div class="config-page">
-    <a-tabs type="card" @change="callback">
+    <a-tabs type="card">
     <a-tab-pane key="1" tab="基本设置">
       <a-checkbox> 随开机启动 </a-checkbox>
     </a-tab-pane>
@@ -120,21 +120,21 @@
               <a-select
                 style="width: 100px;"
                 size="small"
-                v-model:value="cloudType"
-                :options="cloudOptions"
-                @change="onSwitchCloud"
+                :value="cloudType"
+                :options="cloudTypeList"
+                @change="setCloudType"
               ></a-select>
             </div>
           <a-divider/>
           <a-form
               v-if="targetCloudAccount"
-              :model="cloudFormState"
+              :model="cloudForm"
               name="basic"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 16 }"
               autocomplete="off"
             >
-            <template v-if="targetCloudAccount.type === 'ali-oss'">
+            <template v-if="cloudType === 'ali-oss'">
               <a-form-item
                 label="AccessKeyId"
                 name="accessKeyId"
@@ -160,17 +160,21 @@
               </a-form-item>
             </template>
 
-            <template v-if="targetCloudAccount.type === 'jianguoyun' ">
+            <template v-if="cloudType === 'jianguoyun' ">
             <!-- 账号 -->
               <a-form-item>
                 <a-input placeholder="账号" v-model:value="usearname">
-                  <!-- <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" /> -->
+                  <template #addonBefore>
+                    <UserOutlined />
+                  </template>
                 </a-input>
               </a-form-item>
               <!-- 密码 -->
               <a-form-item>
                 <a-input-password type="password" placeholder="密码" v-model:value="password">
-                  <!-- <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" /> -->
+                  <template #addonBefore>
+                    <LockOutlined />
+                  </template>
                 </a-input-password>
               </a-form-item>
             </template>
@@ -191,85 +195,54 @@
 
 </template>
 
-<script lang="ts">
-import { defineComponent, toRefs } from 'vue'
-import { SettingOutlined, RedoOutlined, InteractionOutlined, ReloadOutlined } from '@ant-design/icons-vue'
+<script setup lang="ts">
+import { toRefs } from 'vue'
+import { SettingOutlined, RedoOutlined, ReloadOutlined, UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import FieldSetGroup from '@/components/FieldSetGroup/index.vue'
 import useDB from '@/hooks/db/useDB'
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useConfigStoreWhitOut } from '@/store/config'
 import { storeToRefs } from 'pinia'
+import { useCloudStoreWhitOut } from '@/store/cloud'
 
-export default defineComponent({
-  name: 'config-mod',
-  components: {
-    FieldSetGroup,
-    SettingOutlined,
-    RedoOutlined,
-    InteractionOutlined,
-    ReloadOutlined
-  },
-  setup () {
-    const useConfigStore = useConfigStoreWhitOut()
-    const {
-      progress,
-      isLoading,
-      isDeleteOldDatabse,
-      handleDeleteDatabse,
-      saveDatabaseToJson,
-      improtDatabaseByJson,
+const {
+  progress,
+  isLoading,
+  isDeleteOldDatabse,
+  handleDeleteDatabse,
+  saveDatabaseToJson,
+  improtDatabaseByJson,
 
-      exportTableOptions,
-      exportTableName
-    } = useDB()
+  exportTableOptions,
+  exportTableName
+} = useDB()
 
-    const callback = (key) => {
-      console.log(key)
-    }
+const {
+  cloudFormState,
+  // targetCloudAccount,
+  // onSwitchCloud,
+  loadConfig,
+  handleSetConfig,
+  handleSave
+} = useCloudConfig()
 
-    const {
-      cloudFormState,
-      cloudType,
-      cloudOptions,
-      targetCloudAccount,
-      onSwitchCloud,
-      loadConfig,
-      handleSetConfig,
-      handleSave
-    } = useCloudConfig()
+const useCloudStore = useCloudStoreWhitOut()
+const { cloudType, setCloudType, cloudTypeList, targetCloudAccount, cloudForm } = storeToRefs(useCloudStore)
+console.log(cloudType)
 
-    const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
+// const { cloudList, cloudType } = toRefs(useCloudStore.cloudForm)
 
-    return {
-      progress,
-      isLoading,
-      isDeleteOldDatabse,
-      saveDatabaseToJson,
-      improtDatabaseByJson,
-      handleDeleteDatabse,
-      exportTableOptions,
-      exportTableName,
+const { usearname, password, accessKeyId, accessKeySecret, bucket } = toRefs(cloudFormState)
 
-      callback,
+const useConfigStore = useConfigStoreWhitOut()
+const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
 
-      ...toRefs(cloudFormState),
-      cloudType,
-      configFilePath,
-      cloudOptions,
-      targetCloudAccount,
-      onSwitchCloud,
-      loadConfig,
-      handleSetConfig,
-      handleSave,
-
-      tempPath,
-      backPath,
-      setDefaultTempPath: useConfigStore.setDefaultTempPath,
-      setDefaultBackPath: useConfigStore.setDefaultBackPath,
-      setDefalutConfigPath: useConfigStore.setDefaultBackPath
-    }
-  }
-})
+const setDefaultTempPath = () => useConfigStore.setDefaultTempPath
+const setDefaultBackPath = () => useConfigStore.setDefaultBackPath
+const setDefalutConfigPath = () => useConfigStore.setDefaultBackPath
+const onSwitchCloud = (e) => {
+  console.log(e)
+}
 
 </script>
 

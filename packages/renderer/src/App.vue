@@ -11,8 +11,9 @@
       <a-select
         style="width: 100px;"
         size="small"
-        v-model:value="cloudType"
-        :options="cloudOptions"
+        :value="cloudType"
+        :options="cloudTypeList"
+        @change="setConfigList"
       ></a-select>
       <a-button @click="reLoadCloudData"><ReloadOutlined /></a-button>
     </div>
@@ -43,14 +44,14 @@ import { ReloadOutlined } from '@ant-design/icons-vue'
 import AddDoc from './view/header/addDoc.vue'
 import RestoreModal from '@/modal/restore/index.vue'
 
-import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
 import useRestore from './modal/restore/useRestore'
+import { storeToRefs } from 'pinia'
 
 const cloudStore = useCloudStoreWhitOut()
 const cloudFileStore = useCloudFileStoreWhitOut()
-const { cloudType, cloudOptions } = useCloudConfig()
+const { cloudType, cloudTypeList } = storeToRefs(cloudStore)
 
 const reLoadCloudData = () => {
   cloudFileStore.switchCloudAccount(cloudStore.targetCloudAccount)
@@ -59,6 +60,7 @@ const reLoadCloudData = () => {
 const { restoreProvide } = useRestore()
 restoreProvide()
 
+const setConfigList = () => cloudStore.setConfigList
 </script>
 
 <style lang="scss">
