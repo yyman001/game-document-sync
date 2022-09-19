@@ -1,17 +1,20 @@
 import { computed, unref } from 'vue'
-import useFile from './useFile'
-import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
+import { storeToRefs } from 'pinia'
 import { getBackupPath } from '@/utils'
+import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
+import useFile from './useFile'
 
 export default function () {
   const localFileStore = useLocalFileStoreWhitOut()
   const cloudFileStore = useCloudFileStoreWhitOut()
+  const { localFileListName, localDirectoryListName } = storeToRefs(localFileStore)
   const { activeDirectoryName, handleSetDirectory, handleOpenFile, handleAction } = useFile()
+
   // 未同步的云文件夹
   const cloudSynchronizationDirectory = computed(() => {
     return unref(cloudFileStore.coludItems.directoryItem)
-      .filter(file => !localDirectoryListName.includes(file.basename))
+      .filter(file => !unref(localDirectoryListName).includes(file.basename))
       .map((f) => {
         // 使用 path 作为云下载标识
         return { ...f, timeStamp: f.lastmod, path: '' }
@@ -22,7 +25,7 @@ export default function () {
   const cloudSynchronizationFile = computed(() => {
     // 过滤已经存在的云文件(已同步): 云文件 过滤 本地文件
     return cloudFileStore.coludItems.fileItems
-      .filter(f => !localFileListName.includes(f.comparsedName))
+      .filter(f => !unref(localFileListName).includes(f.comparsedName))
       .map((f) => {
         return {
           ...f,
@@ -34,17 +37,18 @@ export default function () {
 
   // 未同步到云盘的本地文件
   const localSyncDirectory = computed(() => {
-    return localFileStore.directoryItem.filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
+    return unref(localFileStore.directoryItem).filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
   })
 
   // 本地文件夹&云文件夹
   const allDirectory = computed(() => {
-    return [...localFileStore.directoryItem, ...cloudSynchronizationDirectory.value]
+    return [...unref(localFileStore.directoryItem), ...unref(cloudSynchronizationDirectory)]
   })
 
   const getDirectoryChildrenByCloud = (gameDocDir: string) => {
     // ! 文件必须为 gameDocDir 目录下的文件
-    return unref(cloudSynchronizationFile).filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
+    return unref(cloudSynchronizationFile)
+      .filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
   }
 
   console.log('allDirectory', unref(allDirectory))
@@ -68,7 +72,7 @@ export default function () {
   // 全部文件列表
   const fileList = computed(() => {
     // 未选择文件夹, 返回文件夹列表
-    if (!unref(activeDirectoryName)) return unref(localFileStore.directoryItem)
+    if (!unref(activeDirectoryName)) return unref(allDirectory)
 
     // 返回文件夹文件列表
     return getChildrenByLocalAndCloud(unref(activeDirectoryName))
@@ -98,7 +102,7 @@ export default function () {
     // 当前文件夹名称
     const gameDocDir = item.basename
     // 获取本地文件列表
-    const localFileList = unref(localFileStore.localFileListName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+    const localFileList = unref(localFileListName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
     // 获取云文件列表
     const coludFileList = unref(cloudFileStore.cloudFilesName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
     // 本地文件列表和云文件列表 一致时,代表已同步
