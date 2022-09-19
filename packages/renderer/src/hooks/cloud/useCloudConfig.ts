@@ -4,23 +4,22 @@ import { message } from 'ant-design-vue'
 import { useCloudStoreWhitOut } from '@/store/cloud'
 import { useConfigStoreWhitOut } from '@/store/config'
 import { storeToRefs } from 'pinia'
+import { SdkConfig } from '@/model'
 const fs = require('fs-extra')
 
 export default function useCloudConfig () {
   const { success: messageSuccess, error: messageError } = message
   const cloudStore = useCloudStoreWhitOut()
   const useConfigStore = useConfigStoreWhitOut()
+
   const { configFilePath } = storeToRefs(useConfigStore)
+  const { cloudTypeList, cloudConfigList } = storeToRefs(cloudStore)
 
   // 云账号配置信息列表
-  const cloudList = ref([])
   const loading = ref(false)
-  const cloudType = ref('')
-  const targetCloudAccount = computed(() => {
-    return unref(cloudList).find((x: any) => x.type === unref(cloudType)) || {}
-  })
+  const cloudType = ref('jianguoyun')
 
-  const cloudFormState = reactive({
+  const cloudFormState = reactive<SdkConfig>({
     type: '',
     // 坚果云
     url: '',
@@ -33,10 +32,28 @@ export default function useCloudConfig () {
     bucket: ''
   })
 
+  const initFormState = (fileJson:SdkConfig[]) => {
+    fileJson.forEach((element:SdkConfig) => {
+      const { type, usearname, password, accessKeyId, accessKeySecret, bucket } = element
+      if (type === 'jianguoyun') {
+        cloudFormState.usearname = usearname
+        cloudFormState.password = password
+      } else if (type === 'ali-oss') {
+        cloudFormState.accessKeyId = accessKeyId
+        cloudFormState.accessKeySecret = accessKeySecret
+        cloudFormState.bucket = bucket
+      }
+    })
+  }
+
+  const refreshFormState = () => initFormState(unref(cloudConfigList))
+
   const loadConfig = (path:string) => {
     try {
+      // todo: 判断配置文件是否存在
       const fileJson: Array<any> = fs.readJSONSync(path)
       if (Array.isArray(fileJson)) {
+        initFormState(fileJson)
         cloudStore.setConfigList(fileJson)
         messageSuccess('加载配置成功!')
         return true
@@ -61,12 +78,11 @@ export default function useCloudConfig () {
     }
   }
 
-  const hanldeSaveConfig = () => {
+  const hanldeSaveConfig = (cloudList:SdkConfig[]) => {
     if (unref(loading)) return
     loading.value = true
-
     try {
-      fs.outputJsonSync(unref(configFilePath), unref(cloudList))
+      fs.outputJsonSync(unref(configFilePath), cloudList)
       messageSuccess('保存配置成功!')
     } catch (error) {
       messageError('保存配置失败!')
@@ -77,20 +93,18 @@ export default function useCloudConfig () {
 
   const onSwitchCloud = (type:string) => {
     cloudType.value = type
-    console.log('onSwitchCloud:', type)
   }
 
   const handleSave = () => {
-    console.log('cloudFormState:', JSON.stringify(cloudFormState))
     // TODO: 校验数据
-    cloudList.value = unref(cloudList).map(config => {
-      if (cloudFormState.type === 'jianguoyun') {
+    const cloudList = unref(cloudConfigList).map(config => {
+      if (config.type === 'jianguoyun') {
         return {
           ...config,
           password: cloudFormState.password,
           usearname: cloudFormState.usearname
         }
-      } else if (cloudFormState.type === 'ali-oss') {
+      } else if (config.type === 'ali-oss') {
         return {
           ...config,
           accessKeyId: cloudFormState.accessKeyId,
@@ -102,14 +116,15 @@ export default function useCloudConfig () {
       return config
     })
     // 更新到vuex
-    cloudStore.setConfigList(unref(cloudList))
-    hanldeSaveConfig()
+    cloudStore.setConfigList(cloudList)
+    hanldeSaveConfig(cloudList)
   }
 
   return {
     cloudFormState,
+    refreshFormState,
     cloudType,
-    cloudList,
+    cloudTypeList,
 
     handleSetConfig,
     onSwitchCloud,

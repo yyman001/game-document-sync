@@ -1,6 +1,6 @@
 <template>
   <div class="config-page">
-    <a-tabs type="card">
+    <a-tabs type="card" @change="tabsCallback">
     <a-tab-pane key="1" tab="基本设置">
       <a-checkbox> 随开机启动 </a-checkbox>
     </a-tab-pane>
@@ -122,13 +122,12 @@
                 size="small"
                 :value="cloudType"
                 :options="cloudTypeList"
-                @change="setCloudType"
+                @change="onSwitchCloud"
               ></a-select>
             </div>
           <a-divider/>
           <a-form
-              v-if="targetCloudAccount"
-              :model="cloudForm"
+              :model="cloudFormState"
               name="basic"
               :label-col="{ span: 8 }"
               :wrapper-col="{ span: 16 }"
@@ -219,19 +218,17 @@ const {
 
 const {
   cloudFormState,
-  // targetCloudAccount,
-  // onSwitchCloud,
+  cloudType,
+
+  refreshFormState,
+  onSwitchCloud,
   loadConfig,
   handleSetConfig,
   handleSave
 } = useCloudConfig()
 
 const useCloudStore = useCloudStoreWhitOut()
-const { cloudType, setCloudType, cloudTypeList, targetCloudAccount, cloudForm } = storeToRefs(useCloudStore)
-console.log(cloudType)
-
-// const { cloudList, cloudType } = toRefs(useCloudStore.cloudForm)
-
+const { cloudTypeList } = storeToRefs(useCloudStore)
 const { usearname, password, accessKeyId, accessKeySecret, bucket } = toRefs(cloudFormState)
 
 const useConfigStore = useConfigStoreWhitOut()
@@ -240,8 +237,11 @@ const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
 const setDefaultTempPath = () => useConfigStore.setDefaultTempPath
 const setDefaultBackPath = () => useConfigStore.setDefaultBackPath
 const setDefalutConfigPath = () => useConfigStore.setDefaultBackPath
-const onSwitchCloud = (e) => {
-  console.log(e)
+const tabsCallback = (type:string) => {
+  console.log(type)
+  if (type === '4') {
+    refreshFormState()
+  }
 }
 
 </script>

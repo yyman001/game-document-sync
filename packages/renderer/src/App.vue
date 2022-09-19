@@ -13,7 +13,7 @@
         size="small"
         :value="cloudType"
         :options="cloudTypeList"
-        @change="setConfigList"
+        @change="setCloudType"
       ></a-select>
       <a-button @click="reLoadCloudData"><ReloadOutlined /></a-button>
     </div>
@@ -59,8 +59,13 @@ const reLoadCloudData = () => {
 
 const { restoreProvide } = useRestore()
 restoreProvide()
+// ! 切换 实例
+// 如果存在对应配置
+const setCloudType = (type:string) => {
+  cloudStore.setCloudType(type)
+  reLoadCloudData()
+}
 
-const setConfigList = () => cloudStore.setConfigList
 </script>
 
 <style lang="scss">
