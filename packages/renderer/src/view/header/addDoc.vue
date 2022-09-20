@@ -23,11 +23,16 @@
         </a-form-item>
 
         <a-form-item label="游戏名" name="gameName">
-          <a-input v-model:value="formState.gameName" />
+          <a-input v-model:value="formState.gameName" @change="onChangeSearchGameName"/>
+          <a-alert v-if="repetitionGame.length" type="error" :message="'重复游戏:' + repetitionGame[0].gameName || repetitionGame[0].nickName" banner />
         </a-form-item>
 
         <a-form-item label="游戏别名" name="nickName">
           <a-input v-model:value="formState.nickName" />
+        </a-form-item>
+
+        <a-form-item label="文件夹存档名" name="gameDocDir">
+          <a-input v-model:value="formState.gameDocDir" />
         </a-form-item>
 
         <a-form-item label="存档路径" name="gameDocFullPath">
@@ -56,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from 'vue'
+import { defineComponent, reactive, ref, watch } from 'vue'
 import useModal from '@/hooks/useModal'
 import useSystem from '@/hooks/core/useSystem'
 import useDocs from '@/hooks/db/useDocs'
@@ -66,7 +71,8 @@ export default defineComponent({
   setup () {
     const { HOME_DIR, SYSTEM_TYPE } = useSystem()
     const { isVisible, onModalOpen, onModalClose } = useModal()
-    const { onAddDoc } = useDocs()
+    const { onAddDoc, hasGameDoc } = useDocs()
+    const repetitionGame = ref<any[]>([])
     const DOC_TYPE = {
       '%APPDATA%': '\\AppData\\Roaming',
       '%LOCALAPPDATA%': '\\AppData\\Local',
@@ -82,17 +88,32 @@ export default defineComponent({
       gameDocFullPath: ''
     })
 
+    const resetFormState = () => {
+      formState.steamId = ''
+      formState.gameName = ''
+      formState.nickName = ''
+      formState.gameDocDir = ''
+      formState.gameDocPath = ''
+      formState.gameDocFullPath = ''
+    }
+
     const onFinish = async () => {
       console.log('formState:', formState)
       const { steamId, gameName, nickName, gameDocDir, gameDocPath } = formState
-      await onAddDoc({
-        gameDocPath,
-        gameName,
-        nickName,
-        steamId,
-        systemType: SYSTEM_TYPE,
-        gameDocDir
-      })
+      try {
+        await onAddDoc({
+          gameDocPath,
+          gameName,
+          nickName,
+          steamId,
+          systemType: SYSTEM_TYPE,
+          gameDocDir
+        })
+        onModalClose()
+        resetFormState()
+      } catch (e) {
+        console.error(e)
+      }
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -107,7 +128,7 @@ export default defineComponent({
         }
         const pathObject = path.parse(value)
         console.log('pathObject:', pathObject)
-
+        // 有时候, 游戏名不等于 文件夹名, 如 Keplerth: Another World => Keplerth
         switch (pathObject.dir) {
           case '%APPDATA%':
           case '%LOCALAPPDATA%':
@@ -125,14 +146,23 @@ export default defineComponent({
       }
     )
 
+    const onChangeSearchGameName = async (e: Event) => {
+      if (!formState.gameName) return
+      const rtx = await hasGameDoc(formState.gameName)
+      repetitionGame.value = rtx
+      console.log('onChangeSearchGameName:', formState.gameName, rtx)
+    }
+
     return {
       isVisible,
       onModalOpen,
       onModalClose,
 
+      repetitionGame,
       formState,
       onFinish,
       onFinishFailed,
+      onChangeSearchGameName,
 
       HOME_DIR,
       SYSTEM_TYPE
