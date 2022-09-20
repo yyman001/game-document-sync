@@ -8,17 +8,17 @@
       {
         "name": "backupTable",
         "schema": "fileName,steamId,gameName,nickName,gameDocDir,fileType",
-        "rowCount": 16
+        "rowCount": 33
       },
       {
         "name": "docsTable",
         "schema": "gameDocDir,steamId,gameName,nickName",
-        "rowCount": 44
+        "rowCount": 53
       },
       {
         "name": "gamesTable",
         "schema": "gameDocDir,steamId,gameName,nickName,systemType",
-        "rowCount": 22
+        "rowCount": 40
       },
       {
         "name": "steamApp",
@@ -29,200 +29,7 @@
     "data": [{
       "tableName": "backupTable",
       "inbound": true,
-      "rows": [
-        {
-          "steamId": "280160",
-          "gameName": "Aragami",
-          "gameDocDir": "Aragami",
-          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
-          "fileName": "Aragami_t1651668926252",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1651668926252.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1651668926252,
-          "remask": ""
-        },
-        {
-          "steamId": "280160",
-          "gameName": "Aragami",
-          "gameDocDir": "Aragami",
-          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
-          "fileName": "Aragami_t1652105533842",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105533842.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1652105533842,
-          "remask": "1"
-        },
-        {
-          "steamId": "280160",
-          "gameName": "Aragami",
-          "gameDocDir": "Aragami",
-          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
-          "fileName": "Aragami_t1652105543225",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105543225.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1652105543225,
-          "remask": "2"
-        },
-        {
-          "steamId": "280160",
-          "gameName": "Aragami",
-          "gameDocDir": "Aragami",
-          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
-          "fileName": "Aragami_t1652105930541",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652105930541.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1652105930541,
-          "remask": "3"
-        },
-        {
-          "steamId": "280160",
-          "gameName": "Aragami",
-          "gameDocDir": "Aragami",
-          "gameDocPath": "\\AppData\\LocalLow\\Lince Works\\Aragami",
-          "fileName": "Aragami_t1652191112167",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1652191112167.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1652191112167,
-          "remask": ""
-        },
-        {
-          "steamId": "1366540",
-          "gameName": "Dyson Sphere Program",
-          "gameDocDir": "Dyson Sphere Program",
-          "gameDocPath": "\\Documents\\Dyson Sphere Program",
-          "fileName": "Dyson Sphere Program_t1645351326145",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\Dyson Sphere Program_t1645351326145.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645351326145,
-          "remask": ""
-        },
-        {
-          "steamId": "367520",
-          "gameName": "Hollow Knight",
-          "gameDocDir": "Hollow Knight",
-          "gameDocPath": "\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
-          "fileName": "Hollow Knight_t1652102633697",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Hollow Knight\\Hollow Knight_t1652102633697.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1652102633697,
-          "remask": ""
-        },
-        {
-          "steamId": "814380",
-          "gameName": "Sekiro",
-          "gameDocDir": "Sekiro",
-          "gameDocPath": "\\AppData\\Roaming\\Sekiro",
-          "fileName": "Sekiro_t1642853956265",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Sekiro\\Sekiro_t1642853956265.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1642853956265,
-          "remask": ""
-        },
-        {
-          "steamId": "312660",
-          "gameName": "SniperElite4",
-          "gameDocDir": "SniperElite4",
-          "gameDocPath": "\\AppData\\Local\\SniperElite4",
-          "fileName": "SniperElite4_t1645353586187",
-          "filePath": "E:\\git\\game-document-sync\\backup\\SniperElite4\\SniperElite4_t1645353586187.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645353586187,
-          "remask": ""
-        },
-        {
-          "steamId": "",
-          "gameName": "StarCraft",
-          "gameDocDir": "StarCraft",
-          "gameDocPath": "\\Documents\\StarCraft",
-          "fileName": "StarCraft_t1645351404081",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\StarCraft_t1645351404081.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645351404081,
-          "remask": ""
-        },
-        {
-          "steamId": "105600",
-          "gameName": "Terraria",
-          "gameDocDir": "Terraria",
-          "gameDocPath": "\\Documents\\My Games\\Terraria",
-          "fileName": "Terraria_t1645351355564",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Dyson Sphere Program\\Terraria_t1645351355564.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645351355564,
-          "remask": ""
-        },
-        {
-          "steamId": "105600",
-          "gameName": "Terraria",
-          "gameDocDir": "Terraria",
-          "gameDocPath": "\\Documents\\My Games\\Terraria",
-          "fileName": "Terraria_t1645353337811",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Terraria\\Terraria_t1645353337811.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645353337811,
-          "remask": ""
-        },
-        {
-          "steamId": "105600",
-          "gameName": "Terraria",
-          "gameDocDir": "Terraria",
-          "gameDocPath": "\\Documents\\My Games\\Terraria",
-          "fileName": "Terraria_t1646059713386",
-          "filePath": "E:\\git\\game-document-sync\\backup\\Terraria\\Terraria_t1646059713386.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1646059713386,
-          "remask": ""
-        },
-        {
-          "steamId": "780310",
-          "gameName": "The Riftbreaker",
-          "gameDocDir": "The Riftbreaker",
-          "gameDocPath": "\\Documents\\The Riftbreaker",
-          "fileName": "The Riftbreaker_t1645353255112",
-          "filePath": "E:\\git\\game-document-sync\\backup\\The Riftbreaker\\The Riftbreaker_t1645353255112.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645353255112,
-          "remask": ""
-        },
-        {
-          "steamId": "1237970",
-          "gameName": "Titanfall2",
-          "gameDocDir": "Titanfall2",
-          "gameDocPath": "\\Documents\\Respawn\\Titanfall2",
-          "fileName": "Titanfall2_t1645353591626",
-          "filePath": "E:\\git\\game-document-sync\\backup\\SniperElite4\\Titanfall2_t1645353591626.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1645353591626,
-          "remask": ""
-        },
-        {
-          "steamId": "427520",
-          "gameName": "Factorio",
-          "gameDocDir": "Factorio",
-          "gameDocPath": "\\AppData\\Roaming\\Factorio",
-          "fileName": "undefined_t1661411526953",
-          "filePath": "C:\\my_git_project\\game-document-sync\\backup\\Factorio\\undefined_t1661411526953.zip",
-          "platformTye": "Windows_NT",
-          "fileType": "zip",
-          "timeStamp": 1661411526953,
-          "remask": ""
-        }
-      ]
+      "rows": []
     },{
       "tableName": "docsTable",
       "inbound": true,
@@ -243,6 +50,14 @@
           "gameName": "20XX",
           "systemType": "Windows",
           "steamId": "322110"
+        },
+        {
+          "gameDocPath": "\\AppData\\Roaming\\GSQ",
+          "gameName": "Amazing Cultivation Simulator",
+          "nickName": "了不起得修仙模拟器",
+          "steamId": "955900",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Amazing Cultivation Simulator"
         },
         {
           "nickName": "荒神",
@@ -269,6 +84,14 @@
           "steamId": "585710"
         },
         {
+          "gameDocPath": "\\AppData\\LocalLow\\Pugstorm",
+          "gameName": "Core Keeper",
+          "nickName": "地心护核者",
+          "steamId": "1621690",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Core Keeper"
+        },
+        {
           "steamId": "391730",
           "nickName": "奔溃大陆",
           "gameDocDir": "Crashlands",
@@ -277,12 +100,28 @@
           "systemType": "Windows"
         },
         {
+          "gameDocPath": "\\AppData\\LocalLow\\Massive Monster",
+          "gameName": "Cult Of The Lamb",
+          "nickName": "咩咩启示录",
+          "steamId": "1313140",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Cult Of The Lamb"
+        },
+        {
           "nickName": "茶杯头",
           "gameDocDir": "Cuphead",
           "gameDocPath": "\\AppData\\Roaming\\Cuphead",
           "gameName": "Cuphead",
           "systemType": "Windows",
           "steamId": "268910"
+        },
+        {
+          "gameDocPath": "\\Saved Games",
+          "gameName": "Curse of the Dead Gods",
+          "nickName": "无间冥寺",
+          "steamId": "1123770",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Curse of the Dead Gods"
         },
         {
           "nickName": "暗黑血统：创世",
@@ -307,6 +146,14 @@
           "gameName": "DoNotStarveTogether",
           "systemType": "Windows",
           "steamId": "322330"
+        },
+        {
+          "gameDocPath": "",
+          "gameName": "DrakeHollow",
+          "nickName": "DrakeHollow",
+          "steamId": "",
+          "systemType": "Windows_NT",
+          "gameDocDir": "DrakeHollow"
         },
         {
           "nickName": "戴森球计划",
@@ -373,6 +220,14 @@
           "steamId": "631980"
         },
         {
+          "gameDocPath": "\\AppData\\LocalLow\\Taro",
+          "gameName": "Keplerth",
+          "nickName": "开普勒斯",
+          "steamId": "747200",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Keplerth"
+        },
+        {
           "nickName": "夜勤人",
           "gameDocDir": "Moonlighter",
           "gameDocPath": "\\AppData\\LocalLow\\11BitStudios\\Moonlighter",
@@ -413,6 +268,22 @@
           "steamId": "218620"
         },
         {
+          "gameDocPath": "\\AppData\\LocalLow\\Terapoly",
+          "gameName": "Project Lazarus",
+          "nickName": "Project Lazarus",
+          "steamId": "2024230",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Project Lazarus"
+        },
+        {
+          "gameDocPath": "\\AppData\\LocalLow\\Cellar Door Games",
+          "gameName": "Rogue Legacy 2",
+          "nickName": "盗贼遗产2",
+          "steamId": "1253920",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Rogue Legacy 2"
+        },
+        {
           "steamId": "1037020",
           "nickName": "灾厄逆刃",
           "gameDocDir": "ScourgeBringer",
@@ -443,6 +314,22 @@
           "gameDocDir": "SniperElite4",
           "gameDocPath": "\\AppData\\Local\\SniperElite4",
           "systemType": "Windows"
+        },
+        {
+          "gameDocPath": "\\Saved Games",
+          "gameName": "Sniper: Ghost Warrior 2",
+          "nickName": "狙击手：幽灵战士2",
+          "steamId": "34870",
+          "systemType": "Windows_NT",
+          "gameDocDir": "SniperGhostWarrior2"
+        },
+        {
+          "gameDocPath": "\\AppData\\LocalLow\\RetroForgeGames",
+          "gameName": "Souldiers",
+          "nickName": "英灵士魂",
+          "steamId": "1419160",
+          "systemType": "Windows_NT",
+          "gameDocDir": "Souldiers"
         },
         {
           "steamId": "",
@@ -578,6 +465,30 @@
       "inbound": true,
       "rows": [
         {
+          "steamId": "1432050",
+          "gameName": "Nobody Saves the World",
+          "nickName": "没人拯救世界",
+          "gameDocDir": "1432050",
+          "gameDocPath": "\\Documents\\Steam\\CODEX\\1432050",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663487282774,
+          "lastBackTime": null,
+          "pathType": "PUBLIC"
+        },
+        {
+          "steamId": "322110",
+          "gameName": "20XX",
+          "nickName": "20XX-洛克人",
+          "gameDocDir": "20XX",
+          "gameDocPath": "\\Documents\\20XX",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688455402,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
           "steamId": "280160",
           "gameName": "Aragami",
           "nickName": "荒神",
@@ -600,6 +511,18 @@
           "lastBackTime": null
         },
         {
+          "steamId": "1621690",
+          "gameName": "Core Keeper",
+          "nickName": "地心护核者",
+          "gameDocDir": "Core Keeper",
+          "gameDocPath": "\\AppData\\LocalLow\\Pugstorm",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688463629,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
           "steamId": "391730",
           "gameName": "Crashlands",
           "nickName": "奔溃大陆",
@@ -611,6 +534,54 @@
           "lastBackTime": 1631536936057
         },
         {
+          "steamId": "1313140",
+          "gameName": "Cult Of The Lamb",
+          "nickName": "咩咩启示录",
+          "gameDocDir": "Cult Of The Lamb",
+          "gameDocPath": "\\AppData\\LocalLow\\Massive Monster",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688466324,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "268910",
+          "gameName": "Cuphead",
+          "nickName": "茶杯头",
+          "gameDocDir": "Cuphead",
+          "gameDocPath": "\\AppData\\Roaming\\Cuphead",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688468049,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "1123770",
+          "gameName": "Curse of the Dead Gods",
+          "nickName": "无间冥寺",
+          "gameDocDir": "Curse of the Dead Gods",
+          "gameDocPath": "\\Saved Games",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688506832,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "710920",
+          "gameName": "Darksiders Genesis",
+          "nickName": "暗黑血统：创世",
+          "gameDocDir": "Darksiders Genesis",
+          "gameDocPath": "\\AppData\\Local\\THQ Nordic\\Darksiders Genesis",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688504746,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
           "steamId": "322330",
           "gameName": "DoNotStarveTogether",
           "nickName": "饥荒-联机版",
@@ -620,6 +591,18 @@
           "gamePlatform": [],
           "createTime": 1637585661945,
           "lastBackTime": 1637586020642
+        },
+        {
+          "steamId": "",
+          "gameName": "DrakeHollow",
+          "nickName": "DrakeHollow",
+          "gameDocDir": "DrakeHollow",
+          "gameDocPath": "",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688501362,
+          "lastBackTime": null,
+          "pathType": ""
         },
         {
           "steamId": "1366540",
@@ -666,6 +649,18 @@
           "lastBackTime": 1631538124921
         },
         {
+          "steamId": "1145360",
+          "gameName": "Hades",
+          "nickName": "哈迪斯",
+          "gameDocDir": "Hades",
+          "gameDocPath": "\\Documents\\Saved Games\\Hades",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688483571,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
           "steamId": "367520",
           "gameName": "Hollow Knight",
           "nickName": "空洞骑士",
@@ -675,6 +670,30 @@
           "gamePlatform": [],
           "createTime": 1627979184938,
           "lastBackTime": 1631010005539
+        },
+        {
+          "steamId": "631980",
+          "gameName": "Immortal Planet",
+          "nickName": "不朽星球",
+          "gameDocDir": "Immortal_Planet",
+          "gameDocPath": "\\AppData\\Local\\Immortal_Planet",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688517800,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "747200",
+          "gameName": "Keplerth",
+          "nickName": "开普勒斯",
+          "gameDocDir": "Keplerth",
+          "gameDocPath": "\\AppData\\LocalLow\\Taro",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663684611907,
+          "lastBackTime": null,
+          "pathType": ""
         },
         {
           "steamId": "606150",
@@ -688,6 +707,18 @@
           "lastBackTime": 1631010095313
         },
         {
+          "steamId": "387290",
+          "gameName": "Ori and the Blind Forest DE",
+          "nickName": "奥日和黑暗森林",
+          "gameDocDir": "Ori and the Blind Forest DE",
+          "gameDocPath": "\\AppData\\Local\\Ori and the Blind Forest DE",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688522914,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
           "steamId": "457140",
           "gameName": "OxygenNotIncluded",
           "nickName": "缺氧",
@@ -697,6 +728,42 @@
           "gamePlatform": [],
           "createTime": 1627979192536,
           "lastBackTime": null
+        },
+        {
+          "steamId": "2024230",
+          "gameName": "Project Lazarus",
+          "nickName": "Project Lazarus",
+          "gameDocDir": "Project Lazarus",
+          "gameDocPath": "\\AppData\\LocalLow\\Terapoly",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688532331,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "1253920",
+          "gameName": "Rogue Legacy 2",
+          "nickName": "盗贼遗产2",
+          "gameDocDir": "Rogue Legacy 2",
+          "gameDocPath": "\\AppData\\LocalLow\\Cellar Door Games",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688554783,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "1037020",
+          "gameName": "ScourgeBringer",
+          "nickName": "灾厄逆刃",
+          "gameDocDir": "ScourgeBringer",
+          "gameDocPath": "\\AppData\\LocalLow\\Flying Oak Games\\ScourgeBringer",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688553011,
+          "lastBackTime": null,
+          "pathType": ""
         },
         {
           "steamId": "814380",
@@ -713,6 +780,30 @@
           "gameDocDir": "SniperElite4",
           "gameDocPath": "\\AppData\\Local\\SniperElite4",
           "systemType": "Windows"
+        },
+        {
+          "steamId": "34870",
+          "gameName": "Sniper: Ghost Warrior 2",
+          "nickName": "狙击手：幽灵战士2",
+          "gameDocDir": "SniperGhostWarrior2",
+          "gameDocPath": "\\Saved Games",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663689076957,
+          "lastBackTime": null,
+          "pathType": ""
+        },
+        {
+          "steamId": "1419160",
+          "gameName": "Souldiers",
+          "nickName": "英灵士魂",
+          "gameDocDir": "Souldiers",
+          "gameDocPath": "\\AppData\\LocalLow\\RetroForgeGames",
+          "systemType": "Windows_NT",
+          "gamePlatform": [],
+          "createTime": 1663688544158,
+          "lastBackTime": null,
+          "pathType": ""
         },
         {
           "steamId": "",
@@ -746,6 +837,18 @@
           "gamePlatform": [],
           "createTime": 1627976864999,
           "lastBackTime": 1628658173305
+        },
+        {
+          "steamId": "641990",
+          "gameName": "The Escapists 2",
+          "nickName": "逃脱者2",
+          "gameDocDir": "The Escapists 2",
+          "gameDocPath": "\\AppData\\LocalLow\\Team 17 Digital ltd_\\The Escapists 2",
+          "systemType": "Windows",
+          "gamePlatform": [],
+          "createTime": 1663688565822,
+          "lastBackTime": null,
+          "pathType": ""
         },
         {
           "steamId": "764790",
