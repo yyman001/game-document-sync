@@ -148,10 +148,10 @@
           "steamId": "322330"
         },
         {
-          "gameDocPath": "",
-          "gameName": "DrakeHollow",
-          "nickName": "DrakeHollow",
-          "steamId": "",
+          "gameDocPath": "\\AppData\\Local\\DrakeHollow",
+          "gameName": "Drake Hollow",
+          "nickName": "空穴",
+          "steamId": "739650",
           "systemType": "Windows_NT",
           "gameDocDir": "DrakeHollow"
         },
@@ -270,7 +270,7 @@
         {
           "gameDocPath": "\\AppData\\LocalLow\\Terapoly",
           "gameName": "Project Lazarus",
-          "nickName": "Project Lazarus",
+          "nickName": "拉撒路计划",
           "steamId": "2024230",
           "systemType": "Windows_NT",
           "gameDocDir": "Project Lazarus"
@@ -288,7 +288,7 @@
           "nickName": "灾厄逆刃",
           "gameDocDir": "ScourgeBringer",
           "gameDocPath": "\\AppData\\LocalLow\\Flying Oak Games\\ScourgeBringer",
-          "gameName": "ScourgeBringer",
+          "gameName": "Scourge Bringer",
           "systemType": "Windows"
         },
         {
@@ -303,20 +303,20 @@
           "nickName": "暗影觉醒",
           "gameDocDir": "Shadows Awakening",
           "gameDocPath": "\\AppData\\LocalLow\\Games Farm\\Shadows_ Awakening",
-          "gameName": "Shadows  Awakening",
+          "gameName": "Shadows Awakening",
           "systemType": "Windows",
           "steamId": "585450"
         },
         {
           "steamId": "312660",
-          "gameName": "SniperElite4",
+          "gameName": "Sniper Elite 4",
           "nickName": "狙击精英4",
           "gameDocDir": "SniperElite4",
           "gameDocPath": "\\AppData\\Local\\SniperElite4",
           "systemType": "Windows"
         },
         {
-          "gameDocPath": "\\Saved Games",
+          "gameDocPath": "\\Saved Games\\SniperGhostWarrior2",
           "gameName": "Sniper: Ghost Warrior 2",
           "nickName": "狙击手：幽灵战士2",
           "steamId": "34870",
@@ -343,7 +343,7 @@
           "nickName": "星谷物语",
           "gameDocDir": "StardewValley",
           "gameDocPath": "\\AppData\\Roaming\\StardewValley",
-          "gameName": "StardewValley",
+          "gameName": "Stardew Valley",
           "systemType": "Windows",
           "steamId": "413150"
         },
@@ -408,7 +408,7 @@
           "nickName": "泰坦2",
           "gameDocDir": "Titanfall2",
           "gameDocPath": "\\Documents\\Respawn\\Titanfall2",
-          "gameName": "Titanfall2",
+          "gameName": "Titanfall 2",
           "systemType": "Windows"
         },
         {
@@ -423,7 +423,7 @@
           "nickName": "维京人:人中之狼",
           "gameDocDir": "Vikings_ Wolves of Midgard",
           "gameDocPath": "\\AppData\\LocalLow\\Games Farm s_r_o_\\Vikings_ Wolves of Midgard",
-          "gameName": "Vikings  Wolves of Midgard",
+          "gameName": "Vikings Wolves of Midgard",
           "systemType": "Windows",
           "steamId": "404590"
         },
