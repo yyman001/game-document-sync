@@ -98,11 +98,23 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
   }
 
   const uploadFile = async (file: FileItem) => {
-    const { basename, dirname, path } = file
+    const { basename, comparsedName, dirname, path, size } = file
+    // TODO: 正常情况是需要返回上传成功对象信息
     const isUpLoad = await cloudObject.uploadFile(path, dirname, basename)
     isUpLoad ? messageSuccess('上传成功!') : messageError('上传失败!')
     if (isUpLoad) {
-      coludItems.fileItems.push(file)
+      const cloudFile: WebDavFile = {
+        basename,
+        comparsedName,
+        etag: '',
+        // TODO: games_doc_sync 如果后面目录结构变了再改
+        filename: `/games_doc_sync/${comparsedName}`,
+        lastmod: Date(),
+        mime: 'application/zip',
+        size,
+        type: 'file'
+      }
+      coludItems.fileItems.push(cloudFile)
     }
   }
 

@@ -1,8 +1,7 @@
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { remove } from '@/utils/FileClass'
 import { openItem, showItemInFolder } from '@/utils/shell'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
-
 import useRestoreFile from './useRestoreFile'
 
 export default function () {
@@ -49,11 +48,11 @@ export default function () {
         break
         // 云下载
       case 'cloud-down':
-        // downloadCloudFile(file)
+        localFileStore.downloadFile(file, unref(activeDirectoryName))
         break
         // 云上传
       case 'cloud-up':
-        // uploadFile(file)
+        localFileStore.uploadFile(file)
         break
       default:
         break

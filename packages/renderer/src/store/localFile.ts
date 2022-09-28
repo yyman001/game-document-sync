@@ -1,10 +1,13 @@
 import { getDirectoryItem, getDirItems, getFileItems } from '@/utils/tools'
 import { defineStore } from 'pinia'
 import { computed, ref, unref } from 'vue'
-import { FileItem } from '@/model'
+import { FileItem, WebDavFile } from '@/model'
 import { getBackupPath } from '@/utils'
+import { useCloudFileStoreWhitOut } from './cloudFile'
 
 export const useLocalFileStore = defineStore('localFile', () => {
+  const cloudFileStore = useCloudFileStoreWhitOut()
+
   const directoryItem = ref<FileItem[]>([])
   const fileItems = ref<FileItem[]>([])
 
@@ -58,6 +61,32 @@ export const useLocalFileStore = defineStore('localFile', () => {
     fileItems.value = unref(fileItems).filter((f:any) => f.comparsedName !== comparsedName)
   }
 
+  const downloadFile = async (file: WebDavFile, dirname: string) => {
+    // 组成: 配置的存档文件夹/游戏目录/游戏存档文件.后缀
+    // eg: "/games_doc_sync/test/game.file.config.json"
+    const downloadUrl = file.filename
+    // TODO: 备份文件路径如果设置了读配置
+    const filePath = getBackupPath(dirname, file.basename)
+    cloudFileStore.downloadCloudFile(downloadUrl, filePath, () => {
+      const localFile: FileItem = {
+        ...file,
+        path: filePath,
+        dirname,
+        fileType: file.type,
+        // 创建文件时间
+        timeStamp: Date.now()
+      }
+      // TODO: 文件夹对象添加
+      // directoryItem.value.push()
+      // 添加到本地文件
+      fileItems.value.push(localFile)
+    })
+  }
+
+  const uploadFile = async (file: FileItem) => {
+    cloudFileStore.uploadFile(file)
+  }
+
   return {
     fileItems,
     directoryItem,
@@ -69,7 +98,10 @@ export const useLocalFileStore = defineStore('localFile', () => {
     getDirectoryChildren,
 
     removeFile,
-    getLastFile
+    getLastFile,
+    // 云上传*云下载
+    downloadFile,
+    uploadFile
   }
 })
 

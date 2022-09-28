@@ -28,16 +28,23 @@ export interface FileItem {
   size: number
   timeStamp: number
   type: 'directory' | 'file'
-  comparsedName?: string
+  comparsedName: string
 }
 
 export interface WebDavFile {
+  // "Terraria_t1646059713386.zip"
   basename: string
+  // "Terraria/Terraria_t1646059713386.zip"
   comparsedName: string
+  // "pv25HsbR5U2ntsjUNbL6gQ"
   etag: string
+  // "/games_doc_sync/Terraria/Terraria_t1646059713386.zip"
   filename: string
+  // "Mon, 28 Feb 2022 14:51:29 GMT"
   lastmod: string
+  // "application/zip"
   mime: string
+  //  5283447
   size: number
   type: 'file'
 }
