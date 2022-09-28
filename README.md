@@ -72,3 +72,9 @@ Used in `Renderer-process` 👉 [electron-vite-boilerplate/tree/nodeIntegration]
 
 - [sqlite3](https://www.npmjs.com/package/sqlite3)
 - [serialport](https://www.npmjs.com/package/serialport)
+
+TODO:
+存档地址添加列表, 路径改为全路径(前路径类型 + 文件夹名?)
+docsList: [
+  '%LOCALAPPDATA%\\DrakeHollow\\Saved\\SaveGames'
+]

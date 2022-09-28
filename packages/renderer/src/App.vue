@@ -115,7 +115,7 @@ body, html {
 }
 
 .layout-content {
-  margin: 15px;
+  padding: 15px;
   height: 100%;
 
   // background: $color-master;

@@ -7,16 +7,16 @@
         <div class="card__info">
           <div class="card__name">{{ item.gameName }}</div>
           <div class="card__buttons">
-            <a-button :disabled="!hasGameDoc" type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
+            <a-button type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
             <a-button :disabled="!hasGameDoc" type="primary" size="small" @click.stop="onClick('backup')">备份</a-button>
           </div>
           <div>
             <slot></slot>
           </div>
-          <div class="card__label-time">
+          <!-- <div class="card__label-time">
             <span>备份时间:</span>
             <i>{{ item.lastBackTime === null ? '无' : formatTimestamp(item.lastBackTime) }}</i>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -199,7 +199,14 @@ export default defineComponent({
   }
 
   &__buttons {
+    display: flex;
+    justify-content: jspace-between;
+
     padding: 0.8em 0;
+    button {
+      display: block;
+      width: 50%;
+    }
   }
 
   &__label-time {

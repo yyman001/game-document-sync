@@ -31,6 +31,7 @@ import { getBackupPath, getPath } from '@/utils'
 
 import useRestoreFile from '@/view/backup/useRestoreFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
+import { message } from 'ant-design-vue'
 
 export default defineComponent({
   components: { Card, ModalBackUp },
@@ -44,6 +45,7 @@ export default defineComponent({
     const { gameList } = useGames()
     const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
+    const { success, error } = message
 
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode } = useDocTree()
@@ -76,7 +78,7 @@ export default defineComponent({
       switch (type) {
         case 'restore':
           lastFile = localFile.getLastFile(gameDocDir)
-          if (!lastFile) return
+          if (!lastFile) return error('未找到可以还原的备份存档文件!')
           showRestoreFile(lastFile)
           break
 
