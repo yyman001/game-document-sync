@@ -15,7 +15,7 @@
     </FieldSetGroup>
     <div class="backup-content">
       <a-row>
-        <a-input :disabled="true" addon-before="存档路径:" :value="docPath">
+        <a-input :disabled="true" addon-before="存档路径:" :value="docPath" style="margin-bottom: 16px;">
           <template #addonAfter>
             <a-tooltip placement="left" title="打开路径">
               <FolderOpenOutlined @click="openItem(docPath)"/>
@@ -25,17 +25,13 @@
       </a-row>
 
       <a-row>
-        <a-input addon-before="备份路径:" :value="backPath">
+        <a-input addon-before="备份路径:" :value="backPath" style="margin-bottom: 16px;">
           <template #addonAfter>
             <a-tooltip placement="left" title="修改路径">
               <FolderOpenOutlined />
             </a-tooltip>
           </template>
         </a-input>
-      </a-row>
-
-      <a-row>
-        <a-textarea addon-before="备注:" v-model:value="remask"> </a-textarea>
       </a-row>
     </div>
 

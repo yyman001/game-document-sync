@@ -15,7 +15,7 @@
         :options="cloudTypeList"
         @change="setCloudType"
       ></a-select>
-      <a-button @click="reLoadCloudData"><ReloadOutlined /></a-button>
+      <a-button size="small" @click="reLoadCloudData"><ReloadOutlined /></a-button>
     </div>
     </a-layout-sider>
     <a-layout>

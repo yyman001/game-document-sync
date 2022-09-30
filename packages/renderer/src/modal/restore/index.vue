@@ -15,7 +15,7 @@
     </FieldSetGroup>
     <div class="backup-content">
       <a-row>
-        <a-input :disabled="true" addon-before="存档路径:" :value="docPath">
+        <a-input :disabled="true" addon-before="存档路径:" :value="docPath" style="margin-bottom: 16px;">
           <template #addonAfter>
             <a-tooltip placement="left" title="打开路径">
               <FolderOpenOutlined @click="openItem(docPath)"/>
@@ -25,7 +25,7 @@
       </a-row>
 
       <a-row>
-        <a-input addon-before="文件路径:" :value="filePath">
+        <a-input addon-before="文件路径:" :value="filePath" style="margin-bottom: 16px;">
           <template #addonAfter>
             <a-tooltip placement="left" title="打开还原文件">
               <FolderOpenOutlined />

@@ -76,12 +76,13 @@ export default defineComponent({
   width: 100%;
 
   &__item {
+    margin-bottom: 8px;
     padding:0 20px;
   }
 
   &__link {
     display: block;
-    padding: 10px 8px;
+    padding: 8px;
     line-height: 1.8;
     border-radius: 5px;
     text-align: left;
