@@ -69,6 +69,7 @@
     "sql.js": "^1.7.0",
     "stream-to-blob": "^2.0.1",
     "vue-router": "4",
+    "vue3-perfect-scrollbar": "^1.6.0",
     "webdav": "^4.10.0"
   }
 }

@@ -8,10 +8,14 @@ import 'ant-design-vue/dist/antd.css'
 
 import router from './router/index'
 // import '@/utils/db/sql'
+// 滚动条美化
+import PerfectScrollbar from 'vue3-perfect-scrollbar'
+import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
 createApp(App)
   .use(router)
   .use(createPinia())
   .use(Antd)
+  .use(PerfectScrollbar)
   .mount('#app')
   .$nextTick(window.removeLoading)

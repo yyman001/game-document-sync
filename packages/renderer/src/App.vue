@@ -26,9 +26,11 @@
         </div>
       </a-layout-header>
       <a-layout-content>
-        <div class="layout-content">
-          <router-view></router-view>
-        </div>
+        <perfect-scrollbar class="scrollbar-wrap">
+          <div class="layout-content">
+            <router-view></router-view>
+          </div>
+        </perfect-scrollbar>
       </a-layout-content>
       <!-- <a-layout-footer>Footer</a-layout-footer> -->
     </a-layout>
@@ -117,10 +119,6 @@ body, html {
 .layout-content {
   padding: 15px;
   height: 100%;
-
-  // background: $color-master;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .header {
@@ -134,5 +132,9 @@ body, html {
   left: 20px;
   bottom: 20px;
   z-index: 9;
+}
+
+.scrollbar-wrap {
+  height: 100%;
 }
 </style>
