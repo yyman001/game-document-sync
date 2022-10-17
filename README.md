@@ -245,6 +245,29 @@
 | DOCUMENTS_MY_GAMES | "\\Documents\\My Games"                    |
 | USERNAME           | "yyman001_cp"                              |
 
+
+```json
+// 兼容多个存档数据结构
+{
+  "steamId": "710920",
+  "gameName": "Darksiders Genesis",
+  "nickName": "暗黑血统：创世",
+  "gameDocDir": "Darksiders Genesis",
+  "gamePlatform": [],
+  "createTime": 1663688504746,
+  "pathType": "Windows",
+  "gameDocPathType": [
+    {
+      // Windows, Microsoft Store, Steam Play (Linux), macOS (OS X)
+      "systemType": "Windows", // 通用(学习版), steam, epic, gog,
+      "type": "LOCALAPPDATA", // 只针对 windows system
+      "path": "%LOCALAPPDATA%\\THQ Nordic\\Darksiders Genesis"
+    }
+  ]
+}
+
+```
+
 ## 关于云同步数据库设计
 
 跟平时的同步数据库不一样, 本软件云同步只会拉取云同步存档(存在跳过),不进行本地多余存档进行删除(因为游戏存档是非常重要的,所有不加自动删除功能,不要的存档请自己手动删除),也就是说数据不一样跟云上面的一样,本地拉取云同步只做(增加数据,不进行删除配对)
