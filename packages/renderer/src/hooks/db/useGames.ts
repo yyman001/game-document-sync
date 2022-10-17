@@ -1,5 +1,5 @@
 import { db } from '@/utils/DexieDB'
-import { useObservable } from '@vueuse/rxjs'
+import { useObservable, from } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
 
 export default function useGames () {
@@ -37,9 +37,11 @@ export default function useGames () {
     delGame,
     searchGame,
     gameList: useObservable(
-      liveQuery(() => {
-        return db.gamesTable.toArray()
-      })
+      from(
+        liveQuery(() => {
+          return db.gamesTable.toArray()
+        })
+      )
     )
   }
 }

@@ -1,11 +1,11 @@
 
 import { db } from '@/utils/DexieDB'
-import { useObservable } from '@vueuse/rxjs'
+import { useObservable, from } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
 
 export default function () {
   // backupTable
-  const addBackup = async (object) => {
+  const addBackup = async (object:any) => {
     try {
       return await db.backupTable.add(object)
     } catch (error) {
@@ -13,7 +13,7 @@ export default function () {
     }
   }
 
-  const updateBackup = async (object) => {
+  const updateBackup = async (object:any) => {
     try {
       // return await db.backupTable.update(object)
     } catch (error) {
@@ -21,7 +21,7 @@ export default function () {
     }
   }
 
-  const delBackup = async (id) => {
+  const delBackup = async (id:any) => {
     try {
       return await db.backupTable.delete(id)
     } catch (error) {
@@ -30,7 +30,7 @@ export default function () {
     }
   }
 
-  const addBackupList = async (list) => {
+  const addBackupList = async (list:any) => {
     try {
       return await db.backupTable.bulkPut(list)
     } catch (error) {
@@ -44,9 +44,11 @@ export default function () {
     delBackup,
     addBackupList,
     result: useObservable(
-      liveQuery(() => {
-        return db.backupTable.toArray()
-      })
+      from(
+        liveQuery(() => {
+          return db.backupTable.toArray()
+        })
+      )
     )
   }
 }

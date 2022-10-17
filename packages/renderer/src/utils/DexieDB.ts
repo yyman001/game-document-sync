@@ -1,12 +1,12 @@
 // 数据库关系图: https://dbdiagram.io/d/60c7496c0c1ff875fcd4bb3c
+import { electronGames } from '@/interface/electronGames'
 import Dexie from 'dexie'
-export const db = new Dexie('electronGames')
+export const db = new Dexie('electronGames') as electronGames
 
 db.version(1).stores({
   backupTable: 'fileName, steamId, gameName, nickName, gameDocDir, fileType',
   docsTable: 'gameDocDir, steamId, gameName, nickName',
-  gamesTable: 'gameDocDir, steamId, gameName, nickName, systemType',
-  steamApp: 'appid, name'
+  gamesTable: 'gameDocDir, steamId, gameName, nickName, systemType'
 })
 
 db.open().catch(function (err: { stack: any }) {
