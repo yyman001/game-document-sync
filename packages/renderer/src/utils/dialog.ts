@@ -15,5 +15,5 @@ export function showOpenDialog ({
     filters = [{ name: '配置文件', extensions: ['json'] }]
   }
 
-  return dialog.showOpenDialog({ title, defaultPath, filters, properties })
+  return dialog.showOpenDialog({ title, defaultPath, filters, ...properties })
 }

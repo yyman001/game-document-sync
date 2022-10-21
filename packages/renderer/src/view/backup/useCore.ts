@@ -66,7 +66,7 @@ export default function () {
     const localFile = localFileStore.getDirectoryChildren(gameDocDir)
     const cloudFile = getDirectoryChildrenByCloud(gameDocDir)
 
-    return localFile.concat(cloudFile)
+    return [...localFile, ...cloudFile]
   }
 
   // 全部文件列表

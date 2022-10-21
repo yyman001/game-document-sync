@@ -26,13 +26,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, toRefs, unref } from 'vue'
+import { computed, defineComponent, Ref, toRefs, unref } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons-vue'
 
 import useDocs from '@/hooks/db/useDocs'
 import useGames from '@/hooks/db/useGames'
 import { horizontalCover } from '@/utils/steamPrivew'
+import { GameItem } from '@/model'
 
 export default defineComponent({
   name: 'doc-mod',
@@ -76,7 +77,7 @@ export default defineComponent({
 
       if (!props.searchText) return unref(result)
 
-      return unref(result).filter((game: any) => {
+      return unref(result as Readonly<Ref<GameItem[]>>).filter((game: any) => {
         const regExp = new RegExp(unref(searchText) as string, 'i')
         return regExp.test(game.gameName) || regExp.test(game.nickName)
       })

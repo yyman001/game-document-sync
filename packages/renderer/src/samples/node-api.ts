@@ -7,7 +7,7 @@ import { useConfigStoreWhitOut } from '@/store/config'
 ipcRenderer.on('main-process-message', (_event, APP_HOME_DIR) => {
   console.log('[Receive Main-process message]:', APP_HOME_DIR)
   if (window) {
-    (window as any).APP_HOME_DIR = APP_HOME_DIR
+    window.APP_HOME_DIR = APP_HOME_DIR
     window.ENV = process.env
   }
 

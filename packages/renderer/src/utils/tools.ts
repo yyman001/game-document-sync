@@ -28,7 +28,7 @@ const path = require('path')
 export function initScanPath (scanList = [], configList = [], userName = '') {
   const keyMap = Object.create(null)
   scanList.forEach(({ gameDocDir }) => {
-    keyMap[gameDocDir] = configList.map(scanPath => {
+    keyMap[gameDocDir] = configList.map((scanPath: string) => {
       const tempPath = scanPath
         .replace(/{userName}/, userName)
         .replace(/{gameDocDir}/, gameDocDir.replace('|', '/'))
@@ -75,7 +75,7 @@ export function getInvalidPath (scanList = [], scanPath = {}) {
     const { gameDocDir } = item
     const configList = scanPath[gameDocDir] || []
 
-    configList.some(gameDocPath => {
+    configList.some((gameDocPath: string) => {
       if (fs.existsSync(gameDocPath)) {
         gather[gameDocDir] = gameDocPath
         gather.push({
@@ -104,7 +104,7 @@ export function getDirectoryItem (filePath: string) {
   return new Promise(resolve => {
     rd.each(
       filePath,
-      function (fileFullPath, stats, next) {
+      function (fileFullPath: string, stats, next) {
         const splitArray = fileFullPath.split('\\')
         const [basename] = splitArray.slice(-1)
         const [dirname] = splitArray.slice(-2)

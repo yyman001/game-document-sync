@@ -18,4 +18,6 @@ createApp(App)
   .use(Antd)
   .use(PerfectScrollbar)
   .mount('#app')
-  .$nextTick(window.removeLoading)
+  .$nextTick(() => {
+    window.removeLoading()
+  })

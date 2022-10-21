@@ -8,6 +8,7 @@ export interface GameItem {
   nickName: string
   steamId: string
   systemType: string
+  pathType: string
 }
 
 export interface GameDocItem {
@@ -67,4 +68,39 @@ export interface SdkConfig {
   accessKeyId?: string
   accessKeySecret?: string
   bucket?: string
+}
+
+/* 上传下载sdk接口规范 */
+export interface SDK {
+  // 创建
+  getClient () :void
+  // 销毁
+  destroy () :void
+  // 上传
+  uploadFile () :boolean
+  // 下载
+  downloadFile () :boolean
+}
+
+export interface LocalFile {
+  // 文件名
+  // : "Aragami_t1641735966693.zip"
+  basename: string;
+  // 文件夹名称
+  // Aragami
+  dirname: string;
+  // 文件绝对路径
+  // "C:\\my_git_project\\game-document-sync\\backup\\Aragami\\Aragami_t1641735966693.zip",
+  path: string;
+  // 文件大小(字节)
+  size: number;
+  // 时间戳
+  timeStamp: number;
+  // 文件类型
+  type: 'file' | 'directory';
+}
+
+export interface LocalFileFormat extends LocalFile {
+  // 用于比较同步文名标识: = 本地文件名: 格式规范 = (文件夹/文件名) = Aragami/Aragami_t1641735966693.zip
+  comparsedName: string;
 }

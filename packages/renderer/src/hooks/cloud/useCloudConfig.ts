@@ -1,4 +1,4 @@
-import { ref, unref, computed, reactive, watch } from 'vue'
+import { ref, unref, reactive } from 'vue'
 import { showOpenDialog } from '@/utils/dialog'
 import { message } from 'ant-design-vue'
 import { useCloudStoreWhitOut } from '@/store/cloud'
@@ -74,7 +74,7 @@ export default function useCloudConfig () {
     if (!Array.isArray(configPath)) return
     const isSuccess = loadConfig(configPath[0])
     if (isSuccess) {
-      hanldeSaveConfig()
+      hanldeSaveConfig(unref(cloudConfigList))
     }
   }
 
