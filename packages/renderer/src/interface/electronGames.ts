@@ -1,33 +1,9 @@
+import { BackupItem, GameDocItem, GameItem } from '@/model'
 import Dexie from 'dexie'
-
-export interface IBackupTable {
-  fileType: string
-  fileName: string
-  steamId?: string
-  gameName: string
-  nickName: string
-  gameDocDir: string
-}
-
-export interface IDocsTable {
-  gameDocDir: string
-  steamId?: string
-  gameName: string
-  nickName: string
-}
-
-export interface IGamesTable {
-  gameDocDir: string
-  steamId?: string
-  gameName: string
-  nickName: string
-  systemType: string
-}
-
 export class electronGames extends Dexie {
-  backupTable!: Dexie.Table<IBackupTable>
-  docsTable!: Dexie.Table<IDocsTable>
-  gamesTable!: Dexie.Table<IGamesTable>
+  backupTable!: Dexie.Table<BackupItem>
+  docsTable!: Dexie.Table<GameDocItem>
+  gamesTable!: Dexie.Table<GameItem>
 
   constructor () {
     super('electronGames')

@@ -5,9 +5,9 @@ import { AliOssSDK } from '@/utils/sdk/AliOss'
 import { message } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 import { useCloudStoreWhitOut } from '@/store/cloud'
-import { FileItem, SdkConfig, WebDavDirectory, WebDavFile } from '@/model'
+import { FileItem, IWebDav, SDK, SdkConfig, WebDavDirectory, WebDavFile } from '@/model'
 // 云对象
-export let cloudObject = {}
+export let cloudObject: SDK|IWebDav = Object.create(null)
 
 export const useCloudFileStore = defineStore('cloudFile', () => {
   const cloudStore = useCloudStoreWhitOut()
@@ -36,10 +36,10 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
 
   const switchCloudAccount = (targetCloudAccount: SdkConfig) => {
     console.log('targetCloudAccount', targetCloudAccount)
-
     switch (targetCloudAccount.type) {
       case 'jianguoyun':
-        cloudObject = new WebDav(targetCloudAccount)
+        // TODO: 这个声明老是报错
+        cloudObject = new WebDav(targetCloudAccount) as unknown as IWebDav
         break
       case 'ali-oss':
         cloudObject = new AliOssSDK(targetCloudAccount)
@@ -69,7 +69,7 @@ export const useCloudFileStore = defineStore('cloudFile', () => {
     messageLoading({ key: 'cloud-loading', content: '正在获取云文件...', duration: 0 })
 
     cloudObject.getDirectoryStructure()
-      .then(({ directoryItems, fileItems }) => {
+      .then(({ directoryItems, fileItems }: { directoryItems: Array<WebDavDirectory>, fileItems:Array<WebDavFile>}) => {
         coludItems.directoryItem = directoryItems
         coludItems.fileItems = fileItems.map((f: WebDavFile) => {
           return {

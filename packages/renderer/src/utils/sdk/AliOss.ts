@@ -99,7 +99,7 @@ export class AliOssSDK {
    * @param {Function} cb 上传进度回调函数
    * @returns {Promise<Boolean>} 是否成功
    */
-  uploadFile = async (filePath: Buffer | string, gameDocDir: string, fileName: string, isOverwrite: boolean = false, cb: Function): Promise<boolean> => {
+  uploadFile = async (filePath: Buffer | string, gameDocDir: string, fileName: string, isOverwrite?: boolean, cb?: Function): Promise<boolean> => {
     const rootDir = this.rootDirectoryName ? `/${this.rootDirectoryName}` : ''
     const uploadFileName = `${rootDir}/${gameDocDir}/${fileName}`
     try {

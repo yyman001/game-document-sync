@@ -1,7 +1,17 @@
 /*
-* https://github.com/node-modules/compressing
-* */
+ * https://github.com/node-modules/compressing
+ * */
 const compressing = require('compressing')
+
+export type ResultCompressDirSuccess = [
+  null,
+  {
+    entryPath: string
+    outPath: string
+    type: string // 'tar', 'zip'
+  }
+]
+export type ResultCompressDirError = [any, null]
 
 /**
  * 压缩文件
@@ -11,10 +21,14 @@ const compressing = require('compressing')
  * @param type - 压缩文件类型
  * @returns {Promise.<Array<string|null, null| object>>}
  */
-export async function compressDir (entryPath: string, outPath:string = 'untitled', type:string = 'tar') {
+export async function compressDir (
+  entryPath: string,
+  outPath: string = 'untitled',
+  type: string = 'tar'
+): Promise<ResultCompressDirSuccess | ResultCompressDirError> {
   if (typeof entryPath !== 'string') {
-    console.warn('must input \'entryPath\' & type is string!')
-    return ['must input \'entryPath\' & type is string!', null]
+    console.warn("must input 'entryPath' & type is string!")
+    return ["must input 'entryPath' & type is string!", null]
   }
 
   try {
@@ -25,12 +39,15 @@ export async function compressDir (entryPath: string, outPath:string = 'untitled
       await compressing.zip.compressDir(entryPath, `${outPath}.zip`)
     }
 
-    return [null, {
-      entryPath,
-      outPath,
-      type
-    }]
-  } catch (err) {
+    return [
+      null,
+      {
+        entryPath,
+        outPath,
+        type
+      }
+    ]
+  } catch (err: any) {
     return [err, null]
   }
 }
@@ -42,7 +59,7 @@ export async function compressDir (entryPath: string, outPath:string = 'untitled
  * @param unCompressFilePath - 解压输出文件路径
  * @returns {Promise.<boolean>}
  */
-export async function unCompress (entryPath:string, unCompressFilePath:string) {
+export async function unCompress (entryPath: string, unCompressFilePath: string): Promise<boolean> {
   try {
     if (entryPath.indexOf('.tar') > -1) {
       await compressing.tar.uncompress(entryPath, unCompressFilePath)
@@ -53,7 +70,6 @@ export async function unCompress (entryPath:string, unCompressFilePath:string) {
       await compressing.zip.uncompress(entryPath, unCompressFilePath)
     }
 
-    console.log('un_compress: success')
     return true
   } catch (err) {
     console.error(err)

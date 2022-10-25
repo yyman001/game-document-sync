@@ -27,21 +27,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, PropType, ref, toRefs, unref } from 'vue'
 import { formatTimestamp } from '@/utils/formatTimestamp'
 import { horizontalCover, verticalCover } from '@/utils/steamPrivew'
+import { GameItem } from '@/model'
+
+export type CardEmitItem = [string, GameItem]
 
 export default defineComponent({
-  components: {},
   props: {
     hasGameDoc: {
       type: Boolean,
       default: false
     },
-    item: Object
+    item: {
+      required: true,
+      type: Object as PropType<GameItem>
+    }
   },
 
   setup (props, { emit }) {
+    const { hasGameDoc, item } = toRefs(props)
     const mode = ref<string>('vertical')
 
     const modeStyle = computed(() => {
@@ -49,11 +55,11 @@ export default defineComponent({
     })
 
     const cardStyle = computed(() => {
-      return [props.hasGameDoc ? '' : 'is-empty', `card--border-shadow${props.hasGameDoc ? '' : '__empty'}`]
+      return [hasGameDoc ? '' : 'is-empty', `card--border-shadow${hasGameDoc ? '' : '__empty'}`]
     })
 
     const onClick = (type: string) => {
-      emit('handleClick', [type, props.item])
+      emit('handleClick', [type, item])
     }
 
     return {

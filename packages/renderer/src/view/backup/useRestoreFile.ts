@@ -31,6 +31,11 @@ export default function () {
   const showRestoreFile = async (file:any) => {
     onModalOpen()
     const gameDoc = await getGameDoc(file.dirname)
+    if (!gameDoc) {
+      console.log('未找到game doc 对象！')
+      return
+    }
+
     const _docPath = getPath(gameDoc.pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDoc.gameDocPath)
     const tempPath = getTempPath()
     docTempPath.value = getTempPath(gameDoc.gameDocDir)

@@ -1,6 +1,8 @@
-import 'dexie-export-import'
+import { ExportOptions } from 'dexie-export-import'
 import { db } from '@/utils/DexieDB'
 import { ref } from 'vue'
+import { ExportProgress } from 'dexie-export-import/dist/export'
+import { StaticImportOptions } from 'dexie-export-import/dist/import'
 
 const fileSystem = require('fs')
 const fs = require('fs-extra')
@@ -37,8 +39,8 @@ export function useDB () {
     isDeleteOldDatabse.value = !isDeleteOldDatabse.value
   }
 
-  function progressCallback ({ totalRows, completedRows }) {
-    progress.value = parseFloat(completedRows / totalRows).toFixed(2) * 100
+  function progressCallback ({ totalRows = 0, completedRows }:ExportProgress) {
+    progress.value = parseFloat((completedRows / totalRows).toFixed(2)) * 100
     console.log(`Progress: ${completedRows} of ${totalRows} rows completed`, progress.value)
   }
 
@@ -51,7 +53,7 @@ export function useDB () {
     isLoading.value = true
 
     try {
-      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterExportTable })
+      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterExportTable } as ExportOptions)
       const buffer = await toBufferPromise(blob)
       await fs.outputFile(fileName, buffer)
     } catch (error) {
@@ -71,7 +73,7 @@ export function useDB () {
 
       const stream = fileSystem.createReadStream(fileName)
       const blob = await toBlob(stream)
-      await db.import(blob, { progressCallback })
+      await db.import(blob, { progressCallback } as StaticImportOptions)
     } catch (error) {
       console.error(error)
     }

@@ -1,17 +1,63 @@
+import { BufferLike, GetFileContentsOptions } from 'webdav'
+
+export interface BackupItem {
+  /*
+    fileName: "Aragami_t1651668926252"
+    filePath: "E:\\git\\game-document-sync\\backup\\Aragami\\Aragami_t1651668926252.zip"
+    fileType: "zip"
+    gameDocDir: "Aragami"
+    gameDocPath: "\\AppData\\LocalLow\\Lince Works\\Aragami"
+    gameName: "Aragami"
+    platformTye: "Windows_NT"
+    remask: ""
+    steamId: "280160"
+    timeStamp: 1651668926252
+  */
+  fileName: string
+  filePath: string
+  fileType: string
+  gameDocDir: string
+  gameDocPath: string
+  gameName: string
+  platformTye: string
+  timeStamp: number
+  remask?: string
+  steamId?: string
+}
+
 export interface GameItem {
+  /*
+    createTime: 1627979168366
+    gameDocDir: "Aragami"
+    gameDocPath: "\\AppData\\LocalLow\\Lince Works\\Aragami"
+    gameName: "Aragami"
+    gamePlatform: []
+    lastBackTime: 1631010065840
+    nickName: "荒神"
+    steamId: "280160"
+    systemType: "Windows"
+  */
   createTime: number
   gameDocDir: string
   gameDocPath: string
   gameName: string
   gamePlatform: any[]
-  lastBackTime: number
+  lastBackTime?: number
   nickName: string
   steamId: string
   systemType: string
-  pathType: string
+  pathType?: string
 }
 
 export interface GameDocItem {
+  /*
+    gameDocDir: "Darksiders3"
+    gameDocPath: "\\AppData\\Local\\Darksiders3"
+    gameName: "Darksiders3"
+    nickName: "暗黑血统III"
+    steamId: "606280"
+    systemType: "Windows"
+  */
   pathType?: string
   steamId?: string
   gameDocDir: string
@@ -27,7 +73,7 @@ export interface FileItem {
   fileType: string
   path: string
   size: number
-  timeStamp: number
+  timeStamp: string | number
   type: 'directory' | 'file'
   comparsedName: string
 }
@@ -72,35 +118,50 @@ export interface SdkConfig {
 
 /* 上传下载sdk接口规范 */
 export interface SDK {
+  [x: string]: any
   // 创建
-  getClient () :void
+  getClient(): void
   // 销毁
-  destroy () :void
+  destroy(): void
   // 上传
-  uploadFile () :boolean
+  uploadFile(
+    filePath: Buffer | string,
+    gameDocDir: string,
+    fileName: string,
+    isOverwrite?: boolean,
+    cb?: Function,
+    progressFn?: Function
+  ): Promise<boolean>
   // 下载
-  downloadFile () :boolean
+  downloadFile(coludFilename: string, writeFilePath: string, cb: Function): Promise<boolean>
+}
+
+export interface IWebDav extends SDK {
+  getDirectoryContents(filename: string): Array<any>
+  getFileContents(filename: string, options?: GetFileContentsOptions):Promise<BufferLike>
+  getDirectoryStructure(): { directoryItems: any[]; fileItems: any[] }
+  ensureDir(path: string): boolean
 }
 
 export interface LocalFile {
   // 文件名
   // : "Aragami_t1641735966693.zip"
-  basename: string;
+  basename: string
   // 文件夹名称
   // Aragami
-  dirname: string;
+  dirname: string
   // 文件绝对路径
   // "C:\\my_git_project\\game-document-sync\\backup\\Aragami\\Aragami_t1641735966693.zip",
-  path: string;
+  path: string
   // 文件大小(字节)
-  size: number;
+  size: number
   // 时间戳
-  timeStamp: number;
+  timeStamp: number
   // 文件类型
-  type: 'file' | 'directory';
+  type: 'file' | 'directory'
 }
 
 export interface LocalFileFormat extends LocalFile {
   // 用于比较同步文名标识: = 本地文件名: 格式规范 = (文件夹/文件名) = Aragami/Aragami_t1641735966693.zip
-  comparsedName: string;
+  comparsedName: string
 }

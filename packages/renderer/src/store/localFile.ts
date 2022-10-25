@@ -23,7 +23,7 @@ export const useLocalFileStore = defineStore('localFile', () => {
 
   // 获取文件夹的备份列表
   const getDirectoryChildren = (dirname: string) => {
-    return unref(fileItems).filter(f => f.dirname === dirname).sort((a, b) => b.timeStamp - a.timeStamp)
+    return unref(fileItems).filter(f => f.dirname === dirname).sort((a, b) => Number(b.timeStamp) - Number(a.timeStamp))
   }
 
   // 还原文件需要获取最后更新的一个文件
@@ -40,7 +40,7 @@ export const useLocalFileStore = defineStore('localFile', () => {
     try {
       // TODO: 获取配置的 备份文件夹
       const filePath = getBackupPath()
-      const list: FileItem[] = await getDirectoryItem(filePath) as FileItem[]
+      const list: FileItem[] = await getDirectoryItem(filePath)
       directoryItem.value = getDirItems(list)
       // 移除第一个备份目录
       directoryItem.value.shift()

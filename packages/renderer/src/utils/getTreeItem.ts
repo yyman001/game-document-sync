@@ -31,7 +31,7 @@ export interface TreeItem {
   type: 'file' | 'directory'
 }
 
-export function getTreeItem (filePath: string, rootDir: string) {
+export function getTreeItem (filePath: string, rootDir: string) :Promise<TreeItem[]> {
   const fileDetailedList: TreeItem[] = []
   return new Promise(resolve => {
     rd.each(
@@ -76,9 +76,11 @@ export function getTreeItem (filePath: string, rootDir: string) {
 export async function createTree (filePath: string, gameDocDir: string) {
   // const filePath = 'C:\\Users\\yyman001_cp\\Documents\\My Games\\Terraria'
   const rootDir = filePath.replace(gameDocDir, '')
-  const fileDetailedList = await getTreeItem(filePath, rootDir) as TreeItem[]
+  const fileDetailedList: TreeItem[] = await getTreeItem(filePath, rootDir)
   const filesPath = fileDetailedList.map(({ path }) => path)
   const allDir = fileDetailedList.filter(f => f.type === 'directory')
+
+  // 关联子父元素
   allDir.forEach(dirItem => {
     const children = fileDetailedList.filter(f => f.relative_parent_path === dirItem.relative_path)
     dirItem.children = children

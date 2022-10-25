@@ -3,7 +3,7 @@ import { message } from 'ant-design-vue'
 import useSystem from '../core/useSystem'
 import useGames from '@/hooks/db/useGames'
 import useBackup from '@/hooks/db/useBackup'
-import { backupFile } from '@/utils/file'
+import { backupFile, BackupFileData } from '@/utils/file'
 import { getTempPath } from '@/utils/index'
 
 export default function () {
@@ -27,8 +27,8 @@ export default function () {
     const game = await searchGame(gameDocDir)
     if (!game) return messageError('未查找游戏数据!')
 
-    const [errorText, backupData] = await backupFile({ HOME_DIR, docPath, tempPath, backPath, gameDocDir, saveFiles })
-    if (errorText) {
+    const [errorText, backupData] = await backupFile({ HOME_DIR, docPath, tempPath, backPath, gameDocDir, saveFiles }) as BackupFileData
+    if (errorText || !backupData) {
       messageError(errorText as string)
       return
     }

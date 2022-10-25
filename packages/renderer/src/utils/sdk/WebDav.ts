@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer'
+import { BufferLike, GetFileContentsOptions } from 'webdav'
 import { createClient } from 'webdav/web'
 import { getDirItems } from '../tools'
 const fs = require('fs-extra')
@@ -69,8 +70,8 @@ export default class WebDav {
     * @param {String} filename 文件名
     * @returns
     */
-  getFileContents = async (filename: string) => {
-    const fileBuffer = await this.client.getFileContents(filename)
+  getFileContents = async (filename: string, options?: GetFileContentsOptions):Promise<BufferLike> => {
+    const fileBuffer = await this.client.getFileContents(filename, options)
     return fileBuffer
   }
 
@@ -140,7 +141,7 @@ export default class WebDav {
    * @param {Function} progressFn 上传进度回调函数
    * @returns {Promise<Boolean>} 是否成功
    */
-  uploadFile = async (filePath: Buffer | string, gameDocDir: string, fileName: string, isOverwrite: boolean = false, cb: Function, progressFn: Function): Promise<boolean> => {
+  uploadFile = async (filePath: Buffer | string, gameDocDir: string, fileName: string, isOverwrite?: boolean, cb?: Function, progressFn?: Function): Promise<boolean> => {
     try {
       let fileBuffer
       if (typeof filePath === 'string') {
@@ -150,14 +151,14 @@ export default class WebDav {
       }
 
       const onUploadProgress = (progress: any) => {
-        progressFn(gameDocDir, fileName, progress)
+        progressFn && progressFn(gameDocDir, fileName, progress)
       }
       // 确保根目录存在
       await this.ensureDir(`/${this.rootDirectoryName}`)
       // 确保游戏存档目录
       await this.ensureDir(`/${this.rootDirectoryName}/${gameDocDir}`)
       await this.client.putFileContents(`/${this.rootDirectoryName}/${gameDocDir}/${fileName}`, fileBuffer, {
-        overwrite: isOverwrite,
+        overwrite: !!isOverwrite,
         contentLength: false,
         onUploadProgress: progressFn ? onUploadProgress : null
       })
@@ -179,14 +180,16 @@ export default class WebDav {
     * @returns {Promise<Boolean>} - 是否成功
     */
   downloadFile = async (coludFilename: string, writeFilePath: string, cb: Function, progressFn: Function): Promise<boolean> => {
-    const onDownloadProgress = progress => {
+    const onDownloadProgress = (progress: any) => {
       progressFn(coludFilename, writeFilePath, progress)
     }
 
     try {
-      const fileBuffer = await this.getFileContents(coludFilename, {
-        onDownloadProgress: progressFn ? onDownloadProgress : null
-      })
+      const fileBuffer = await this.getFileContents(coludFilename, progressFn
+        ? {
+            onDownloadProgress
+          }
+        : undefined)
       await fs.outputFile(writeFilePath, Buffer.from(fileBuffer))
       // 成功回调
       cb && cb()

@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, unref, toRefs, Ref, ref, provide } from 'vue'
-import Card from '@/components/Card/index.vue'
+import Card, { CardEmitItem } from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
 import useGames from '@/hooks/db/useGames'
@@ -45,7 +45,7 @@ export default defineComponent({
     const { gameList } = useGames()
     const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
-    const { success, error } = message
+    const { error } = message
 
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode } = useDocTree()
@@ -69,7 +69,8 @@ export default defineComponent({
     const docPath = ref('')
     const backPath = ref('')
     let lastFile = null
-    const handleClick = ([type, data]) => {
+    const handleClick = (response: CardEmitItem) => {
+      const [type, data] = response
       console.log('data', data)
       const { gameDocPath, gameDocDir, pathType } = data
       GAME_DOC_PATH.value = gameDocPath

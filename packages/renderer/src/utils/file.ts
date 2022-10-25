@@ -3,18 +3,28 @@ import { compressDir, unCompress } from '@/utils/compressClass'
 import { getPath } from '@/utils/index'
 const fs = require('fs-extra')
 
+export type BackupFileData =
+  | [unknown, null]
+  | [
+      null,
+      {
+        message: string
+        platform: string
+        timeStamp: string|number
+        fileName: string
+        savePath: string
+        entryPath: string
+        outPath: string
+        type: string
+      }
+    ]
+
 /**
  * 备份文件
  * @param param0
  * @returns
  */
-export const backupFile = async ({
-  docPath,
-  tempPath,
-  backPath,
-  gameDocDir,
-  saveFiles
-}: any) => {
+export const backupFile = async ({ docPath, tempPath, backPath, gameDocDir, saveFiles }: any): Promise<BackupFileData> => {
   let error
   if (Array.isArray(saveFiles) && saveFiles.length) {
     ;[error] = await copy(docPath, tempPath, (input: string) => {
@@ -40,7 +50,7 @@ export const backupFile = async ({
   if (compressError) return [compressError, null]
   await remove(tempPath)
 
-  return [null, { message: '备份成功!', platform, timeStamp, fileName, savePath, ...compressData }]
+  return [null, { message: '备份成功!', platform, timeStamp, fileName, savePath, ...compressData }] as BackupFileData
 }
 
 /**
@@ -70,7 +80,7 @@ export const restoreFile = async (backPath: string, docPath: string) => {
  * @param gameItem
  * @returns
  */
-export const customRestoreFile = async (homedir: string, backPath:string, gameItem: any) => {
+export const customRestoreFile = async (homedir: string, backPath: string, gameItem: any) => {
   const { gameDocPath, gameDocDir } = gameItem
   if (backPath.indexOf(gameDocDir) === -1) throw new Error('无效文件!')
   const docPath = getPath(homedir, gameDocPath.replace(gameDocDir, ''))
