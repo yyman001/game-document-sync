@@ -35,15 +35,15 @@ export const getPath = (...params: any) => {
 }
 
 export const getAppPath = (...params: any) => {
-  return getPath((window as any).APP_HOME_DIR, ...params)
+  return getPath(window.APP_HOME_DIR, ...params)
 }
 
 export const getBackupPath = (...params: any) => {
-  return getPath((window as any).APP_HOME_DIR, 'backup', ...params)
+  return getPath(window.APP_HOME_DIR, 'backup', ...params)
 }
 
 export const getTempPath = (...params: any) => {
-  return getPath((window as any).APP_HOME_DIR, 'temp', ...params)
+  return getPath(window.APP_HOME_DIR, 'temp', ...params)
 }
 
 export function injectStrict<T> (key: InjectionKey<T>, fallback?: T) {

@@ -4,10 +4,10 @@ import { ipcRenderer } from 'electron'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
 import { useConfigStoreWhitOut } from '@/store/config'
 // Usage of ipcRenderer.on
-ipcRenderer.on('main-process-message', (_event, APP_HOME_DIR) => {
-  console.log('[Receive Main-process message]:', APP_HOME_DIR)
+ipcRenderer.on('main-process-message', (_event) => {
+  console.log('[Receive Main-process message]:')
   if (window) {
-    window.APP_HOME_DIR = APP_HOME_DIR
+    window.APP_HOME_DIR = cwd()
     window.ENV = process.env
   }
 
