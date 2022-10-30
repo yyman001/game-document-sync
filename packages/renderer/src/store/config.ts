@@ -14,6 +14,7 @@ export const useConfigStore = defineStore('config', () => {
     setTempPath(getTempPath())
   }
 
+  // TODO: 更新信息保存到localStorage
   const backPath = ref('')
   const setBackPath = (path: string) => {
     backPath.value = path

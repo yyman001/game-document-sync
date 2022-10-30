@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, shell, dialog, ipcMain } from 'electron'
 import { release } from 'os'
+import { IpcParameter } from 'packages/renderer/src/utils/ipc'
 import { join } from 'path'
 
 // Disable GPU Acceleration for Windows 7
@@ -74,4 +75,13 @@ app.on('activate', () => {
   } else {
     createWindow()
   }
+})
+
+ipcMain.handle('ipc', async (_event, argument: any[]) => {
+  const [parameter] = argument
+  const { functionName, data } = parameter as IpcParameter
+  console.log(functionName, data)
+  // todo:? const result = await dialog[functionName](data)
+  const result = await dialog.showOpenDialog(data)
+  return result
 })

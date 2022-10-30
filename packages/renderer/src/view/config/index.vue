@@ -30,7 +30,7 @@
           <a-input :value="backPath">
             <template #addonBefore>
               <a-tooltip title="设置备份目录">
-                <SettingOutlined />
+                <SettingOutlined @click="setCustomBackPath"/>
               </a-tooltip>
             </template>
 
@@ -203,6 +203,7 @@ import useCloudConfig from '@/hooks/cloud/useCloudConfig'
 import { useConfigStoreWhitOut } from '@/store/config'
 import { storeToRefs } from 'pinia'
 import { useCloudStoreWhitOut } from '@/store/cloud'
+import { showOpenDialog } from '@/utils/ipc'
 
 const {
   progress,
@@ -237,6 +238,13 @@ const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
 const setDefaultTempPath = () => useConfigStore.setDefaultTempPath
 const setDefaultBackPath = () => useConfigStore.setDefaultBackPath
 const setDefalutConfigPath = () => useConfigStore.setDefaultBackPath
+const setCustomBackPath = async () => {
+  const openPath = await showOpenDialog()
+  if (openPath) {
+    useConfigStore.setBackPath(openPath)
+    // TODO: 刷新本地备份文件列表
+  }
+}
 const tabsCallback = (type:string) => {
   console.log(type)
   if (type === '4') {
