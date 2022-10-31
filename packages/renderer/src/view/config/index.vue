@@ -11,7 +11,7 @@
           <a-input :value="tempPath">
             <template #addonBefore>
               <a-tooltip title="设置临时操作目录">
-                <SettingOutlined />
+                <SettingOutlined @click="setCustomTempPath"/>
               </a-tooltip>
             </template>
 
@@ -235,13 +235,20 @@ const { usearname, password, accessKeyId, accessKeySecret, bucket } = toRefs(clo
 const useConfigStore = useConfigStoreWhitOut()
 const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
 
-const setDefaultTempPath = () => useConfigStore.setDefaultTempPath
-const setDefaultBackPath = () => useConfigStore.setDefaultBackPath
-const setDefalutConfigPath = () => useConfigStore.setDefaultBackPath
+const setDefaultTempPath = () => useConfigStore.setDefaultTempPath()
+const setDefaultBackPath = () => useConfigStore.setDefaultBackPath()
+const setDefalutConfigPath = () => useConfigStore.setDefaultBackPath()
 const setCustomBackPath = async () => {
   const openPath = await showOpenDialog()
   if (openPath) {
     useConfigStore.setBackPath(openPath)
+    // TODO: 刷新本地备份文件列表
+  }
+}
+const setCustomTempPath = async () => {
+  const openPath = await showOpenDialog()
+  if (openPath) {
+    useConfigStore.setTempPath(openPath)
     // TODO: 刷新本地备份文件列表
   }
 }
