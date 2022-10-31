@@ -1,10 +1,10 @@
 import { ref, unref, reactive } from 'vue'
-import { showOpenDialog } from '@/utils/dialog'
 import { message } from 'ant-design-vue'
 import { useCloudStoreWhitOut } from '@/store/cloud'
 import { useConfigStoreWhitOut } from '@/store/config'
 import { storeToRefs } from 'pinia'
 import { SdkConfig } from '@/model'
+import { showOpenDialog } from '@/utils/ipc'
 const fs = require('fs-extra')
 
 export default function useCloudConfig () {
@@ -66,7 +66,7 @@ export default function useCloudConfig () {
   }
 
   const handleSetConfig = async () => {
-    const configPath = showOpenDialog({
+    const configPath = await showOpenDialog({
       title: '选择配置文件',
       openFileType: 'config'
     })

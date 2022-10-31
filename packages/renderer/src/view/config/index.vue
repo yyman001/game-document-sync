@@ -1,6 +1,7 @@
 <template>
   <div class="config-page">
     <a-tabs type="card" @change="tabsCallback">
+
     <a-tab-pane key="1" tab="基本设置">
       <a-checkbox> 随开机启动 </a-checkbox>
     </a-tab-pane>
@@ -51,7 +52,7 @@
           <a-input default-value=".\">
             <template #addonBefore>
               <a-tooltip title="选择数据库文件">
-                <SettingOutlined />
+                <SettingOutlined @click="setCustomDB"/>
               </a-tooltip>
             </template>
           </a-input>
@@ -77,7 +78,7 @@
           <a-input default-value=".\">
             <template #addonBefore>
               <a-tooltip title="设置备份导出目录">
-                <SettingOutlined />
+                <SettingOutlined @click="setCustomExportDir"/>
               </a-tooltip>
             </template>
 
@@ -95,10 +96,10 @@
       </field-set-group>
     </a-tab-pane>
 
- <a-tab-pane key="4" tab="云同步设置">
+    <a-tab-pane key="4" tab="云同步设置">
       <field-set-group title="云配置">
         <div>
-          <a-input :value="configFilePath">
+          <a-input :value="configFilePath" style="margin-bottom: 16px;">
             <template #addonBefore>
               <a-tooltip title="导入配置">
                 <SettingOutlined @click="handleSetConfig"/>
@@ -110,12 +111,11 @@
               </a-tooltip>
             </template>
           </a-input>
-          <a-divider/>
           <a-button type="primary" @click="loadConfig(configFilePath)">重新载入配置</a-button>
           <a-divider/>
 
           <field-set-group title="账号设置">
-            <div class="colud-type">
+            <div class="colud-type" style="margin-bottom: 16px;">
               云盘类型:
               <a-select
                 style="width: 100px;"
@@ -125,7 +125,6 @@
                 @change="onSwitchCloud"
               ></a-select>
             </div>
-          <a-divider/>
           <a-form
               :model="cloudFormState"
               name="basic"
@@ -252,6 +251,20 @@ const setCustomTempPath = async () => {
     // TODO: 刷新本地备份文件列表
   }
 }
+const setCustomDB = async () => {
+  const openPath = await showOpenDialog({ title: '选择数据库文件', openFileType: 'config' })
+  if (openPath) {
+    // todo: 恢复数据库
+    console.log(openPath)
+  }
+}
+const setCustomExportDir = async () => {
+  const openPath = await showOpenDialog({ title: '选择导出目录' })
+  if (openPath) {
+    // todo: 导出目录
+    console.log(openPath)
+  }
+}
 const tabsCallback = (type:string) => {
   console.log(type)
   if (type === '4') {
@@ -268,5 +281,10 @@ const tabsCallback = (type:string) => {
 }
 .config-page {
   background: $color-master;
+}
+</style>
+<style>
+.ant-tabs-content-holder {
+  padding: 5px 20px 30px;
 }
 </style>

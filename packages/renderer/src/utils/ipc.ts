@@ -8,8 +8,31 @@ export interface IpcParameter {
   data: any
 }
 
-export const showOpenDialog = async () => {
-  const { canceled, filePaths } = await ipcRenderer.invoke('ipc', [{ functionName: 'showOpenDialog', data: { properties: ['openDirectory'] } }])
+export interface dialogParameter {
+  // 窗口标题
+  title?: string
+  // 打开文件类型, 空则打开"文件夹"
+  openFileType?: string
+}
+
+// api: https://www.electronjs.org/zh/docs/latest/api/dialog#dialogshowopendialogbrowserwindow-options
+export const showOpenDialog = async ({
+  title = '',
+  openFileType = ''
+} = {} as dialogParameter) => {
+  let filters
+  let properties
+  if (openFileType === 'rar') {
+    filters = [{ name: '压缩存档', extensions: ['zip', 'tar', 'tgz'] }]
+    properties = ['openFile']
+  } else if (openFileType === 'config') {
+    filters = [{ name: '配置文件', extensions: ['json'] }]
+    properties = ['openFile']
+  } else {
+    properties = ['openDirectory']
+  }
+
+  const { canceled, filePaths } = await ipcRenderer.invoke('ipc', [{ functionName: 'showOpenDialog', data: { title, properties, filters } }])
   if (canceled) return ''
   return filePaths.pop()
 }

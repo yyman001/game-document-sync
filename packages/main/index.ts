@@ -82,6 +82,10 @@ ipcMain.handle('ipc', async (_event, argument: any[]) => {
   const { functionName, data } = parameter as IpcParameter
   console.log(functionName, data)
   // todo:? const result = await dialog[functionName](data)
-  const result = await dialog.showOpenDialog(data)
-  return result
+  if (functionName === 'showOpenDialog') {
+    const result = await dialog.showOpenDialog(data)
+    return result
+  }
+
+  return null
 })
