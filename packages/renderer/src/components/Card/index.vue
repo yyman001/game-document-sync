@@ -55,11 +55,11 @@ export default defineComponent({
     })
 
     const cardStyle = computed(() => {
-      return [hasGameDoc ? '' : 'is-empty', `card--border-shadow${hasGameDoc ? '' : '__empty'}`]
+      return [unref(hasGameDoc) ? '' : 'is-empty', `card--border-shadow${unref(hasGameDoc) ? '' : '__empty'}`]
     })
 
     const onClick = (type: string) => {
-      emit('handleClick', [type, item])
+      emit('handleClick', [type, unref(item)])
     }
 
     return {
