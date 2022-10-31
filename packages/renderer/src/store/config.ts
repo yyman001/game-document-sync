@@ -9,15 +9,16 @@ export const useConfigStore = defineStore('config', () => {
   const tempPath = ref('')
   const setTempPath = (path: string) => {
     tempPath.value = path
+    localStorage.setItem('_custom_temp_path', path)
   }
   const setDefaultTempPath = () => {
     setTempPath(getTempPath())
   }
 
-  // TODO: 更新信息保存到localStorage
   const backPath = ref('')
   const setBackPath = (path: string) => {
     backPath.value = path
+    localStorage.setItem('_custom_back_path', path)
   }
   const setDefaultBackPath = () => {
     setBackPath(getBackupPath())
@@ -35,8 +36,10 @@ export const useConfigStore = defineStore('config', () => {
   }
 
   const initConfig = () => {
-    setDefaultTempPath()
-    setDefaultBackPath()
+    const customBackPath = localStorage.getItem('_custom_back_path')
+    const customTempPath = localStorage.getItem('_custom_temp_path')
+    customTempPath ? setTempPath(customTempPath) : setDefaultTempPath()
+    customBackPath ? setBackPath(customBackPath) : setDefaultBackPath()
     setDefalutConfigPath()
   }
 

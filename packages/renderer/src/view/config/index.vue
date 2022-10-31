@@ -241,14 +241,12 @@ const setCustomBackPath = async () => {
   const openPath = await showOpenDialog()
   if (openPath) {
     useConfigStore.setBackPath(openPath)
-    // TODO: 刷新本地备份文件列表
   }
 }
 const setCustomTempPath = async () => {
   const openPath = await showOpenDialog()
   if (openPath) {
     useConfigStore.setTempPath(openPath)
-    // TODO: 刷新本地备份文件列表
   }
 }
 const setCustomDB = async () => {
@@ -265,6 +263,7 @@ const setCustomExportDir = async () => {
     console.log(openPath)
   }
 }
+
 const tabsCallback = (type:string) => {
   console.log(type)
   if (type === '4') {

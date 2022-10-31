@@ -1,13 +1,16 @@
 import { getDirectoryItem, getDirItems, getFileItems } from '@/utils/tools'
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { computed, ref, unref } from 'vue'
 import { FileItem, WebDavFile } from '@/model'
 import { getBackupPath } from '@/utils'
 import { useCloudFileStoreWhitOut } from './cloudFile'
+import { useConfigStoreWhitOut } from './config'
 
 export const useLocalFileStore = defineStore('localFile', () => {
-  const cloudFileStore = useCloudFileStoreWhitOut()
+  const useConfigStore = useConfigStoreWhitOut()
+  const { backPath } = storeToRefs(useConfigStore)
 
+  const cloudFileStore = useCloudFileStoreWhitOut()
   const directoryItem = ref<FileItem[]>([])
   const fileItems = ref<FileItem[]>([])
 
@@ -38,8 +41,9 @@ export const useLocalFileStore = defineStore('localFile', () => {
 
   const loadLocalFileDirectoryItem = async () => {
     try {
-      // TODO: 获取配置的 备份文件夹
-      const filePath = getBackupPath()
+      // 获取配置的 备份文件夹路径
+      const filePath = unref(backPath) || getBackupPath()
+
       const list: FileItem[] = await getDirectoryItem(filePath)
       directoryItem.value = getDirItems(list)
       // 移除第一个备份目录
@@ -65,8 +69,8 @@ export const useLocalFileStore = defineStore('localFile', () => {
     // 组成: 配置的存档文件夹/游戏目录/游戏存档文件.后缀
     // eg: "/games_doc_sync/test/game.file.config.json"
     const downloadUrl = file.filename
-    // TODO: 备份文件路径如果设置了读配置
-    const filePath = getBackupPath(dirname, file.basename)
+    // 备份文件路径如果设置了读配置
+    const filePath = unref(backPath) || getBackupPath(dirname, file.basename)
     cloudFileStore.downloadCloudFile(downloadUrl, filePath, () => {
       const localFile: FileItem = {
         ...file,
