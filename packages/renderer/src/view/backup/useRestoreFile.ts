@@ -1,14 +1,18 @@
 import { ref, unref, watch } from 'vue'
 import useDocs from '@/hooks/db/useDocs'
+import { storeToRefs } from 'pinia'
 import useSystem from '@/hooks/core/useSystem'
 import { modal, RestoreModal } from '@/hooks/useModal'
 import { copy, remove } from '@/utils/FileClass'
 import { unCompress } from '@/utils/compressClass'
 import { getPath, getTempPath, injectStrict } from '@/utils'
+import { useConfigStoreWhitOut } from '@/store/config'
 
 export default function () {
   const { getGameDoc } = useDocs()
   const { HOME_DIR } = useSystem()
+  const useConfigStore = useConfigStoreWhitOut()
+  const { tempPath } = storeToRefs(useConfigStore)
 
   const {
     onModalOpen,
@@ -37,16 +41,15 @@ export default function () {
     }
 
     const _docPath = getPath(gameDoc.pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDoc.gameDocPath)
-    const tempPath = getTempPath()
-    docTempPath.value = getTempPath(gameDoc.gameDocDir)
+    // 解压临时路径
+    const unCompressTempPath = unref(tempPath)
+    docTempPath.value = getPath(unCompressTempPath, gameDoc.gameDocDir)
 
     setFilePath(file.path)
     setDocPath(_docPath)
 
-    console.log('gameDoc:', gameDoc)
-
     try {
-      await unCompress(unref(filePath), tempPath)
+      await unCompress(unref(filePath), unCompressTempPath)
       onCreateNode(unref(docTempPath), gameDoc.gameDocDir)
       console.log('selectedKeys', selectedKeys)
     } catch (e) {
