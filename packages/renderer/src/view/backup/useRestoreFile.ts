@@ -43,7 +43,7 @@ export default function () {
     const _docPath = getPath(gameDoc.pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDoc.gameDocPath)
     // 解压临时路径
     const unCompressTempPath = unref(tempPath)
-    docTempPath.value = getPath(unCompressTempPath, gameDoc.gameDocDir)
+    docTempPath.value = useConfigStore.getTempPath(gameDoc.gameDocDir)
 
     setFilePath(file.path)
     setDocPath(_docPath)

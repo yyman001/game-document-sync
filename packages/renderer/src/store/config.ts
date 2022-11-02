@@ -1,4 +1,4 @@
-import { getAppPath, getDefaultBackupPath, getPath, getTempPath } from '@/utils'
+import { getAppPath, getDefaultBackupPath, getPath, getDefaultTempPath } from '@/utils'
 import { defineStore } from 'pinia'
 import { ref, unref, watch } from 'vue'
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
@@ -12,7 +12,10 @@ export const useConfigStore = defineStore('config', () => {
     localStorage.setItem('_custom_temp_path', path)
   }
   const setDefaultTempPath = () => {
-    setTempPath(getTempPath())
+    setTempPath(getDefaultTempPath())
+  }
+  const getTempPath = (...param:any) => {
+    return getPath(unref(tempPath), ...param)
   }
 
   const backPath = ref('')
@@ -57,6 +60,7 @@ export const useConfigStore = defineStore('config', () => {
 
     tempPath,
     setTempPath,
+    getTempPath,
     setDefaultTempPath,
 
     backPath,

@@ -1,18 +1,15 @@
 import { ref, unref } from 'vue'
-import { storeToRefs } from 'pinia'
 import { message } from 'ant-design-vue'
 import useSystem from '@/hooks/core/useSystem'
 import useGames from '@/hooks/db/useGames'
 import useBackup from '@/hooks/db/useBackup'
 import { backupFile, BackupFileData } from '@/utils/file'
-import { getPath } from '@/utils/index'
 import { useConfigStoreWhitOut } from '@/store/config'
 
 export default function () {
   const { HOME_DIR, SYSTEM_TYPE } = useSystem()
   const { success: messageSuccess, error: messageError } = message
   const useConfigStore = useConfigStoreWhitOut()
-  const { tempPath } = storeToRefs(useConfigStore)
 
   const { searchGame } = useGames()
   const { addBackup } = useBackup()
@@ -23,7 +20,7 @@ export default function () {
   const progress = ref(0) // 进度条
 
   const onStartBackup = async ({ docPath, backPath, gameDocPath, gameDocDir, saveFiles }:any) => {
-    const tempBackupPath = getPath(unref(tempPath), gameDocDir)
+    const tempPath = useConfigStore.getTempPath(gameDocDir)
 
     if (!saveFiles.length) return messageError('请勾选要备份的文件!')
 
@@ -31,7 +28,7 @@ export default function () {
     const game = await searchGame(gameDocDir)
     if (!game) return messageError('未查找游戏数据!')
 
-    const [errorText, backupData] = await backupFile({ HOME_DIR, docPath, tempPath: tempBackupPath, backPath, gameDocDir, saveFiles }) as BackupFileData
+    const [errorText, backupData] = await backupFile({ HOME_DIR, docPath, tempPath, backPath, gameDocDir, saveFiles }) as BackupFileData
     if (errorText || !backupData) {
       messageError(errorText as string)
       return
