@@ -5,7 +5,7 @@ import useSystem from '@/hooks/core/useSystem'
 import { modal, RestoreModal } from '@/hooks/useModal'
 import { copy, remove } from '@/utils/FileClass'
 import { unCompress } from '@/utils/compressClass'
-import { getPath, getTempPath, injectStrict } from '@/utils'
+import { getPath, injectStrict } from '@/utils'
 import { useConfigStoreWhitOut } from '@/store/config'
 
 export default function () {

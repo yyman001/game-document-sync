@@ -1,11 +1,12 @@
 import { computed, unref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { getBackupPath } from '@/utils'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
+import { useConfigStoreWhitOut } from '@/store/config'
 import useFile from './useFile'
 
 export default function () {
+  const useConfigStore = useConfigStoreWhitOut()
   const localFileStore = useLocalFileStoreWhitOut()
   const cloudFileStore = useCloudFileStoreWhitOut()
   const { localFileListName, localDirectoryListName } = storeToRefs(localFileStore)
@@ -121,7 +122,7 @@ export default function () {
     // eg: "/games_doc_sync/test/game.file.config.json"
     const downloadUrl = file.filename
     // TODO: 备份文件夹名称读配置
-    const filePath = getBackupPath(dirname, file.basename)
+    const filePath = useConfigStore.getBackupPath(dirname, file.basename)
     // TODO: 下载方法迁移到 cloud 模块
     cloudFileStore.downloadCloudFile(downloadUrl, filePath, () => {
       file.path = filePath

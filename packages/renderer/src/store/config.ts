@@ -1,4 +1,4 @@
-import { getAppPath, getBackupPath, getTempPath } from '@/utils'
+import { getAppPath, getDefaultBackupPath, getPath, getTempPath } from '@/utils'
 import { defineStore } from 'pinia'
 import { ref, unref, watch } from 'vue'
 import useCloudConfig from '@/hooks/cloud/useCloudConfig'
@@ -20,8 +20,12 @@ export const useConfigStore = defineStore('config', () => {
     backPath.value = path
     localStorage.setItem('_custom_back_path', path)
   }
+  // 改名为恢复默认路径
   const setDefaultBackPath = () => {
-    setBackPath(getBackupPath())
+    setBackPath(getDefaultBackupPath())
+  }
+  const getBackupPath = (...param:any) => {
+    return getPath(unref(backPath), ...param)
   }
 
   // 配置文件名
@@ -57,6 +61,7 @@ export const useConfigStore = defineStore('config', () => {
 
     backPath,
     setBackPath,
+    getBackupPath,
     setDefaultBackPath,
 
     configFilePath,

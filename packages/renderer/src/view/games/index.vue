@@ -27,11 +27,12 @@ import { GameItem } from '../../model'
 import useSystem from '@/hooks/core/useSystem'
 import useDocTree from '@/hooks/file/useDocTree'
 import useBackupFile from '@/hooks/file/useBackupFile'
-import { getBackupPath, getPath } from '@/utils'
+import { getPath } from '@/utils'
 
 import useRestoreFile from '@/view/backup/useRestoreFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
 import { message } from 'ant-design-vue'
+import { useConfigStoreWhitOut } from '@/store/config'
 
 export default defineComponent({
   components: { Card, ModalBackUp },
@@ -52,6 +53,7 @@ export default defineComponent({
     const { loading, onStartBackup } = useBackupFile()
     const { showRestoreFile } = useRestoreFile()
     const localFile = useLocalFileStoreWhitOut()
+    const useConfigStore = useConfigStoreWhitOut()
 
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
@@ -85,7 +87,7 @@ export default defineComponent({
 
         case 'backup':
           docPath.value = getPath(pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDocPath)
-          backPath.value = getBackupPath(gameDocDir)
+          backPath.value = useConfigStore.getBackupPath(gameDocDir)
           createNode(docPath.value, gameDocDir)
           onModalOpen()
           break

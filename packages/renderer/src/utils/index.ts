@@ -38,7 +38,7 @@ export const getAppPath = (...params: any) => {
   return getPath(window.APP_HOME_DIR, ...params)
 }
 
-export const getBackupPath = (...params: any) => {
+export const getDefaultBackupPath = (...params: any) => {
   return getPath(window.APP_HOME_DIR, 'backup', ...params)
 }
 
