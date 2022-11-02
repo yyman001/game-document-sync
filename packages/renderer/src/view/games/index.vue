@@ -1,15 +1,22 @@
 <template>
   <div class="card-content">
     <button @click="refreshScanGames">刷新</button>
-    <div class="card-box">
-      <Card
-        :key="item.gameName"
-        v-for="item in list"
-        :item="item"
-        :hasGameDoc="hasGameDoc(item.gameDocDir)"
-        @handleClick="handleClick"
-      />
-    </div>
+
+    <template v-if="list?.length">
+      <div class="card-box">
+        <Card
+          :key="item.gameName"
+          v-for="item in list"
+          :item="item"
+          :hasGameDoc="hasGameDoc(item.gameDocDir)"
+          @handleClick="handleClick"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <Empty description="未找到游戏" :image="simpleImage" />
+    </template>
+
     <ModalBackUp @submit="handleStartBackup"/>
   </div>
 </template>
@@ -31,11 +38,11 @@ import { getPath } from '@/utils'
 
 import useRestoreFile from '@/view/backup/useRestoreFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
-import { message } from 'ant-design-vue'
+import { message, Empty } from 'ant-design-vue'
 import { useConfigStoreWhitOut } from '@/store/config'
 
 export default defineComponent({
-  components: { Card, ModalBackUp },
+  components: { Card, ModalBackUp, Empty },
 
   props: {
     searchText: String
@@ -54,6 +61,7 @@ export default defineComponent({
     const { showRestoreFile } = useRestoreFile()
     const localFile = useLocalFileStoreWhitOut()
     const useConfigStore = useConfigStoreWhitOut()
+    const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 
     const list = computed(() => {
       if (!Array.isArray(unref(gameList))) return []
@@ -138,7 +146,9 @@ export default defineComponent({
 
       isVisible,
       handleClick,
-      handleStartBackup
+      handleStartBackup,
+
+      simpleImage
     }
   }
 })

@@ -1,6 +1,7 @@
 <template>
   <div class="backup">
-    <a-page-header
+    <template v-if="fileList.length">
+      <a-page-header
       v-show="activeDirectoryName"
       :title="activeDirectoryName"
       @back="handleSetDirectory()"
@@ -25,6 +26,11 @@
 
       </div>
     </FileExplorer>
+    </template>
+    <template v-else>
+      <Empty description="未找到相关备份文件" :image="simpleImage" />
+    </template>
+
   </div>
 </template>
 
@@ -33,7 +39,7 @@ import FileExplorer from '@/components/FileExplorer/index.vue'
 import FileItem from '@/components/FileExplorer/FileItem.vue'
 import { formatTimestamp } from '@/utils/formatTimestamp'
 import { formatFileSize } from '@/utils/formatFileSize'
-
+import { Empty } from 'ant-design-vue'
 import useCore from './useCore'
 
 const {
@@ -49,6 +55,7 @@ const {
   getSyncStatus
 } = useCore()
 
+const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 </script>
 
 <style lang="sass" scoped></style>
