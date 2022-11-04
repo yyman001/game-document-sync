@@ -1,8 +1,10 @@
-import { ExportOptions } from 'dexie-export-import'
+import { ExportOptions, ImportOptions, exportDB, importInto } from 'dexie-export-import'
 import { db } from '@/utils/DexieDB'
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { ExportProgress } from 'dexie-export-import/dist/export'
-import { StaticImportOptions } from 'dexie-export-import/dist/import'
+import { useConfigStoreWhitOut } from '@/store/config'
+import { getPath } from '@/utils'
 
 const fileSystem = require('fs')
 const fs = require('fs-extra')
@@ -22,6 +24,9 @@ function toBufferPromise (blob: Blob) {
 }
 
 export function useDB () {
+  const useConfigStore = useConfigStoreWhitOut()
+  const { databseInputPath, databaseExportPath } = storeToRefs(useConfigStore)
+
   const progress = ref(0)
   const isLoading = ref(false)
   const isDeleteOldDatabse = ref(false)
@@ -51,11 +56,11 @@ export function useDB () {
   async function saveDatabaseToJson () {
     if (isLoading.value) return
     isLoading.value = true
-
     try {
-      const blob = await db.export({ prettyJson: true, progressCallback, filter: filterExportTable } as ExportOptions)
+      const outPath = getPath(unref(databaseExportPath), fileName)
+      const blob = await exportDB(db, { prettyJson: true, progressCallback, filter: filterExportTable } as ExportOptions)
       const buffer = await toBufferPromise(blob)
-      await fs.outputFile(fileName, buffer)
+      await fs.outputFile(outPath, buffer)
     } catch (error) {
       console.error(error)
     }
@@ -65,15 +70,18 @@ export function useDB () {
 
   async function improtDatabaseByJson () {
     try {
-      if (isDeleteOldDatabse.value) {
-        // if delete database, must run open function to open database
+      // if delete database, must run open function to open database
+      /* if (unref(isDeleteOldDatabse)) {
         await db.delete()
         await db.open()
-      }
-
-      const stream = fileSystem.createReadStream(fileName)
+      } */
+      const stream = fileSystem.createReadStream(unref(databseInputPath))
       const blob = await toBlob(stream)
-      await db.import(blob, { progressCallback } as StaticImportOptions)
+      await importInto(db, blob, {
+        clearTablesBeforeImport: unref(isDeleteOldDatabse),
+        overwriteValues: !unref(isDeleteOldDatabse),
+        progressCallback
+      } as ImportOptions)
     } catch (error) {
       console.error(error)
     }

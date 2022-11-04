@@ -49,10 +49,15 @@
       <field-set-group title="数据库恢复">
 
         <div style="margin-bottom: 16px">
-          <a-input default-value=".\">
+          <a-input :value="databseInputPath">
             <template #addonBefore>
               <a-tooltip title="选择数据库文件">
                 <SettingOutlined @click="setCustomDB"/>
+              </a-tooltip>
+            </template>
+            <template #addonAfter>
+              <a-tooltip title="恢复默认">
+                <ReloadOutlined @click="useConfigStore.recoverDefalutDatabaseInputPath"/>
               </a-tooltip>
             </template>
           </a-input>
@@ -75,7 +80,7 @@
         <!-- <a-divider /> -->
 
         <div style="margin-bottom: 16px">
-          <a-input default-value=".\">
+          <a-input :value="databaseExportPath">
             <template #addonBefore>
               <a-tooltip title="设置备份导出目录">
                 <SettingOutlined @click="setCustomExportDir"/>
@@ -84,7 +89,7 @@
 
             <template #addonAfter>
               <a-tooltip title="恢复默认">
-                <ReloadOutlined />
+                <ReloadOutlined @click="useConfigStore.recoverDefalutDatabaseExportPath"/>
               </a-tooltip>
             </template>
           </a-input>
@@ -207,7 +212,6 @@ import { showOpenDialog } from '@/utils/ipc'
 const {
   progress,
   isLoading,
-  isDeleteOldDatabse,
   handleDeleteDatabse,
   saveDatabaseToJson,
   improtDatabaseByJson,
@@ -232,7 +236,7 @@ const { cloudTypeList } = storeToRefs(useCloudStore)
 const { usearname, password, accessKeyId, accessKeySecret, bucket } = toRefs(cloudFormState)
 
 const useConfigStore = useConfigStoreWhitOut()
-const { tempPath, backPath, configFilePath } = storeToRefs(useConfigStore)
+const { tempPath, backPath, configFilePath, databseInputPath, databaseExportPath } = storeToRefs(useConfigStore)
 
 const setDefaultTempPath = () => useConfigStore.setDefaultTempPath()
 const setDefaultBackPath = () => useConfigStore.setDefaultBackPath()
@@ -254,6 +258,7 @@ const setCustomDB = async () => {
   if (openPath) {
     // todo: 恢复数据库
     console.log(openPath)
+    useConfigStore.setDatabseInputPath(openPath)
   }
 }
 const setCustomExportDir = async () => {
@@ -261,6 +266,7 @@ const setCustomExportDir = async () => {
   if (openPath) {
     // todo: 导出目录
     console.log(openPath)
+    useConfigStore.setDatabaseExportPath(openPath)
   }
 }
 
