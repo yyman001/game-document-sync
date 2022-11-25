@@ -2,13 +2,13 @@
   <div class="backup">
     <template v-if="fileList.length">
       <a-page-header
-      v-show="activeDirectoryName"
-      :title="activeDirectoryName"
-      @back="handleSetDirectory()"
-    />
-    <FileExplorer>
-      <div class="file-content">
-        <!-- 文件夹/文件 -->
+        v-show="activeDirectoryName"
+        :title="activeDirectoryName"
+        @back="handleSetDirectory()"
+      />
+      <FileExplorer>
+        <div class="file-content">
+          <!-- 文件夹/文件 -->
           <FileItem
             v-for="item in fileList"
             :key="item.basename"
@@ -23,14 +23,12 @@
             @handleOpenFile="handleOpenFile"
             @handleAction="handleAction"
           />
-
-      </div>
-    </FileExplorer>
+        </div>
+      </FileExplorer>
     </template>
     <template v-else>
       <Empty description="未找到相关备份文件" :image="simpleImage" />
     </template>
-
   </div>
 </template>
 
@@ -41,6 +39,8 @@ import { formatTimestamp } from '@/utils/formatTimestamp'
 import { formatFileSize } from '@/utils/formatFileSize'
 import { Empty } from 'ant-design-vue'
 import useCore from './useCore'
+import { watch, inject, unref } from 'vue'
+import { scrollMod } from '../../hooks/useScroll'
 
 const {
   activeDirectoryName,
@@ -55,6 +55,14 @@ const {
   getSyncStatus
 } = useCore()
 
+// todo: 记录历史滚动条位置
+const { scrollTop } = inject<any>(scrollMod)
+watch(
+  () => unref(activeDirectoryName),
+  () => {
+    scrollTop()
+  }
+)
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 </script>
 

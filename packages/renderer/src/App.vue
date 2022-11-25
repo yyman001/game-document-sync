@@ -1,22 +1,19 @@
 <template>
   <a-layout>
-    <a-layout-sider
-      class="layout-sider"
-      width="250"
-      collapsed-width="0">
+    <a-layout-sider class="layout-sider" width="250" collapsed-width="0">
       <div class="logo" />
       <!-- 菜单导航 -->
       <Menu />
       <div class="cloud-select">
-      <a-select
-        style="width: 100px;"
-        size="small"
-        :value="cloudType"
-        :options="cloudTypeList"
-        @change="setCloudType"
-      ></a-select>
-      <a-button size="small" @click="reLoadCloudData"><ReloadOutlined /></a-button>
-    </div>
+        <a-select
+          style="width: 100px"
+          size="small"
+          :value="cloudType"
+          :options="cloudTypeList"
+          @change="setCloudType"
+        ></a-select>
+        <a-button size="small" @click="reLoadCloudData"><ReloadOutlined /></a-button>
+      </div>
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="">
@@ -26,7 +23,7 @@
         </div>
       </a-layout-header>
       <a-layout-content>
-        <perfect-scrollbar class="scrollbar-wrap">
+        <perfect-scrollbar class="scrollbar-wrap" ref="scroll">
           <div class="layout-content">
             <router-view></router-view>
           </div>
@@ -50,6 +47,8 @@ import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
 import useRestore from './modal/restore/useRestore'
 import { storeToRefs } from 'pinia'
+import useScroll, { scrollMod } from './hooks/useScroll'
+import { provide } from 'vue'
 
 const cloudStore = useCloudStoreWhitOut()
 const cloudFileStore = useCloudFileStoreWhitOut()
@@ -63,22 +62,27 @@ const { restoreProvide } = useRestore()
 restoreProvide()
 // ! 切换 实例
 // 如果存在对应配置
-const setCloudType = (type:string) => {
+const setCloudType = (type: string) => {
   cloudStore.setCloudType(type)
   reLoadCloudData()
 }
 
+const { scroll, scrollTop } = useScroll()
+provide(scrollMod, {
+  scrollTop
+})
 </script>
 
 <style lang="scss">
-@import "@/sass/_var.scss";
+@import '@/sass/_var.scss';
 
-body, html {
+body,
+html {
   padding: 0;
   margin: 0;
   height: 100%;
   overflow: hidden;
-  font-family: "Motiva Sans", Sans-serif;
+  font-family: 'Motiva Sans', Sans-serif;
 }
 
 #app {
