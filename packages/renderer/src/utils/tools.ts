@@ -21,14 +21,15 @@ export function getDirectoryItem (filePath: string): Promise<FileItem[]> {
         const splitArray = fileFullPath.split('\\')
         const [basename] = splitArray.slice(-1)
         const [dirname] = splitArray.slice(-2)
-
         fileDetailedList.push({
           type: stats.isFile() ? 'file' : 'directory',
           path: fileFullPath,
           dirname,
           basename,
           size: stats.size,
-          timeStamp: stats.ctimeMs
+          ctimeStamp: stats.ctimeMs,
+          // 修改时间
+          timeStamp: stats.mtimeMs
         } as FileItem)
 
         next()

@@ -73,6 +73,9 @@ export interface FileItem {
   fileType: string
   path: string
   size: number
+  // 创建时间
+  ctimeStamp: string | number
+  // 修改时间
   timeStamp: string | number
   type: 'directory' | 'file'
   comparsedName: string
