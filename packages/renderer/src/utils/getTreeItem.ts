@@ -1,3 +1,5 @@
+import { formatFileSize } from './formatFileSize'
+
 /* 创建多选用的树结构 */
 const rd = require('rd')
 const path = require('path')
@@ -49,7 +51,7 @@ export function getTreeItem (filePath: string, rootDir: string) :Promise<TreeIte
           isLeaf: isFile,
           key: fileFullPath,
           path: fileFullPath,
-          title: isFile ? p.name + p.ext : p.name,
+          title: isFile ? `${p.name} - ${formatFileSize(stats.size)}` : p.name,
           relative_path: relativePath,
           relative_parent_path: relativeParentPath,
           parent_dir: relativeParentPath ? relativeParentPath.split('\\').pop() : null,
@@ -87,5 +89,5 @@ export async function createTree (filePath: string, gameDocDir: string) {
   })
 
   const tree = allDir.find(f => f.depth === 0) as TreeItem
-  return { tree, filesPath }
+  return { tree, filesPath, fileDetailedList }
 }

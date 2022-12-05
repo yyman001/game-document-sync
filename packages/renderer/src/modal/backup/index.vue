@@ -2,6 +2,7 @@
   <a-modal title="备份" :visible="isVisible" :footer="null" :maskClosable="false" @cancel="onModalClose">
     <FieldSetGroup v-if="treeData.length" title="文件列表">
       <div class="file-content">
+        <a-alert :message="`勾选内容大小: ${nodeSize}`" type="info" show-icon />
         <a-directory-tree
           default-expand-all
           multiple
@@ -65,6 +66,7 @@ export default defineComponent({
 
       loading,
       selectedKeys,
+      nodeSize,
       treeData,
 
       docPath,
@@ -88,6 +90,7 @@ export default defineComponent({
 
       loading,
       selectedKeys,
+      nodeSize,
       treeData,
 
       openItem,

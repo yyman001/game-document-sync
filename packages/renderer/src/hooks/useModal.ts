@@ -30,7 +30,8 @@ export const modal = Symbol('')
 export interface BackModal extends Modal {
   loading?: boolean
   selectedKeys: string[]
-  treeData: TreeItem[]
+  treeData: TreeItem[],
+  nodeSize: number,
   docPath: string
   backPath: string
 }

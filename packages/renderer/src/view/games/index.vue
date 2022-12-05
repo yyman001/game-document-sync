@@ -56,7 +56,7 @@ export default defineComponent({
     const { error } = message
 
     const { HOME_DIR } = useSystem()
-    const { selectedKeys, treeData, createNode } = useDocTree()
+    const { selectedKeys, treeData, createNode, nodeSize } = useDocTree()
     const { loading, onStartBackup } = useBackupFile()
     const { showRestoreFile } = useRestoreFile()
     const localFile = useLocalFileStoreWhitOut()
@@ -133,6 +133,8 @@ export default defineComponent({
 
       loading,
       selectedKeys,
+
+      nodeSize,
       treeData,
 
       docPath,
