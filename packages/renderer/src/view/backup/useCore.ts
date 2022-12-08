@@ -1,11 +1,13 @@
-import { computed, unref } from 'vue'
+import { computed, reactive, ref, unref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
 import { useConfigStoreWhitOut } from '@/store/config'
 import useFile from './useFile'
+import useDocs from '@/hooks/db/useDocs'
 
 export default function () {
+  const Docs = useDocs()
   const useConfigStore = useConfigStoreWhitOut()
   const localFileStore = useLocalFileStoreWhitOut()
   const cloudFileStore = useCloudFileStoreWhitOut()
@@ -16,7 +18,7 @@ export default function () {
   const cloudSynchronizationDirectory = computed(() => {
     return unref(cloudFileStore.coludItems.directoryItem)
       .filter(file => !unref(localDirectoryListName).includes(file.basename))
-      .map((f) => {
+      .map(f => {
         // 使用 path 作为云下载标识
         return { ...f, timeStamp: f.lastmod, path: '' }
       })
@@ -27,7 +29,7 @@ export default function () {
     // 过滤已经存在的云文件(已同步): 云文件 过滤 本地文件
     return cloudFileStore.coludItems.fileItems
       .filter(f => !unref(localFileListName).includes(f.comparsedName))
-      .map((f) => {
+      .map(f => {
         return {
           ...f,
           timeStamp: f.lastmod,
@@ -38,7 +40,9 @@ export default function () {
 
   // 未同步到云盘的本地文件
   const localSyncDirectory = computed(() => {
-    return unref(localFileStore.directoryItem).filter(file => !cloudFileStore.cloudDirectorys.includes(file.basename))
+    return unref(localFileStore.directoryItem).filter(
+      file => !cloudFileStore.cloudDirectorys.includes(file.basename)
+    )
   })
 
   // 本地文件夹&云文件夹
@@ -48,8 +52,7 @@ export default function () {
 
   const getDirectoryChildrenByCloud = (gameDocDir: string) => {
     // ! 文件必须为 gameDocDir 目录下的文件
-    return unref(cloudSynchronizationFile)
-      .filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
+    return unref(cloudSynchronizationFile).filter(f => f.filename.indexOf(`${gameDocDir}/`) !== -1)
   }
 
   console.log('allDirectory', unref(allDirectory))
@@ -84,7 +87,8 @@ export default function () {
     return getChildrenByLocalAndCloud(directoryName).reduceRight(
       (accumulator: number, currentFile: any) => {
         return accumulator + currentFile.size
-      }, 0
+      },
+      0
     )
   }
 
@@ -103,9 +107,13 @@ export default function () {
     // 当前文件夹名称
     const gameDocDir = item.basename
     // 获取本地文件列表
-    const localFileList = unref(localFileListName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+    const localFileList = unref(localFileListName).filter(
+      filename => filename.indexOf(`${gameDocDir}/`) !== -1
+    )
     // 获取云文件列表
-    const coludFileList = unref(cloudFileStore.cloudFilesName).filter(filename => filename.indexOf(`${gameDocDir}/`) !== -1)
+    const coludFileList = unref(cloudFileStore.cloudFilesName).filter(
+      filename => filename.indexOf(`${gameDocDir}/`) !== -1
+    )
     // 本地文件列表和云文件列表 一致时,代表已同步
     return localFileList.join() === coludFileList.join()
   }
@@ -131,6 +139,38 @@ export default function () {
     })
   }
 
+  /*
+    数据结构体:
+    {gameDocDir: nickname}
+  */
+  const nickNameMap = reactive<{ [index: string]: string }>({})
+
+  const getGamesNickName = async (dirsname: string[]) => {
+    const games = await Docs.findGameDocs(dirsname)
+    if (games.length) {
+      games.forEach(item => {
+        nickNameMap[item.gameDocDir] = item.nickName
+      })
+    }
+  }
+
+  const getGameNickName = (dirname: string) => {
+    const game = nickNameMap[dirname]
+    return game || 'not find game info'
+  }
+
+  // TODO: 云文件也要监控
+  watch(
+    () => unref(localFileStore.localDirectoryListName),
+    dirsname => {
+      getGamesNickName(dirsname)
+      console.log('nickNameMap:', nickNameMap)
+    },
+    {
+      immediate: true
+    }
+  )
+
   return {
     activeDirectoryName,
     handleSetDirectory,
@@ -144,6 +184,8 @@ export default function () {
     handleAction,
 
     getSyncStatus,
-    downloadFile
+    downloadFile,
+
+    getGameNickName
   }
 }

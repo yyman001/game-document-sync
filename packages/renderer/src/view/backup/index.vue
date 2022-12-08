@@ -13,6 +13,7 @@
             v-for="item in fileList"
             :key="item.basename"
             :fileName="item.basename"
+            :nickName="getGameNickName(item.basename)"
             :fileType="item.type"
             :fileSize="formatFileSize(fileOrDirSize(item))"
             :item="item"
@@ -52,7 +53,8 @@ const {
   handleOpenFile,
   handleAction,
 
-  getSyncStatus
+  getSyncStatus,
+  getGameNickName
 } = useCore()
 
 // todo: 记录历史滚动条位置

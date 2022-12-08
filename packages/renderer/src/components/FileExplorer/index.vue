@@ -62,6 +62,7 @@ export default {}
     }
     .action-col {
       position: relative;
+      display: flex;
     }
     &.is-cloud-file {
       filter: grayscale(100%);
@@ -69,7 +70,6 @@ export default {}
   }
 
   &__icon {
-    float: left;
     width: 50px;
     height: 100%;
     background-repeat: no-repeat;
@@ -84,15 +84,25 @@ export default {}
     }
   }
   &__name {
-    display: inline-block;
+    display: inline-flex;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+
     max-width: 100%;
+    line-height: initial;
+
     cursor: pointer;
     &:hover {
       color: #141416;
       text-decoration: underline;
     }
   }
-
+  &__nick-name {
+    font-size: 12px;
+    color: rgba(0 ,0, 0, .45);
+  }
   &__cloud-status {
   height: 100%;
 

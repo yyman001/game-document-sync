@@ -4,7 +4,10 @@
     <!-- 文件名 -->
     <a-col flex="auto" class="action-col">
       <div class="file__icon" :class="fileIcon"></div>
-      <div class="file__name" @click="handleClick">{{fileName}}</div>
+      <div class="file__name" @click="handleClick">
+        <span>{{fileName}}</span>
+        <span class="file__nick-name">{{nickName}}</span>
+      </div>
       <div v-if="fileType === 'file' " class="file__action">
         <a-button-group>
           <!-- 还原 -->
@@ -57,6 +60,7 @@ export default {
     },
     fileType: String,
     fileName: String,
+    nickName: String,
     fileSize: {
       type: String,
       default: ''
