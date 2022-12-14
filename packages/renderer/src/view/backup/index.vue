@@ -1,6 +1,6 @@
 <template>
   <div class="backup">
-    <template v-if="fileList.length">
+    <template v-if="filterList.length">
       <a-page-header
         v-show="activeDirectoryName"
         :title="activeDirectoryName"
@@ -10,7 +10,7 @@
         <div class="file-content">
           <!-- 文件夹/文件 -->
           <FileItem
-            v-for="item in fileList"
+            v-for="item in filterList"
             :key="item.basename"
             :fileName="item.basename"
             :nickName="getGameNickName(item.basename)"
@@ -47,7 +47,7 @@ const {
   activeDirectoryName,
   handleSetDirectory,
 
-  fileList,
+  filterList,
   fileOrDirSize,
 
   handleOpenFile,

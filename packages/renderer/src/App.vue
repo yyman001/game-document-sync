@@ -20,6 +20,7 @@
         <div class="header">
           <AddDoc />
           <RestoreModal />
+          <Search />
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -42,6 +43,7 @@ import Menu from './components/Menu/index.vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import AddDoc from './view/header/addDoc.vue'
 import RestoreModal from '@/modal/restore/index.vue'
+import Search from '@/components/Search/index.vue'
 
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
@@ -49,6 +51,7 @@ import useRestore from './modal/restore/useRestore'
 import { storeToRefs } from 'pinia'
 import useScroll, { scrollMod } from './hooks/useScroll'
 import { provide } from 'vue'
+import useSearch from './components/Search/useSearch'
 
 const cloudStore = useCloudStoreWhitOut()
 const cloudFileStore = useCloudFileStoreWhitOut()
@@ -71,6 +74,10 @@ const { scroll, scrollTop } = useScroll()
 provide(scrollMod, {
   scrollTop
 })
+
+const { searchProvide } = useSearch()
+searchProvide()
+
 </script>
 
 <style lang="scss">
@@ -126,6 +133,7 @@ html {
 }
 
 .header {
+  display: flex;
   background: $color-master;
   border-radius: 8px;
   box-shadow: 0 0 10px 5px rgb(158 158 158 / 20%);

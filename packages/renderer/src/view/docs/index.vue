@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, toRefs, unref } from 'vue'
+import { computed, defineComponent, inject, Ref, toRefs, unref } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons-vue'
 
@@ -41,12 +41,9 @@ export default defineComponent({
     PlusOutlined,
     CloseOutlined
   },
-  props: {
-    searchText: String
-  },
 
   setup (props) {
-    const { searchText } = toRefs(props)
+    const { searchText } = inject<any>('search')
     const { result, onDelDoc } = useDocs()
     const { addGame } = useGames()
     const { success: messageSuccess, error: messageError } = message
@@ -75,7 +72,7 @@ export default defineComponent({
     const list = computed(() => {
       if (!Array.isArray(unref(result))) return []
 
-      if (!props.searchText) return unref(result)
+      if (!unref(searchText)) return unref(result)
 
       return unref(result as Readonly<Ref<GameItem[]>>).filter((game: any) => {
         const regExp = new RegExp(unref(searchText) as string, 'i')

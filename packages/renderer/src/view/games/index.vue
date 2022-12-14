@@ -1,7 +1,6 @@
 <template>
   <div class="card-content">
     <button @click="refreshScanGames">刷新</button>
-
     <template v-if="list?.length">
       <div class="card-box">
         <Card
@@ -22,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, unref, toRefs, Ref, ref, provide } from 'vue'
+import { defineComponent, computed, unref, toRefs, Ref, ref, provide, inject } from 'vue'
 import Card, { CardEmitItem } from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
@@ -44,12 +43,8 @@ import { useConfigStoreWhitOut } from '@/store/config'
 export default defineComponent({
   components: { Card, ModalBackUp, Empty },
 
-  props: {
-    searchText: String
-  },
-
   setup (props) {
-    const { searchText } = toRefs(props)
+    const { searchText } = inject<any>('search')
     const { gameList } = useGames()
     const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()

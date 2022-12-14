@@ -1,4 +1,4 @@
-import { computed, reactive, ref, unref, watch } from 'vue'
+import { computed, inject, reactive, ref, unref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
@@ -8,6 +8,7 @@ import useDocs from '@/hooks/db/useDocs'
 
 export default function () {
   const Docs = useDocs()
+  const { searchText } = inject<any>('search')
   const useConfigStore = useConfigStoreWhitOut()
   const localFileStore = useLocalFileStoreWhitOut()
   const cloudFileStore = useCloudFileStoreWhitOut()
@@ -80,6 +81,17 @@ export default function () {
 
     // 返回文件夹文件列表
     return getChildrenByLocalAndCloud(unref(activeDirectoryName))
+  })
+
+  const filterList = computed(() => {
+    if (!Array.isArray(unref(fileList))) return []
+
+    if (!unref(searchText)) return unref(fileList)
+
+    return unref(fileList as any).filter((file: any) => {
+      const regExp = new RegExp(unref(searchText) as string, 'i')
+      return regExp.test(file.basename)
+    })
   })
 
   // TODO
@@ -175,6 +187,7 @@ export default function () {
     activeDirectoryName,
     handleSetDirectory,
 
+    filterList,
     fileList,
     folderSize,
 
