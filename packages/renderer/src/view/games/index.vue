@@ -1,6 +1,5 @@
 <template>
   <div class="card-content">
-    <button @click="refreshScanGames">刷新</button>
     <template v-if="list?.length">
       <div class="card-box">
         <Card
@@ -15,13 +14,12 @@
     <template v-else>
       <Empty description="未找到游戏" :image="simpleImage" />
     </template>
-
-    <ModalBackUp @submit="handleStartBackup"/>
+    <ModalBackUp @submit="handleStartBackup" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, unref, toRefs, Ref, ref, provide, inject } from 'vue'
+import { defineComponent, computed, unref, Ref, ref, provide, inject } from 'vue'
 import Card, { CardEmitItem } from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
@@ -37,16 +35,16 @@ import { getPath } from '@/utils'
 
 import useRestoreFile from '@/view/backup/useRestoreFile'
 import { useLocalFileStoreWhitOut } from '@/store/localFile'
-import { message, Empty } from 'ant-design-vue'
+import { message, Empty, Spin } from 'ant-design-vue'
 import { useConfigStoreWhitOut } from '@/store/config'
 
 export default defineComponent({
-  components: { Card, ModalBackUp, Empty },
+  components: { Card, ModalBackUp, Empty, Spin },
 
   setup (props) {
     const { searchText } = inject<any>('search')
     const { gameList } = useGames()
-    const { hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
+    const { isLoading, hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
     const { error } = message
 
@@ -89,7 +87,10 @@ export default defineComponent({
           break
 
         case 'backup':
-          docPath.value = getPath(pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDocPath)
+          docPath.value = getPath(
+            pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR,
+            gameDocPath
+          )
           backPath.value = useConfigStore.getBackupPath(gameDocDir)
           createNode(docPath.value, gameDocDir)
           onModalOpen()
@@ -106,7 +107,7 @@ export default defineComponent({
       }
     }
 
-    const handleStartBackup = async (data:any) => {
+    const handleStartBackup = async (data: any) => {
       try {
         await onStartBackup({
           docPath: unref(docPath),
@@ -137,6 +138,7 @@ export default defineComponent({
     })
 
     return {
+      isLoading,
       list,
       hasGameDoc,
       refreshScanGames,

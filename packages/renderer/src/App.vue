@@ -1,6 +1,6 @@
 <template>
   <a-layout>
-    <a-layout-sider class="layout-sider" width="250" collapsed-width="0">
+    <a-layout-sider class="layout-sider" width="200" collapsed-width="0">
       <div class="logo" />
       <!-- 菜单导航 -->
       <Menu />
@@ -18,9 +18,8 @@
     <a-layout>
       <a-layout-header class="">
         <div class="header">
-          <AddDoc />
-          <RestoreModal />
           <Search />
+          <RestoreModal />
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -41,7 +40,6 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import Menu from './components/Menu/index.vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
-import AddDoc from './view/header/addDoc.vue'
 import RestoreModal from '@/modal/restore/index.vue'
 import Search from '@/components/Search/index.vue'
 
@@ -50,7 +48,7 @@ import { useCloudStoreWhitOut } from '@/store/cloud'
 import useRestore from './modal/restore/useRestore'
 import { storeToRefs } from 'pinia'
 import useScroll, { scrollMod } from './hooks/useScroll'
-import { provide } from 'vue'
+import { onMounted, provide } from 'vue'
 import useSearch from './components/Search/useSearch'
 
 const cloudStore = useCloudStoreWhitOut()
@@ -78,6 +76,9 @@ provide(scrollMod, {
 const { searchProvide } = useSearch()
 searchProvide()
 
+onMounted(() => {
+  document.body.classList.add('catppuccin-frappe')
+})
 </script>
 
 <style lang="scss">
@@ -100,9 +101,12 @@ html {
   color: #2c3e50;
 
   /* 重写框架样式 */
+  .ant-layout {
+    background: var(--gradient-body-background);
+  }
+
   .ant-layout-sider {
-    background: $color-master;
-    box-shadow: 14px 14px 40px 0 rgba(158, 158, 158, 0.2);
+    background: var(--navbar-background);
   }
 
   .ant-layout-header {
@@ -134,9 +138,8 @@ html {
 
 .header {
   display: flex;
-  background: $color-master;
+  flex-wrap: wrap;
   border-radius: 8px;
-  box-shadow: 0 0 10px 5px rgb(158 158 158 / 20%);
 }
 
 .cloud-select {

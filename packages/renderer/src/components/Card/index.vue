@@ -55,7 +55,7 @@ export default defineComponent({
     })
 
     const cardStyle = computed(() => {
-      return [unref(hasGameDoc) ? '' : 'is-empty', `card--border-shadow${unref(hasGameDoc) ? '' : '__empty'}`]
+      return [unref(hasGameDoc) ? '' : 'is-empty', `card--normal-shadow${unref(hasGameDoc) ? '' : '__empty'}`]
     })
 
     const onClick = (type: string) => {
@@ -162,7 +162,7 @@ export default defineComponent({
   &__head {
     background-repeat: no-repeat;
     background-position: 50%;
-    background-size: 100% auto;
+    background-size: cover;
 
     .is-horizontal {
       padding-top: 56%;

@@ -1,30 +1,18 @@
 <template>
   <div>
-    <a-button @click="onModalOpen">添加</a-button>
+    <FileAddOutlined :style="{ fontSize: '24px', color: '#08c' }" @click="onModalOpen"/>
 
-    <a-modal
-      title="添加游戏存档信息目录"
-      :visible="isVisible"
-      :footer="null"
-      :maskClosable="false"
-      @cancel="onModalClose"
-    >
-      <a-form
-        :model="formState"
-        name="basic"
-        :label-col="{ span: 8 }"
-        :wrapper-col="{ span: 16 }"
-        autocomplete="off"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
-      >
+    <a-modal title="添加游戏存档信息目录" :visible="isVisible" :footer="null" :maskClosable="false" @cancel="onModalClose">
+      <a-form :model="formState" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off"
+        @finish="onFinish" @finishFailed="onFinishFailed">
         <a-form-item label="SteamId" name="steamId">
           <a-input v-model:value="formState.steamId" />
         </a-form-item>
 
         <a-form-item label="游戏名" name="gameName">
-          <a-input v-model:value="formState.gameName" @change="onChangeSearchGameName"/>
-          <a-alert v-if="repetitionGame.length" type="error" :message="'重复游戏:' + repetitionGame[0].gameName || repetitionGame[0].nickName" banner />
+          <a-input v-model:value="formState.gameName" @change="onChangeSearchGameName" />
+          <a-alert v-if="repetitionGame.length" type="error"
+            :message="'重复游戏:' + repetitionGame[0].gameName || repetitionGame[0].nickName" banner />
         </a-form-item>
 
         <a-form-item label="游戏别名" name="nickName">
@@ -62,12 +50,15 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from 'vue'
+import { FileAddOutlined } from '@ant-design/icons-vue'
+
 import useModal from '@/hooks/useModal'
 import useSystem from '@/hooks/core/useSystem'
 import useDocs from '@/hooks/db/useDocs'
 import path from 'path'
 
 export default defineComponent({
+  components: { FileAddOutlined },
   setup () {
     const { HOME_DIR, SYSTEM_TYPE } = useSystem()
     const { isVisible, onModalOpen, onModalClose } = useModal()

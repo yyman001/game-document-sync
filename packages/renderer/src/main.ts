@@ -12,6 +12,10 @@ import router from './router/index'
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 
+import './sass/catppuccin.scss'
+// google 数据库
+// import './utils/firebase'
+
 createApp(App)
   .use(router)
   .use(createPinia())
