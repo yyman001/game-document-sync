@@ -17,6 +17,7 @@ export default function () {
   })
 
   async function createNode (docPatch: string, gameDocDir: string) {
+    clearNode()
     const { tree, filesPath, fileDetailedList } = await createTree(docPatch, gameDocDir)
     selectedKeys.value = filesPath
     allFile.value = fileDetailedList
@@ -25,6 +26,10 @@ export default function () {
 
   function updateNode (node: TreeItem) {
     treeData.value = [node]
+  }
+
+  function clearNode () {
+    treeData.value = []
   }
 
   return {
