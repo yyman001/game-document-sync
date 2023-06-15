@@ -13,9 +13,9 @@ export default function () {
     return null
   }
 
-  const onUpdateDoc = async (object: any) => {
+  const onUpdateDoc = async (updateGameItem: any) => {
     try {
-      // await db.docsTable.update(object)
+      await db.docsTable.update(updateGameItem.gameDocDir, updateGameItem)
     } catch (error) {
       console.log('onUpdateDoc', error)
     }

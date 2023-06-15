@@ -14,6 +14,9 @@
         <a-button @click="onAdd(record)">
           <template #icon><plus-outlined /></template>
         </a-button>
+        <a-button @click="onUpdate(record)">
+          <template #icon><form-outlined /></template>
+        </a-button>
         <a-popconfirm title="确定要删除吗？" @confirm="onDel(record.gameDocDir)">
           <a-button>
             <template #icon><close-outlined /></template>
@@ -28,23 +31,27 @@
 <script lang="ts">
 import { computed, defineComponent, inject, Ref, toRefs, unref } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, CloseOutlined, FormOutlined } from '@ant-design/icons-vue'
 
 import useDocs from '@/hooks/db/useDocs'
 import useGames from '@/hooks/db/useGames'
 import { horizontalCover } from '@/utils/steamPrivew'
 import { GameItem } from '@/model'
+import { useDocFormStoreWhitOut } from '@/store/doc'
 
 export default defineComponent({
   name: 'doc-mod',
   components: {
     PlusOutlined,
-    CloseOutlined
+    CloseOutlined,
+    FormOutlined
   },
 
   setup (props) {
+    const docFrom = useDocFormStoreWhitOut()
+
     const { searchText } = inject<any>('search')
-    const { result, onDelDoc } = useDocs()
+    const { result, getGameDoc, onDelDoc } = useDocs()
     const { addGame } = useGames()
     const { success: messageSuccess, error: messageError } = message
     const tableColumns = [
@@ -102,6 +109,22 @@ export default defineComponent({
       messageSuccess('创建游戏存档成功!')
     }
 
+    const onUpdate = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId, pathType = '' }:any) => {
+      if (!gameDocDir) {
+        return
+      }
+
+      const result = await getGameDoc(gameDocDir)
+
+      console.log('result:', result)
+      docFrom.onSetDocForm(result)
+      if (result === null) {
+        messageError('未找到游戏配置信息!')
+      }
+      docFrom.onSetDocForm(result)
+      docFrom.onModalOpen()
+    }
+
     const onDel = async (gameDocDir:string) => {
       const x = await onDelDoc(gameDocDir)
       if (x === null) {
@@ -117,6 +140,7 @@ export default defineComponent({
       list,
 
       onAdd,
+      onUpdate,
       onDel,
       horizontalCover
     }
