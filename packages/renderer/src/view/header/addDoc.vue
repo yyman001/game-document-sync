@@ -1,9 +1,16 @@
 <template>
-  <div>
-    <a-modal title="添加游戏存档信息目录" :visible="isVisible" :footer="null" :maskClosable="false" @cancel="onModalClose">
+  <div class="doc-modal-mod">
+    <a-modal class="doc-form-modal"
+     title="添加游戏存档信息目录"
+     :visible="isVisible"
+     :footer="null"
+     :maskClosable="false"
+     @cancel="onModalClose">
+
       <a-form class="doc-form" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off">
         <a-form-item label="SteamId" name="steamId">
           <a-input v-model:value="steamId" />
+          <button :disabled="isPulling" @click="getGameInfoForSteamId(steamId)">抓取信息</button>
         </a-form-item>
 
         <a-form-item label="游戏名" name="gameName">
@@ -46,6 +53,25 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <a-modal title="抓取分析的游戏存档信息"
+      :visible="isGameModal"
+      :footer="null"
+      :maskClosable="false"
+      @cancel="onCloseFullModal"
+      :centered="true">
+
+      <a-table :dataSource="dataSource" :columns="columns" :pagination="false" size="small">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'action' && record.content !== 'Location'">
+            <span>
+              <a @click="onClickRow(record)">使用</a>
+            </span>
+          </template>
+        </template>
+      </a-table>
+
+    </a-modal>
   </div>
 </template>
 
@@ -57,6 +83,7 @@ import { message } from 'ant-design-vue'
 import useSystem from '@/hooks/core/useSystem'
 import useDocs from '@/hooks/db/useDocs'
 import { useDocFormStoreWhitOut } from '@/store/doc'
+import { usePullGame } from './usePullGame'
 
 const { success: messageSuccess, error: messageError } = message
 const docFrom = useDocFormStoreWhitOut()
@@ -71,9 +98,11 @@ const {
   gameDocPath,
   gameDocFullPath
 } = storeToRefs(docFrom)
+const { isPulling, isGameModal, dataSource, columns, onClickRow, getGameInfoForSteamId, onModalClose: onCloseFullModal } = usePullGame()
 
 const { HOME_DIR, SYSTEM_TYPE } = useSystem()
 const { onAddDoc, hasGameDoc, onUpdateDoc } = useDocs()
+
 const repetitionGame = ref<any[]>([])
 
 const onSubmit = async () => {
