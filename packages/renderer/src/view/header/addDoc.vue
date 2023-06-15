@@ -1,6 +1,5 @@
 <template>
   <div>
-    <FileAddOutlined :style="{ fontSize: '24px', color: '#08c' }" @click="onModalOpen"/>
     <a-modal title="添加游戏存档信息目录" :visible="isVisible" :footer="null" :maskClosable="false" @cancel="onModalClose">
       <a-form class="doc-form" name="basic" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }" autocomplete="off">
         <a-form-item label="SteamId" name="steamId">
@@ -54,7 +53,6 @@
 import { ref, unref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { message } from 'ant-design-vue'
-import { FileAddOutlined } from '@ant-design/icons-vue'
 
 import useSystem from '@/hooks/core/useSystem'
 import useDocs from '@/hooks/db/useDocs'
@@ -112,7 +110,6 @@ const onChangeSearchGameName = async (e: Event) => {
   console.log('onChangeSearchGameName:', unref(gameName), rtx)
 }
 
-const onModalOpen = () => docFrom.onModalOpen()
 const onModalClose = () => docFrom.onCloseDocModal()
 
 </script>

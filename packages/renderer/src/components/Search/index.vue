@@ -10,25 +10,33 @@
       </a-col>
       <a-col :span="8"></a-col>
       <a-col :span="2">
-        <AddDoc />
+        <FileAddOutlined v-if="isViewRoute('/docs')" :style="{ fontSize: '24px', color: '#08c' }" @click="onModalOpen"/>
       </a-col>
       <a-col :span="2">
-        <ReloadOutlined :style="{ fontSize: '24px', color: '#08c' }" @click="refreshScanGames" />
+        <ReloadOutlined v-if="isViewRoute('/games') " :style="{ fontSize: '24px', color: '#08c' }" @click="refreshScanGames" />
       </a-col>
     </a-row>
   </div>
 </template>
 <script setup lang="ts">
+import { computed, inject } from 'vue'
+import { useRoute } from 'vue-router'
+import { SearchOutlined, ReloadOutlined, FileAddOutlined } from '@ant-design/icons-vue'
+
 import useGames from '@/hooks/db/useGames'
 import useScanGamesDoc from '@/view/games/useScanGamesDoc'
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
-import { inject } from 'vue'
-import AddDoc from '@/view/header/addDoc.vue'
 
+import { useDocFormStoreWhitOut } from '@/store/doc'
 const { searchText } = inject<any>('search')
-
+const docFrom = useDocFormStoreWhitOut()
 const { gameList } = useGames()
 const { refreshScanGames } = useScanGamesDoc(gameList)
+
+type routePath = '/games' | '/backup' | '/docs' | '/config'
+const route = useRoute()
+const currentPath = computed(() => route.path)
+const isViewRoute = (type: routePath) => currentPath.value === type
+const onModalOpen = () => docFrom.onModalOpen()
 </script>
 
 <style type="text/scss" lang="scss">

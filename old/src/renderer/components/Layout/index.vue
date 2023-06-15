@@ -176,11 +176,6 @@ export default {
 }
 
 .themes {
-
-  .ant-layout {
-    background-color: $color-bg;
-  }
-
   .ant-layout-sider,
   .ant-layout-header { 
     background-color: $color-master;

@@ -20,6 +20,7 @@
         <div class="header">
           <Search />
           <RestoreModal />
+          <AddDoc/>
         </div>
       </a-layout-header>
       <a-layout-content>
@@ -29,7 +30,6 @@
           </div>
         </perfect-scrollbar>
       </a-layout-content>
-      <!-- <a-layout-footer>Footer</a-layout-footer> -->
     </a-layout>
   </a-layout>
 </template>
@@ -37,11 +37,11 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-// import HelloWorld from './components/HelloWorld.vue'
 import Menu from './components/Menu/index.vue'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import RestoreModal from '@/modal/restore/index.vue'
 import Search from '@/components/Search/index.vue'
+import AddDoc from '@/view/header/addDoc.vue'
 
 import { useCloudFileStoreWhitOut } from '@/store/cloudFile'
 import { useCloudStoreWhitOut } from '@/store/cloud'
