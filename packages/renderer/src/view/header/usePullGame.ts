@@ -12,7 +12,7 @@ export const usePullGame = function () {
   const {
     // TODO: 获取游戏名
     // gameName,
-    gameDocPath
+    gameDocFullPath
   } = storeToRefs(docFrom)
 
   const { isVisible, onModalOpen, onModalClose } = useModal()
@@ -48,7 +48,7 @@ export const usePullGame = function () {
   const onClickRow = (record: any) => {
     console.log('onClickRow', record)
     // TODO: 详细更新表单信息
-    gameDocPath.value = record.content
+    gameDocFullPath.value = record.content
     onModalClose()
   }
 

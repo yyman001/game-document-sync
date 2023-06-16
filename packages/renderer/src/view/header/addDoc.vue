@@ -128,8 +128,8 @@ const onSubmit = async () => {
     messageSuccess(`${isUpdate ? '更新' : '创建'}游戏文档成功!`)
   } catch (e) {
     console.error(e)
+    messageError('操作失败!')
   }
-  messageError('操作失败!')
 }
 
 const onChangeSearchGameName = async (e: Event) => {
