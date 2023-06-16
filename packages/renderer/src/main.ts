@@ -15,11 +15,13 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import './sass/catppuccin.scss'
 // google 数据库
 // import './utils/firebase'
-
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 createApp(App)
   .use(router)
   .use(createPinia())
   .use(Antd)
+  .use(ElementPlus)
   .use(PerfectScrollbar)
   .mount('#app')
   .$nextTick(() => {
