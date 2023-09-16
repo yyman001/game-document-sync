@@ -1,14 +1,23 @@
 <template>
   <div class="card__wrap">
     <div class="card" :class="cardStyle">
-      <div class="card__head" :class="modeStyle" :style="{ backgroundImage: `url(${verticalCover(item.steamId)})` }">
-      </div>
+      <div
+        class="card__head"
+        :class="modeStyle"
+        :style="{ backgroundImage: `url(${verticalCover(item.steamId)})` }"
+      ></div>
       <div class="card__body">
         <div class="card__info">
           <div class="card__name">{{ item.gameName }}</div>
           <div class="card__buttons">
             <a-button type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
-            <a-button :disabled="!hasGameDoc" type="primary" size="small" @click.stop="onClick('backup')">备份</a-button>
+            <a-button
+              :disabled="!hasGameDoc"
+              type="primary"
+              size="small"
+              @click.stop="onClick('backup')"
+              >备份</a-button
+            >
           </div>
           <div>
             <slot></slot>
@@ -22,6 +31,9 @@
 
       <a class="card__editor" title="编辑" @click.stop="onClick('editor')"></a>
       <a class="card__del" title="删除" @click.stop="onClick('del')"></a>
+      <a class="card__run" title="运行" @click.stop="onClick('run')">
+        <CaretRightOutlined style="font-size: 32px; color: #fff" />
+      </a>
     </div>
   </div>
 </template>
@@ -31,10 +43,12 @@ import { computed, defineComponent, PropType, ref, toRefs, unref } from 'vue'
 import { formatTimestamp } from '@/utils/formatTimestamp'
 import { horizontalCover, verticalCover } from '@/utils/steamPrivew'
 import { GameItem } from '@/model'
+import { CaretRightOutlined } from '@ant-design/icons-vue'
 
 export type CardEmitItem = [string, GameItem]
 
 export default defineComponent({
+  components: { CaretRightOutlined },
   props: {
     hasGameDoc: {
       type: Boolean,
@@ -55,7 +69,10 @@ export default defineComponent({
     })
 
     const cardStyle = computed(() => {
-      return [unref(hasGameDoc) ? '' : 'is-empty', `card--normal-shadow${unref(hasGameDoc) ? '' : '__empty'}`]
+      return [
+        unref(hasGameDoc) ? '' : 'is-empty',
+        `card--normal-shadow${unref(hasGameDoc) ? '' : '__empty'}`
+      ]
     })
 
     const onClick = (type: string) => {
@@ -135,6 +152,24 @@ export default defineComponent({
     }
   }
 
+  &__run {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 0;
+    right: -100%;
+    opacity: 0;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 2px;
+    background: #4caf50;
+    box-shadow: 0 0 12px rgb(0 0 0 / 26%);
+    transition: all 0.4s ease-in-out;
+  }
+
   &__wrap {
     box-sizing: border-box;
     width: 25%;
@@ -149,6 +184,11 @@ export default defineComponent({
     }
 
     .card__del {
+      opacity: 1;
+      right: 0;
+    }
+
+    .card__run {
       opacity: 1;
       right: 0;
     }

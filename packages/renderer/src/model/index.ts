@@ -27,6 +27,7 @@ export interface BackupItem {
 
 export interface GameItem {
   /*
+    gameAppPath: "D:\\games\\Blasphemous 2\\Blasphemous 2.exe"
     createTime: 1627979168366
     gameDocDir: "Aragami"
     gameDocPath: "\\AppData\\LocalLow\\Lince Works\\Aragami"
@@ -37,6 +38,7 @@ export interface GameItem {
     steamId: "280160"
     systemType: "Windows"
   */
+  gameAppPath: string
   createTime: number
   gameDocDir: string
   gameDocPath: string

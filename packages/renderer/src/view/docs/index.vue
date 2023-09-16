@@ -1,10 +1,13 @@
 <template>
   <a-table rowKey="gameName" :columns="tableColumns" :data-source="list">
-
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'gameName'">
         <p>
-          <img :src="horizontalCover(record.steamId)" :alt="record.gameName">
+          <img
+            class="horizontalCover"
+            :src="horizontalCover(record.steamId)"
+            :alt="record.gameName"
+          />
         </p>
         <p>{{ record.gameName }}</p>
         <p>{{ record.nickName }}</p>
@@ -24,7 +27,6 @@
         </a-popconfirm>
       </a-button-group>
     </template>
-
   </a-table>
 </template>
 
@@ -47,7 +49,7 @@ export default defineComponent({
     FormOutlined
   },
 
-  setup (props) {
+  setup(props) {
     const docFrom = useDocFormStoreWhitOut()
 
     const { searchText } = inject<any>('search')
@@ -87,7 +89,16 @@ export default defineComponent({
       })
     })
 
-    const onAdd = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId, pathType = '' }:any) => {
+    // todo: bug => 添加成功后, 游戏列表只有添加后的数据,强制刷新后正常
+    const onAdd = async ({
+      gameName,
+      nickName,
+      gameDocDir,
+      gameDocPath,
+      systemType,
+      steamId,
+      pathType = ''
+    }: any) => {
       const result = await addGame({
         steamId,
         gameName,
@@ -98,7 +109,8 @@ export default defineComponent({
         gamePlatform: [],
         createTime: Date.now(),
         lastBackTime: null,
-        pathType
+        pathType,
+        gameAppPath: ''
       })
 
       if (result === null) {
@@ -109,10 +121,20 @@ export default defineComponent({
       messageSuccess('创建游戏存档成功!')
     }
 
-    const onUpdate = async ({ gameName, nickName, gameDocDir, gameDocPath, systemType, steamId, pathType = '' }:any) => {
+    const onUpdate = async ({
+      gameName,
+      nickName,
+      gameDocDir,
+      gameDocPath,
+      systemType,
+      steamId,
+      pathType = ''
+    }: any) => {
       if (!gameDocDir) {
         return
       }
+      // 更新标记状态
+      docFrom.setUpdateStatus(true)
 
       const result = await getGameDoc(gameDocDir)
 
@@ -125,7 +147,7 @@ export default defineComponent({
       docFrom.onModalOpen()
     }
 
-    const onDel = async (gameDocDir:string) => {
+    const onDel = async (gameDocDir: string) => {
       const x = await onDelDoc(gameDocDir)
       if (x === null) {
         messageError('删除失败!')
@@ -150,6 +172,6 @@ export default defineComponent({
 
 <style lang="scss">
 .horizontalCover {
-  max-height: 80px;
+  max-height: 140px;
 }
 </style>

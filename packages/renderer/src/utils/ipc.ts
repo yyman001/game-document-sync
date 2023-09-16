@@ -28,6 +28,9 @@ export const showOpenDialog = async ({
   } else if (openFileType === 'config') {
     filters = [{ name: '配置文件', extensions: ['json'] }]
     properties = ['openFile']
+  } else if (openFileType === 'exe') {
+    filters = [{ name: '应用程序', extensions: ['exe'] }]
+    properties = ['openFile']
   } else {
     properties = ['openDirectory']
   }

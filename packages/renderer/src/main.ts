@@ -17,12 +17,18 @@ import './sass/catppuccin.scss'
 // import './utils/firebase'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+
+// https://imengyu.top/pages/vue3-context-menu-docs/
+import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css'
+import ContextMenu from '@imengyu/vue3-context-menu'
+
 createApp(App)
   .use(router)
   .use(createPinia())
   .use(Antd)
   .use(ElementPlus)
   .use(PerfectScrollbar)
+  .use(ContextMenu)
   .mount('#app')
   .$nextTick(() => {
     window.removeLoading()

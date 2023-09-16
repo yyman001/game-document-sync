@@ -11,10 +11,11 @@ export default function useGames () {
     }
   }
 
-  const updateGame = async (object:any) => {
+  const updateGame = async (updateGameItem: any) => {
     try {
-      // return await db.gamesTable.update(object)
+      return await db.gamesTable.update(updateGameItem.gameDocDir, updateGameItem)
     } catch (error) {
+      console.log('updateGame', error)
       return null
     }
   }

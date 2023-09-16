@@ -8,6 +8,7 @@
           :item="item"
           :hasGameDoc="hasGameDoc(item.gameDocDir)"
           @handleClick="handleClick"
+          @contextmenu="onContextMenu($event, item)"
         />
       </div>
     </template>
@@ -38,15 +39,20 @@ import { useLocalFileStoreWhitOut } from '@/store/localFile'
 import { message, Empty, Spin } from 'ant-design-vue'
 import { useConfigStoreWhitOut } from '@/store/config'
 
-export default defineComponent({
-  components: { Card, ModalBackUp, Empty, Spin },
+import ContextMenu from '@imengyu/vue3-context-menu'
+import { runApp } from '@/utils/runApp'
+import { showOpenDialog } from '@/utils/ipc'
+import { deepCopy } from '@/utils/deepCopy'
 
-  setup (props) {
+export default defineComponent({
+  components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
+
+  setup(props) {
     const { searchText } = inject<any>('search')
-    const { gameList } = useGames()
+    const { gameList, searchGame, updateGame } = useGames()
     const { isLoading, hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
-    const { error } = message
+    const { error, success } = message
 
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode, nodeSize } = useDocTree()
@@ -96,6 +102,29 @@ export default defineComponent({
           onModalOpen()
           break
 
+        case 'run':
+          // 检测是否存在游戏程序路径,并运行
+          searchGame(gameDocDir)
+            .then(rtx => {
+              if (!rtx?.gameAppPath) {
+                error('游戏路径不存在,请设置游戏应用路径!')
+                return
+              }
+
+              runApp(rtx.gameAppPath)
+                .then(() => {
+                  // 游戏关闭触发
+                  console.log('App started successfully')
+                })
+                .catch(error => {
+                  console.error('Error starting app:', error)
+                })
+            })
+            .catch(e => {
+              console.log('运行错误:', gameDocDir, e)
+            })
+          break
+
         case 'editor':
           break
 
@@ -120,6 +149,40 @@ export default defineComponent({
       } catch (e) {
         console.error(e)
       }
+    }
+
+    const onContextMenu = (e: MouseEvent, item: GameItem) => {
+      // prevent the browser's default menu
+      console.log('右键:', item)
+
+      e.preventDefault()
+      ContextMenu.showContextMenu({
+        x: e.x,
+        y: e.y,
+        items: [
+          {
+            label: '设置游戏启动路径',
+            onClick: async () => {
+              const gameAppPath = await showOpenDialog({
+                title: '选择程序位置',
+                openFileType: 'exe'
+              })
+              console.log('gameAppPath:', gameAppPath)
+              const copiedObject = deepCopy(item)
+              // todo: 校验路径是否为对应的游戏
+              copiedObject.gameAppPath = gameAppPath
+
+              const rtx = await updateGame(copiedObject)
+              if (rtx === null) {
+                error('设置失败!')
+                return
+              }
+              success('设置成功!')
+              // todo: 运行设置好的游戏? 加个配置控制
+            }
+          }
+        ]
+      })
     }
 
     // 注入参数
@@ -147,7 +210,8 @@ export default defineComponent({
       handleClick,
       handleStartBackup,
 
-      simpleImage
+      simpleImage,
+      onContextMenu
     }
   }
 })
