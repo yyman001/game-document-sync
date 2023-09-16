@@ -14,7 +14,11 @@ export const useDocForm = defineStore('doc-form', () => {
   const gameDocFullPath = ref('')
   const pathType = ref('')
 
-  const isUpdate = computed(() => !!gameDocPath.value)
+  const isUpdate = ref(false)
+  const setUpdateStatus = (status: boolean = false) => {
+    isUpdate.value = status
+  }
+
   /*
   DOC_TYPE 详细内容表
   | APPDATA            | "C:\\Users\\yyman001_cp\\AppData\\Roaming" |
@@ -102,6 +106,7 @@ export const useDocForm = defineStore('doc-form', () => {
 
   return {
     isUpdate,
+    setUpdateStatus,
     isVisible,
     onModalOpen,
     onModalClose,
