@@ -14,5 +14,9 @@
     "paths": {},
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude":[
+    "packages/renderer/src/utils/firebase.ts",
+    "packages/renderer/src/store/queue.ts"
+  ]
 }

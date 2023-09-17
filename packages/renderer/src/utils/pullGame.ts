@@ -1,6 +1,5 @@
+import * as cheerio from 'cheerio'
 const request = require('request')
-const cheerio = require('cheerio')
-
 export interface fullGameTable {
   title: string;
   content: string;
@@ -21,16 +20,16 @@ export const fullGame = (steamId:string):Promise<Array<fullGameTable>|null> => {
           const $ = cheerio.load(body)
           const saveLocations = $('#table-gamedata')
 
-          saveLocations.each(function () {
+          saveLocations.each(function (this: cheerio.Element) {
             const tr = $(this).find('tr')
-            tr.each(function () {
+            tr.each(function (this: cheerio.Element) {
               const title = $(this).children().eq(0).text().replace(/^\s+|\s+$/g, '')
               const content = $(this).children().eq(1).text().replace(/^\s+|\s+$/g, '')
 
               table.push({
                 title,
                 content
-              })
+              } as fullGameTable)
             })
           })
 

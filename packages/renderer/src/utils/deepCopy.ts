@@ -1,4 +1,4 @@
-function deepCopy<T> (obj: T): T {
+function deepCopy<T extends unknown> (obj: T): T {
   if (typeof obj !== 'object' || obj === null) {
     // 如果 obj 是基本类型或 null，直接返回
     return obj
@@ -16,8 +16,7 @@ function deepCopy<T> (obj: T): T {
   // 如果 obj 是对象，遍历并复制对象属性
   const copy: Record<string, any> = {}
   for (const key in obj) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       copy[key] = deepCopy(obj[key])
     }
   }

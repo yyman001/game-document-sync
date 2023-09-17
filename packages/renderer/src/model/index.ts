@@ -76,7 +76,7 @@ export interface FileItem {
   path: string
   size: number
   // 创建时间
-  ctimeStamp: string | number
+  ctimeStamp?: string | number
   // 修改时间
   timeStamp: string | number
   type: 'directory' | 'file'
