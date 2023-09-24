@@ -1,5 +1,5 @@
 import { message } from 'ant-design-vue'
-import { collection, getDocs, deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
 import {
   firebaseDB,
   GAMES_TABLE,
@@ -32,16 +32,13 @@ const removeGamesDoc = async (gameDocDir: string) => {
   }
 }
 
-const queryGamesDocs = async () => {
-  await getDocs(collection(firebaseDB, GAME_DOCS_TABLE))
-}
-
 // 游戏表
 const addGame = async (data: GameItem) => {
   try {
-    await setDoc(doc(firebaseDB, GAMES_TABLE, data.gameDocDir), data)
+    return await setDoc(doc(firebaseDB, GAMES_TABLE, data.gameDocDir), data)
   } catch (e) {
     console.error('Error adding document: ', e)
+    return null
   }
 }
 
@@ -62,13 +59,17 @@ const removeGame = async (gameDocDir: string) => {
   }
 }
 
+const hasGame = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir))).exists()
+}
+
 export {
   addGamesDoc,
   updateGamesDoc,
   removeGamesDoc,
-  queryGamesDocs,
 
   addGame,
   updateGame,
-  removeGame
+  removeGame,
+  hasGame
 }

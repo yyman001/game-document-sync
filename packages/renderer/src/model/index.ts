@@ -1,3 +1,4 @@
+import { FieldValue } from 'firebase/firestore'
 import { BufferLike, GetFileContentsOptions } from 'webdav'
 
 export interface BackupItem {
@@ -38,17 +39,20 @@ export interface GameItem {
     steamId: "280160"
     systemType: "Windows"
   */
-  gameAppPath: string
+  gameAppPath: string | null// 应用的路径
   createTime: number
   gameDocDir: string
   gameDocPath: string
   gameName: string
-  gamePlatform: any[]
-  lastBackTime?: number
+  gamePlatform: string | any[] | null // todo: 后期改为 string, 类型为 free(破解版), steam, epic, gog, 其他...未知
+  lastBackTime?: number | null
+  lastRunTime?: number | null // 最后运行时间
+  playtime?: number | null // 记录运行时长
   nickName: string
-  steamId: string
+  steamId: string | null
   systemType: string
   pathType?: string
+  createdAt?: FieldValue
 }
 
 export interface GameDocItem {

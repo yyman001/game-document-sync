@@ -40,15 +40,23 @@ import { PlusOutlined, CloseOutlined, FormOutlined } from '@ant-design/icons-vue
 
 import useDocs from '@/hooks/db/useDocs'
 import { horizontalCover } from '@/utils/steamPrivew'
-// import { GameItem } from '@/model'
 import { useDocFormStoreWhitOut } from '@/store/doc'
 
 import { ref, onMounted, onBeforeUnmount, defineComponent, inject, computed, unref, Ref } from 'vue'
 import { firebaseDB, GAME_DOCS_TABLE } from '@/utils/firebase/config'
-import { removeGamesDoc } from '@/utils/firebase/sdk'
-import { collection, query, onSnapshot, writeBatch, doc, deleteDoc } from 'firebase/firestore'
+import { addGame, hasGame, removeGamesDoc } from '@/utils/firebase/sdk'
+import {
+  collection,
+  query,
+  onSnapshot,
+  writeBatch,
+  doc,
+  deleteDoc,
+  serverTimestamp
+} from 'firebase/firestore'
 import { deepCopy } from '@/utils/deepCopy'
-import { GameDocItem } from '@/model'
+import { GameItem, GameDocItem } from '@/model'
+import { showConfirm } from '@/utils/showConfirm'
 
 export default defineComponent({
   name: 'demo-firebase',
@@ -73,7 +81,49 @@ export default defineComponent({
         scopedSlots: { customRender: 'action' }
       }
     ]
-    const onAdd = () => {}
+    const onAdd = async (item: GameDocItem) => {
+      const {
+        gameName,
+        nickName,
+        gameDocDir,
+        gameDocPath,
+        systemType,
+        steamId = null,
+        pathType = ''
+      } = item
+
+      const has = await hasGame(gameDocDir)
+      if (has) {
+        const rtx = await showConfirm('提示', `游戏文档<${gameName}>已经存在,是否覆盖?`)
+        if (!rtx) return
+      }
+
+      const gameData: GameItem = {
+        steamId,
+        gameName,
+        nickName,
+        gameDocDir,
+        gameDocPath,
+        systemType,
+        createTime: Date.now(),
+        createdAt: serverTimestamp(),
+        pathType,
+        gamePlatform: null,
+        lastBackTime: null,
+        gameAppPath: null,
+        lastRunTime: null,
+        playtime: null
+      }
+
+      const result = await addGame(gameData)
+
+      if (result === null) {
+        message.error('创建游戏存档失败!')
+        return
+      }
+
+      message.success('创建游戏存档成功!')
+    }
     const onUpdate = async (record: any) => {
       const {
         gameName,

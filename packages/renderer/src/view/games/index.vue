@@ -56,6 +56,8 @@ import { showOpenDialog } from '@/utils/ipc'
 import { deepCopy } from '@/utils/deepCopy'
 import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
 import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
+import { showConfirm } from '@/utils/showConfirm'
+import { removeGame } from '@/utils/firebase/sdk'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
@@ -222,6 +224,14 @@ export default defineComponent({
               }
               success('设置成功!')
               // todo: 运行设置好的游戏? 加个配置控制
+            }
+          },
+          {
+            label: '删除',
+            onClick: async () => {
+              const rtx = await showConfirm('警告!', `确定要删除${item.gameName}? 不可恢复!`)
+              if (!rtx) return
+              await removeGame(item.gameDocDir)
             }
           }
         ]
