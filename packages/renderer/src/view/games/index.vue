@@ -213,6 +213,8 @@ export default defineComponent({
                 openFileType: 'exe'
               })
               console.log('gameAppPath:', gameAppPath)
+              if (!gameAppPath) return
+
               const copiedObject = deepCopy(item)
               // todo: 校验路径是否为对应的游戏
               copiedObject.gameAppPath = gameAppPath
