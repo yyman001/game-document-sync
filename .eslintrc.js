@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'vue/no-v-for-template-key': 'off'
+    'vue/no-v-for-template-key': 'off',
+    'space-before-function-paren': 'off'
   }
 }

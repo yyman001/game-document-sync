@@ -97,8 +97,8 @@ import useSystem from '@/hooks/core/useSystem'
 import useDocs from '@/hooks/db/useDocs'
 import { useDocFormStoreWhitOut } from '@/store/doc'
 import { usePullGame } from './usePullGame'
+import { addGamesDoc, updateGamesDoc } from '@/utils/firebase/sdk'
 
-const { success: messageSuccess, error: messageError } = message
 const docFrom = useDocFormStoreWhitOut()
 const {
   isUpdate,
@@ -133,6 +133,7 @@ const onModalClose = () => {
 }
 
 const onSubmit = async () => {
+  // todo: 如果 pathType 为空,则通过 gameDocPath 计算出来
   const item = {
     steamId: unref(steamId),
     gameName: unref(gameName),
@@ -150,16 +151,18 @@ const onSubmit = async () => {
   console.log('onSubmit data:', item)
   try {
     if (unref(isUpdate)) {
-      await onUpdateDoc(item)
+      // await onUpdateDoc(item)
+      await updateGamesDoc(item)
+      message.success('更新文档成功!')
     } else {
-      await onAddDoc(item)
+      // await onAddDoc(item)
+      await addGamesDoc(item)
+      message.success('创建文档成功')
     }
     onModalClose()
-
-    messageSuccess(`${unref(isUpdate) ? '更新' : '创建'}游戏文档成功!`)
   } catch (e) {
     console.error(e)
-    messageError('操作失败!')
+    message.error('操作失败!')
   }
 }
 

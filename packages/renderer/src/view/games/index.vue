@@ -1,10 +1,11 @@
 <template>
   <div class="card-content">
-    <template v-if="list?.length">
+    <button @click="joinBatch">joinBatch</button>
+    <template v-if="GameItems?.length">
       <div class="card-box">
         <Card
           :key="item.gameName"
-          v-for="item in list"
+          v-for="item in GameItems"
           :item="item"
           :hasGameDoc="hasGameDoc(item.gameDocDir)"
           @handleClick="handleClick"
@@ -20,7 +21,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, unref, Ref, ref, provide, inject } from 'vue'
+import {
+  defineComponent,
+  computed,
+  unref,
+  Ref,
+  ref,
+  provide,
+  inject,
+  onMounted,
+  onBeforeUnmount
+} from 'vue'
 import Card, { CardEmitItem } from '@/components/Card/index.vue'
 import ModalBackUp from '@/modal/backup/index.vue'
 
@@ -43,6 +54,8 @@ import ContextMenu from '@imengyu/vue3-context-menu'
 import { runApp } from '@/utils/runApp'
 import { showOpenDialog } from '@/utils/ipc'
 import { deepCopy } from '@/utils/deepCopy'
+import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
+import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
@@ -71,6 +84,36 @@ export default defineComponent({
         const regExp = new RegExp(unref(searchText) as string, 'i')
         return regExp.test(game.gameName) || regExp.test(game.nickName)
       })
+    })
+
+    const tableList = ref<GameItem[]>([])
+
+    const GameItems = computed(() => {
+      if (!Array.isArray(unref(tableList))) return []
+      if (!unref(searchText)) return unref(tableList)
+
+      return unref(tableList as Readonly<Ref<GameItem[]>>).filter((game: any) => {
+        const regExp = new RegExp(unref(searchText), 'i')
+        return regExp.test(game.gameName) || regExp.test(game.nickName)
+      })
+    })
+
+    let unsubscribe: (() => void) | null = null
+
+    // 获取 Firestore 集合的引用
+    const messagesCollection = collection(firebaseDB, GAMES_TABLE)
+    const q = query(messagesCollection)
+
+    onMounted(() => {
+      unsubscribe = onSnapshot(q, snapshot => {
+        tableList.value = snapshot.docs.map(doc => doc.data()) as Array<GameItem>
+      })
+    })
+
+    onBeforeUnmount(() => {
+      if (unsubscribe) {
+        unsubscribe()
+      }
     })
 
     const GAME_DOC_PATH = ref('')
@@ -185,6 +228,21 @@ export default defineComponent({
       })
     }
 
+    const joinBatch = async () => {
+      console.log('joinBatch')
+
+      const batch = writeBatch(firebaseDB)
+
+      gameList.value?.forEach((item, index) => {
+        console.log('item:', index, item)
+        const nycRef = doc(firebaseDB, GAMES_TABLE, item.gameDocDir)
+        const injectData = deepCopy(item)
+        batch.set(nycRef, injectData)
+      })
+
+      await batch.commit()
+    }
+
     // 注入参数
     provide(modal, {
       isVisible,
@@ -202,7 +260,6 @@ export default defineComponent({
 
     return {
       isLoading,
-      list,
       hasGameDoc,
       refreshScanGames,
 
@@ -211,7 +268,10 @@ export default defineComponent({
       handleStartBackup,
 
       simpleImage,
-      onContextMenu
+      onContextMenu,
+
+      GameItems,
+      joinBatch
     }
   }
 })

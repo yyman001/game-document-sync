@@ -64,6 +64,7 @@
     "element-plus": "^2.3.6",
     "eslint": "^8.0.1",
     "eslint-config-standard": "^17.0.0",
+    "firebase": "10.4.0",
     "fs-extra": "^10.1.0",
     "md5": "^2.3.0",
     "pinia": "^2.0.14",
