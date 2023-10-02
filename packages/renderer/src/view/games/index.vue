@@ -57,7 +57,8 @@ import { deepCopy } from '@/utils/deepCopy'
 import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
 import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
 import { showConfirm } from '@/utils/showConfirm'
-import { removeGame } from '@/utils/firebase/sdk'
+import { removeGame, updateGameFiled } from '@/utils/firebase/sdk'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
@@ -126,9 +127,10 @@ export default defineComponent({
     const handleClick = (response: CardEmitItem) => {
       const [type, data] = response
       console.log('data', data)
-      const { gameDocPath, gameDocDir, pathType } = data
+      const { gameDocPath, gameDocDir, pathType, playtime = 0 } = data
       GAME_DOC_PATH.value = gameDocPath
       GAME_DOC_DIR.value = gameDocDir
+      const startTime = Date.now()
 
       switch (type) {
         case 'restore':
@@ -155,10 +157,14 @@ export default defineComponent({
                 error('游戏路径不存在,请设置游戏应用路径!')
                 return
               }
-
+              // 记录运行时间
+              updateGameFiled(gameDocDir, { lastRunTime: startTime })
               runApp(rtx.gameAppPath)
                 .then(() => {
                   // 游戏关闭触发
+                  // 统计运行时间
+                  const offsetTime = Date.now() - startTime
+                  updateGameFiled(gameDocDir, { playtime: playtime + offsetTime })
                   console.log('App started successfully')
                 })
                 .catch(error => {

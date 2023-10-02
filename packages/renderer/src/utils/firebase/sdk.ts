@@ -50,6 +50,14 @@ const updateGame = async (data: GameItem) => {
   }
 }
 
+const updateGameFiled = async (gameDocDir: string, updateData:GameItem | Record<string, any>) => {
+  try {
+    await updateDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir), updateData)
+  } catch (e) {
+    console.error('Error updating document: ', e)
+  }
+}
+
 const removeGame = async (gameDocDir: string) => {
   try {
     await deleteDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir))
@@ -70,6 +78,7 @@ export {
 
   addGame,
   updateGame,
+  updateGameFiled,
   removeGame,
   hasGame
 }

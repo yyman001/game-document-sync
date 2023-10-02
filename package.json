@@ -59,6 +59,7 @@
     "blob-to-buffer": "^1.2.9",
     "cheerio": "^1.0.0-rc.12",
     "compressing": "^1.6.2",
+    "dayjs": "^1.11.10",
     "dexie": "^3.2.2",
     "dexie-export-import": "^1.0.3",
     "element-plus": "^2.3.6",

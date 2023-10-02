@@ -45,9 +45,10 @@ export interface GameItem {
   gameDocPath: string
   gameName: string
   gamePlatform: string | any[] | null // todo: 后期改为 string, 类型为 free(破解版), steam, epic, gog, 其他...未知
-  lastBackTime?: number | null
-  lastRunTime?: number | null // 最后运行时间
-  playtime?: number | null // 记录运行时长
+  lastRestoreTime?: number // 最近还原时间
+  lastBackTime?: number // 最后备份时间
+  lastRunTime?: number // 最后运行时间
+  playtime?: number // 记录运行时长
   nickName: string
   steamId: string | null
   systemType: string
