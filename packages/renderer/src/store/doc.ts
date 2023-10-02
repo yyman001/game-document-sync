@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, unref, watch } from 'vue'
 import path from 'path'
 import useModal from '@/hooks/useModal'
+import { getPathType } from '@/utils/getPathType'
 
 export const useDocForm = defineStore('doc-form', () => {
   const { isVisible, onModalOpen, onModalClose } = useModal()
@@ -44,7 +45,8 @@ export const useDocForm = defineStore('doc-form', () => {
     nickName.value = gameItem.nickName
     gameDocDir.value = gameItem.gameDocDir
     gameDocPath.value = gameItem.gameDocPath
-    pathType.value = gameItem.pathType
+    // todo: 如果 pathType 为空,则通过 gameDocPath 计算出来
+    pathType.value = getPathType(gameItem.gameDocPath)
   }
 
   const onInitDocForm = () => {

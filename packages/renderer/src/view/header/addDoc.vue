@@ -133,7 +133,6 @@ const onModalClose = () => {
 }
 
 const onSubmit = async () => {
-  // todo: 如果 pathType 为空,则通过 gameDocPath 计算出来
   const item = {
     steamId: unref(steamId),
     gameName: unref(gameName),
