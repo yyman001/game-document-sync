@@ -67,6 +67,10 @@ const removeGame = async (gameDocDir: string) => {
   }
 }
 
+const getGames = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir))).data()
+}
+
 const hasGame = async (gameDocDir: string) => {
   return (await getDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir))).exists()
 }
@@ -80,5 +84,6 @@ export {
   updateGame,
   updateGameFiled,
   removeGame,
-  hasGame
+  hasGame,
+  getGames
 }

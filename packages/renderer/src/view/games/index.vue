@@ -57,15 +57,14 @@ import { deepCopy } from '@/utils/deepCopy'
 import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
 import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
 import { showConfirm } from '@/utils/showConfirm'
-import { removeGame, updateGameFiled } from '@/utils/firebase/sdk'
-import dayjs from 'dayjs'
+import { getGames, removeGame, updateGameFiled } from '@/utils/firebase/sdk'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
 
   setup(props) {
     const { searchText } = inject<any>('search')
-    const { gameList, searchGame, updateGame } = useGames()
+    const { gameList } = useGames()
     const { isLoading, hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
     const { error, success } = message
@@ -77,17 +76,6 @@ export default defineComponent({
     const localFile = useLocalFileStoreWhitOut()
     const useConfigStore = useConfigStoreWhitOut()
     const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
-
-    const list = computed(() => {
-      if (!Array.isArray(unref(gameList))) return []
-
-      if (!unref(searchText)) return unref(gameList)
-
-      return unref(gameList as Readonly<Ref<GameItem[]>>).filter((game: any) => {
-        const regExp = new RegExp(unref(searchText) as string, 'i')
-        return regExp.test(game.gameName) || regExp.test(game.nickName)
-      })
-    })
 
     const tableList = ref<GameItem[]>([])
 
@@ -151,15 +139,15 @@ export default defineComponent({
 
         case 'run':
           // 检测是否存在游戏程序路径,并运行
-          searchGame(gameDocDir)
-            .then(rtx => {
-              if (!rtx?.gameAppPath) {
+          getGames(gameDocDir)
+            .then(gameItem => {
+              if (!gameItem?.gameAppPath) {
                 error('游戏路径不存在,请设置游戏应用路径!')
                 return
               }
               // 记录运行时间
               updateGameFiled(gameDocDir, { lastRunTime: startTime })
-              runApp(rtx.gameAppPath)
+              runApp(gameItem.gameAppPath)
                 .then(() => {
                   // 游戏关闭触发
                   // 统计运行时间
@@ -221,11 +209,8 @@ export default defineComponent({
               console.log('gameAppPath:', gameAppPath)
               if (!gameAppPath) return
 
-              const copiedObject = deepCopy(item)
               // todo: 校验路径是否为对应的游戏
-              copiedObject.gameAppPath = gameAppPath
-
-              const rtx = await updateGame(copiedObject)
+              const rtx = await updateGameFiled(item.gameDocDir, { gameAppPath })
               if (rtx === null) {
                 error('设置失败!')
                 return
