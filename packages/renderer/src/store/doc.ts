@@ -83,7 +83,8 @@ export const useDocForm = defineStore('doc-form', () => {
         pathObject = path.parse(tempPath)
         // 表达式: \w+:\\users\\\w+?\\ 替换 C:\Users\???\
         gameDocPath.value = pathObject.dir.replace(/\w+:\\users\\\w+?\\/gi, '\\')
-        // TODO: 把全路径识别出对应的 DOC_TYPE
+        // 把全路径识别出对应的 DOC_TYPE
+        pathType.value = getPathType(tempPath)
       } else if (regex.test(tempPath)) {
         // 提取%中的内容判断类型
         const currentType = tempPath.match(regex)?.slice(-1).pop()
