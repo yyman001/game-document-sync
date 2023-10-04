@@ -1,6 +1,7 @@
 <template>
   <div class="card-content">
     <button @click="joinBatch">joinBatch</button>
+    <button @click="stopApp">关闭游戏</button>
     <template v-if="GameItems?.length">
       <div class="card-box">
         <Card
@@ -51,13 +52,13 @@ import { message, Empty, Spin } from 'ant-design-vue'
 import { useConfigStoreWhitOut } from '@/store/config'
 
 import ContextMenu from '@imengyu/vue3-context-menu'
-import { runApp } from '@/utils/runApp'
 import { showOpenDialog } from '@/utils/ipc'
 import { deepCopy } from '@/utils/deepCopy'
 import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
 import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
 import { showConfirm } from '@/utils/showConfirm'
 import { getGames, removeGame, updateGameFiled } from '@/utils/firebase/sdk'
+import useRunApp from '@/hooks/useRunApp'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
@@ -68,6 +69,8 @@ export default defineComponent({
     const { isLoading, hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
     const { error, success } = message
+
+    const { appStatus, startApp, stopApp, offsetTime } = useRunApp()
 
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode, nodeSize } = useDocTree()
@@ -112,10 +115,16 @@ export default defineComponent({
     const docPath = ref('')
     const backPath = ref('')
     let lastFile = null
+
+    const updateGamePlaytime = (item: GameItem) => {
+      console.log('更新游戏时间', item.nickName, item.playtime)
+      updateGameFiled(item.gameDocDir, { playtime: Number(item.playtime || 0) + offsetTime.value })
+    }
+
     const handleClick = (response: CardEmitItem) => {
       const [type, data] = response
       console.log('data', data)
-      const { gameDocPath, gameDocDir, pathType, playtime = 0 } = data
+      const { gameDocPath, gameDocDir, pathType } = data
       GAME_DOC_PATH.value = gameDocPath
       GAME_DOC_DIR.value = gameDocDir
       const startTime = Date.now()
@@ -147,17 +156,16 @@ export default defineComponent({
               }
               // 记录运行时间
               updateGameFiled(gameDocDir, { lastRunTime: startTime })
-              runApp(gameItem.gameAppPath)
+              startApp(gameItem.gameAppPath, gameItem, updateGamePlaytime)
+              /*  runApp(gameItem.gameAppPath)
                 .then(() => {
-                  // 游戏关闭触发
-                  // 统计运行时间
                   const offsetTime = Date.now() - startTime
                   updateGameFiled(gameDocDir, { playtime: playtime + offsetTime })
                   console.log('App started successfully')
                 })
                 .catch(error => {
                   console.error('Error starting app:', error)
-                })
+                }) */
             })
             .catch(e => {
               console.log('运行错误:', gameDocDir, e)
@@ -274,7 +282,8 @@ export default defineComponent({
       onContextMenu,
 
       GameItems,
-      joinBatch
+      joinBatch,
+      stopApp
     }
   }
 })
