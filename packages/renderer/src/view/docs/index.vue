@@ -7,8 +7,9 @@
           <p>
             <img
               class="horizontalCover"
-              :src="horizontalCover(record.steamId)"
+              :src="horizontalCover(record.steamId, 'schinese')"
               :alt="record.gameName"
+              @error="handleImageError($event, record.steamId)"
             />
           </p>
           <p>steamId: {{ record.steamId }}</p>
@@ -198,6 +199,24 @@ export default defineComponent({
       await batch.commit()
     }
 
+    /**
+     * Handle image error event by replacing the image source with a horizontal cover.
+     * @param {Event} event - The event object that triggered the error.
+     * @param {string} steamId - The Steam ID used to generate the horizontal cover.
+     */
+    const handleImageError = (event: Event, steamId: string) => {
+      // Check if the target element is null
+      if (event.target === null) {
+        return
+      }
+
+      // Cast the event target to the appropriate type that has the src property
+      const targetElement = event.target as HTMLImageElement
+
+      // Replace the image source with a horizontal cover
+      targetElement.src = horizontalCover(steamId)
+    }
+
     return {
       tableList,
       tableColumns,
@@ -209,7 +228,9 @@ export default defineComponent({
       joinBatch,
       GameDocItems,
 
-      removeGamesDoc
+      removeGamesDoc,
+
+      handleImageError
     }
   }
 })
