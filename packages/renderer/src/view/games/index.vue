@@ -1,13 +1,14 @@
 <template>
   <div class="card-content">
     <button @click="joinBatch">joinBatch</button>
-    <button @click="stopApp">关闭游戏</button>
     <template v-if="GameItems?.length">
       <div class="card-box">
         <Card
           :key="item.gameName"
           v-for="item in GameItems"
           :item="item"
+          :appStatus="appStatus"
+          :appName="GAME_DOC_DIR"
           :hasGameDoc="hasGameDoc(item.gameDocDir)"
           @handleClick="handleClick"
           @contextmenu="onContextMenu($event, item)"
@@ -147,6 +148,11 @@ export default defineComponent({
           break
 
         case 'run':
+          // todo: 判断为对于游戏启动时不可继续触发
+          if (appStatus.value === 'loading') {
+            stopApp()
+            return
+          }
           // 检测是否存在游戏程序路径,并运行
           getGames(gameDocDir)
             .then(gameItem => {
@@ -283,7 +289,10 @@ export default defineComponent({
 
       GameItems,
       joinBatch,
-      stopApp
+      stopApp,
+
+      GAME_DOC_DIR,
+      appStatus
     }
   }
 })

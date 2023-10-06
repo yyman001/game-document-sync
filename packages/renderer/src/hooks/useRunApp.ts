@@ -1,8 +1,8 @@
-import { ref, computed, Ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
 
 export default function useRunApp() {
-  const appStatus: Ref<string> = ref('idle')
+  const appStatus: Ref<string> = ref('unstart')
   const startTime: Ref<number> = ref(0)
   const endTime: Ref<number> = ref(0)
   const offsetTime: Ref<number> = ref(0)
@@ -24,7 +24,7 @@ export default function useRunApp() {
 
       childProcess.on('close', (code) => {
         console.log('应用程序已成功关闭')
-        appStatus.value = 'closed'
+        appStatus.value = 'unstart'
         endTime.value = Date.now()
         offsetTime.value = endTime.value - startTime.value
 
@@ -32,8 +32,6 @@ export default function useRunApp() {
           onCloseCallback(onCloseCallbackArgs) // 调用回调函数并传递参数
         }
       })
-
-      appStatus.value = 'idle'
     }
   }
 

@@ -7,52 +7,69 @@
         :style="{ backgroundImage: `url(${verticalCover(item.steamId)})` }"
       ></div>
       <div class="card__body">
-        <div class="card__info">
-          <div class="card__name">{{ item.gameName }}</div>
-          <div class="card__buttons">
-            <a-button type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
-            <a-button
-              :disabled="!hasGameDoc"
-              type="primary"
-              size="small"
-              @click.stop="onClick('backup')"
-              >备份</a-button
-            >
+        <div class="card__action backdrop-filter" :class="isActiveClass">
+          <a class="card__run" :class="appRunStyle" title="运行" @click.stop="onClick('run')">
+            <CloseOutlined
+              v-if="isTargetGameDoc && appStatus !== 'unstart'"
+              style="font-size: 32px; color: #fff"
+            />
+            <CaretRightOutlined v-else style="font-size: 32px; color: #fff" />
+          </a>
+          <div class="card__game-info">
+            <div class="info__title">游戏时间</div>
+            <div class="info__text">过去两周: {{ generateTimeSummary(0) }}</div>
+            <div class="info__text">总数: {{ generateTimeSummary(item.playtime || 0) }}</div>
           </div>
-          <div>
-            <slot></slot>
-          </div>
-          <!-- <div class="card__label-time">
+        </div>
+        <!-- <div class="card__info">
+          <div class="card__label-time">
             <span>备份时间:</span>
             <i>{{ item.lastBackTime === null ? '无' : formatTimestamp(item.lastBackTime) }}</i>
-          </div> -->
-        </div>
+          </div>
+        </div> -->
       </div>
 
       <a class="card__editor" title="编辑" @click.stop="onClick('editor')"></a>
       <a class="card__del" title="删除" @click.stop="onClick('del')"></a>
-      <a class="card__run" title="运行" @click.stop="onClick('run')">
-        <CaretRightOutlined style="font-size: 32px; color: #fff" />
-      </a>
+
+      <div class="card__buttons">
+        <a-button type="danger" size="small" @click.stop="onClick('restore')">还原</a-button>
+        <a-button
+          :disabled="!hasGameDoc"
+          type="primary"
+          size="small"
+          @click.stop="onClick('backup')"
+          >备份</a-button
+        >
+      </div>
     </div>
+    <div class="card-name ellipsis">{{ item.nickName }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, toRefs, unref } from 'vue'
-import { formatTimestamp } from '@/utils/formatTimestamp'
+import { generateTimeSummary } from '@/utils/formatTimestamp'
 import { horizontalCover, verticalCover } from '@/utils/steamPrivew'
 import { GameItem } from '@/model'
-import { CaretRightOutlined } from '@ant-design/icons-vue'
+import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons-vue'
 
 export type CardEmitItem = [string, GameItem]
 
 export default defineComponent({
-  components: { CaretRightOutlined },
+  components: { CaretRightOutlined, CloseOutlined },
   props: {
     hasGameDoc: {
       type: Boolean,
       default: false
+    },
+    appStatus: {
+      type: String,
+      default: ''
+    },
+    appName: {
+      type: String,
+      default: ''
     },
     item: {
       required: true,
@@ -60,8 +77,8 @@ export default defineComponent({
     }
   },
 
-  setup (props, { emit }) {
-    const { hasGameDoc, item } = toRefs(props)
+  setup(props, { emit }) {
+    const { hasGameDoc, item, appStatus, appName } = toRefs(props)
     const mode = ref<string>('vertical')
 
     const modeStyle = computed(() => {
@@ -75,6 +92,25 @@ export default defineComponent({
       ]
     })
 
+    const isTargetGameDoc = computed(() => {
+      return unref(appName) === unref(item).gameDocDir
+    })
+
+    const isLoading = computed(() => {
+      return unref(appStatus) === 'loading'
+    })
+
+    const appRunStyle = computed(() => {
+      // TODO: 判断是否存在游戏路径配置,才可以运行游戏
+      return [
+        unref(isLoading) && unref(isTargetGameDoc) ? 'card__run--started' : 'card__run--unstart'
+      ]
+    })
+
+    const isActiveClass = computed(() => {
+      return [unref(isLoading) && unref(isTargetGameDoc) ? 'is-active' : '']
+    })
+
     const onClick = (type: string) => {
       emit('handleClick', [type, unref(item)])
     }
@@ -83,12 +119,15 @@ export default defineComponent({
       mode,
       modeStyle,
       cardStyle,
+      appRunStyle,
+      isActiveClass,
+      isTargetGameDoc,
 
       onClick,
 
-      formatTimestamp,
       horizontalCover,
-      verticalCover
+      verticalCover,
+      generateTimeSummary
     }
   }
 })
@@ -99,7 +138,7 @@ export default defineComponent({
 .card {
   position: relative;
   background-color: #ccc;
-  overflow: hidden;
+  // overflow: hidden;
 
   &--border-shadow {
     box-shadow: #fcfcfc 0px 0px 0px 2px, #141416 0px 0px 0px 4px,
@@ -152,22 +191,54 @@ export default defineComponent({
     }
   }
 
+  &__action {
+    display: flex;
+    padding: 0.5em;
+
+    opacity: 0;
+    visibility: hidden;
+
+    &.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
   &__run {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    position: absolute;
-    top: 0;
-    right: -100%;
-    opacity: 0;
+    margin-right: 6%;
+    padding: 8%;
+    border-radius: 4px;
+    background: #fff;
 
-    width: 48px;
-    height: 48px;
-    border-radius: 2px;
-    background: #4caf50;
-    box-shadow: 0 0 12px rgb(0 0 0 / 26%);
     transition: all 0.4s ease-in-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+
+      box-shadow: -1px -1px 5px -1px rgb(0 0 0 / 46%), 2px 2px 5px 0px rgb(0 0 0 / 46%);
+    }
+
+    // 未启动
+    &--unstart,
+    // 启动中
+    &--starting {
+      box-shadow: inset 0 0 30px 20px #32bc40;
+    }
+    // 已启动
+    &--started {
+      // background: #1e81ad;
+      box-shadow: inset 0 0 30px 20px #1e81ad;
+    }
   }
 
   &__wrap {
@@ -178,6 +249,11 @@ export default defineComponent({
   }
 
   &:hover {
+    .card__action {
+      opacity: 1;
+      visibility: visible;
+    }
+
     .card__editor {
       opacity: 1;
       left: 0;
@@ -188,14 +264,10 @@ export default defineComponent({
       right: 0;
     }
 
-    .card__run {
+    .card__buttons {
+      top: 100%;
       opacity: 1;
-      right: 0;
-    }
-
-    .card__body {
-      top: 0;
-      opacity: 0.9;
+      visibility: visible;
     }
   }
 
@@ -216,13 +288,11 @@ export default defineComponent({
   &__body {
     box-sizing: border-box;
     position: absolute;
-    top: 100%;
     left: 0;
-    height: 100%;
+    bottom: 0;
+
     width: 100%;
-    opacity: 0;
     color: #ffffff;
-    transition: top 0.6s, opacity 0.5s;
   }
 
   &__info {
@@ -246,12 +316,24 @@ export default defineComponent({
 
   &__buttons {
     display: flex;
-    justify-content: jspace-between;
+    justify-content: space-between;
 
-    padding: 0.8em 0;
+    position: absolute;
+    left: 0;
+    top: 80%;
+
+    width: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    // transition: all 0.3s ease-in;
+
     button {
       display: block;
       width: 50%;
+      padding: 0.2em 0;
+      height: auto;
     }
   }
 
@@ -265,5 +347,32 @@ export default defineComponent({
       white-space: nowrap;
     }
   }
+}
+
+.card__game-info {
+  font-size: 12px;
+}
+.info__title {
+  color: rgb(255 255 255 / 90%);
+}
+.info__text {
+  color: rgb(255 255 255 / 60%);
+}
+
+.card-name {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #d9d9d9;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backdrop-filter {
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 75px -30px #e6f7ff;
 }
 </style>
