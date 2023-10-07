@@ -3,6 +3,11 @@ import useSystem from '@/hooks/core/useSystem'
 import { GameItem } from '@/model'
 import { getPath } from '@/utils/index'
 const fs = require('fs-extra')
+interface GameInfo {
+  id: string;
+  hasGameAppPath: boolean;
+  hasGameDoc: boolean;
+}
 
 export default function (gameList: Readonly<Ref<any>>) {
   const { HOME_DIR } = useSystem()
@@ -12,7 +17,7 @@ export default function (gameList: Readonly<Ref<any>>) {
     isLoading.value = status
   }
 
-  const mapGames = ref<string[]>([])
+  const mapGames = ref<GameInfo[]>([])
   const clearMapGames = () => {
     mapGames.value = []
   }
@@ -25,12 +30,26 @@ export default function (gameList: Readonly<Ref<any>>) {
 
     for (let i = 0; i < docList.length; i++) {
       // TODO: 目前先判断是否有 存档目录, 后面精确到某个文件的存档再另外确定字段
-      const { pathType, gameDocDir, gameDocPath } = docList[i]
+      const { pathType, gameDocDir, gameDocPath, gameAppPath } = docList[i]
 
       const docPath = getPath(pathType === 'PUBLIC' ? 'C:\\Users\\Public' : HOME_DIR, gameDocPath)
+      // 判断配置游戏是否存在
+      const gameInfo: GameInfo = {
+        id: gameDocDir,
+        hasGameAppPath: false,
+        hasGameDoc: false
+      }
 
+      // 判断游戏路径是否存在
+      if (gameAppPath) {
+        const exists = await fs.pathExists(gameAppPath)
+        gameInfo.hasGameAppPath = exists
+      }
+
+      // 判断存档
       const exists = await fs.pathExists(docPath)
-      exists && mapGames.value.push(gameDocDir)
+      gameInfo.hasGameDoc = exists
+      mapGames.value.push(gameInfo)
     }
 
     setLoading(false)
@@ -41,7 +60,13 @@ export default function (gameList: Readonly<Ref<any>>) {
   }
 
   const hasGameDoc = (gameDocDir: string) => {
-    return unref(mapGames).includes(gameDocDir)
+    const game = mapGames.value.find((item:any) => item.id === gameDocDir)
+    return game?.hasGameDoc || false
+  }
+
+  const hasGamePath = (gameDocDir: string) => {
+    const game = mapGames.value.find((item:any) => item.id === gameDocDir)
+    return game?.hasGameAppPath || false
   }
 
   watch(() => unref(gameList), (gameList) => {
@@ -52,6 +77,7 @@ export default function (gameList: Readonly<Ref<any>>) {
     isLoading,
     setLoading,
     hasGameDoc,
+    hasGamePath,
     refreshScanGames
   }
 }

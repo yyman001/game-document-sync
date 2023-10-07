@@ -63,6 +63,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    hasGamePath: {
+      type: Boolean,
+      default: false
+    },
     appStatus: {
       type: String,
       default: ''
@@ -78,7 +82,7 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
-    const { hasGameDoc, item, appStatus, appName } = toRefs(props)
+    const { hasGamePath, hasGameDoc, item, appStatus, appName } = toRefs(props)
     const mode = ref<string>('vertical')
 
     const modeStyle = computed(() => {
@@ -87,8 +91,8 @@ export default defineComponent({
 
     const cardStyle = computed(() => {
       return [
-        unref(hasGameDoc) ? '' : 'is-empty',
-        `card--normal-shadow${unref(hasGameDoc) ? '' : '__empty'}`
+        unref(hasGamePath) ? '' : 'is-empty',
+        `card--normal-shadow${unref(hasGamePath) ? '' : '__empty'}`
       ]
     })
 
@@ -136,6 +140,14 @@ export default defineComponent({
 <style type="text/scss" lang="scss">
 // box-shadow-demo: https://getcssscan.com/css-box-shadow-examples
 .card {
+  &__wrap {
+    box-sizing: border-box;
+    position: relative;
+    width: 25%;
+    padding: 1em;
+    overflow: hidden;
+  }
+
   position: relative;
   background-color: #ccc;
   // overflow: hidden;
@@ -239,13 +251,6 @@ export default defineComponent({
       // background: #1e81ad;
       box-shadow: inset 0 0 30px 20px #1e81ad;
     }
-  }
-
-  &__wrap {
-    box-sizing: border-box;
-    width: 25%;
-    padding: 1em;
-    overflow: hidden;
   }
 
   &:hover {

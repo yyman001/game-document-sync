@@ -10,6 +10,7 @@
           :appStatus="appStatus"
           :appName="GAME_DOC_DIR"
           :hasGameDoc="hasGameDoc(item.gameDocDir)"
+          :hasGamePath="hasGamePath(item.gameDocDir)"
           @handleClick="handleClick"
           @contextmenu="onContextMenu($event, item)"
         />
@@ -67,7 +68,8 @@ export default defineComponent({
   setup(props) {
     const { searchText } = inject<any>('search')
     const { gameList } = useGames()
-    const { isLoading, hasGameDoc, refreshScanGames } = useScanGamesDoc(gameList)
+    const tableList = ref<GameItem[]>([])
+    const { isLoading, hasGameDoc, hasGamePath, refreshScanGames } = useScanGamesDoc(tableList)
     const { isVisible, onModalOpen, onModalClose } = useModel()
     const { error, success } = message
 
@@ -80,8 +82,6 @@ export default defineComponent({
     const localFile = useLocalFileStoreWhitOut()
     const useConfigStore = useConfigStoreWhitOut()
     const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
-
-    const tableList = ref<GameItem[]>([])
 
     const GameItems = computed(() => {
       if (!Array.isArray(unref(tableList))) return []
@@ -229,6 +229,7 @@ export default defineComponent({
                 error('设置失败!')
                 return
               }
+              refreshScanGames()
               success('设置成功!')
               // todo: 运行设置好的游戏? 加个配置控制
             }
@@ -278,6 +279,7 @@ export default defineComponent({
     return {
       isLoading,
       hasGameDoc,
+      hasGamePath,
       refreshScanGames,
 
       isVisible,
