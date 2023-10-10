@@ -22,10 +22,12 @@ const firebaseDB = initializeFirestore(firebaseApp, {
 
 const GAME_DOCS_TABLE = 'gamesDocTable'
 const GAMES_TABLE = 'gamesTable'
+const GAME_PLAYTIME_TABLE = 'gamePlayTimeTable'
 
 export {
   GAMES_TABLE,
   GAME_DOCS_TABLE,
+  GAME_PLAYTIME_TABLE,
   FIREBASE_CONFIG,
   firebaseApp,
   firebaseDB

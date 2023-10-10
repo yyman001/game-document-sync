@@ -17,7 +17,9 @@
           </a>
           <div class="card__game-info">
             <div class="info__title">游戏时间</div>
-            <div class="info__text">过去两周: {{ generateTimeSummary(0) }}</div>
+            <div class="info__text">
+              过去两周: {{ generateTimeSummary(item.weekPlayTime || 0) }}
+            </div>
             <div class="info__text">总数: {{ generateTimeSummary(item.playtime || 0) }}</div>
           </div>
         </div>

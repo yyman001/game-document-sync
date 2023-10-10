@@ -1,9 +1,10 @@
 import { message } from 'ant-design-vue'
-import { deleteDoc, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore'
+import { deleteDoc, doc, setDoc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore'
 import {
   firebaseDB,
   GAMES_TABLE,
-  GAME_DOCS_TABLE
+  GAME_DOCS_TABLE,
+  GAME_PLAYTIME_TABLE
 } from '@/utils/firebase/config'
 import { GameDocItem, GameItem } from '@/model'
 
@@ -75,6 +76,26 @@ const hasGame = async (gameDocDir: string) => {
   return (await getDoc(doc(firebaseDB, GAMES_TABLE, gameDocDir))).exists()
 }
 
+const hasGamePlayTimeInfo = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAME_PLAYTIME_TABLE, gameDocDir))).exists()
+}
+const getGamePlayTimeList = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAME_PLAYTIME_TABLE, gameDocDir))).data()?.playtimeList
+}
+
+const addGamePlayTimeInfo = async (gameDocDir: string, playtimeInfo: any) => {
+  await setDoc(doc(firebaseDB, GAME_PLAYTIME_TABLE, gameDocDir), {
+    gameDocDir,
+    playtimeList: [playtimeInfo]
+  })
+}
+
+const updateGamePlayTimeList = async (gameDocDir: string, data: Record<string, any>) => {
+  await updateDoc(doc(firebaseDB, GAME_PLAYTIME_TABLE, gameDocDir), {
+    playtimeList: arrayUnion(data)
+  })
+}
+
 export {
   addGamesDoc,
   updateGamesDoc,
@@ -85,5 +106,10 @@ export {
   updateGameFiled,
   removeGame,
   hasGame,
-  getGames
+  getGames,
+
+  hasGamePlayTimeInfo,
+  getGamePlayTimeList,
+  addGamePlayTimeInfo,
+  updateGamePlayTimeList
 }

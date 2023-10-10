@@ -59,7 +59,15 @@ import { deepCopy } from '@/utils/deepCopy'
 import { collection, doc, onSnapshot, query, writeBatch } from 'firebase/firestore'
 import { firebaseDB, GAMES_TABLE } from '@/utils/firebase/config'
 import { showConfirm } from '@/utils/showConfirm'
-import { getGames, removeGame, updateGameFiled } from '@/utils/firebase/sdk'
+import {
+  getGames,
+  removeGame,
+  updateGameFiled,
+  hasGamePlayTimeInfo,
+  addGamePlayTimeInfo,
+  getGamePlayTimeList,
+  updateGamePlayTimeList
+} from '@/utils/firebase/sdk'
 import useRunApp from '@/hooks/useRunApp'
 
 export default defineComponent({
@@ -73,7 +81,7 @@ export default defineComponent({
     const { isVisible, onModalOpen, onModalClose } = useModel()
     const { error, success } = message
 
-    const { appStatus, startApp, stopApp, offsetTime } = useRunApp()
+    const { appStatus, startApp, stopApp, startTime, endTime, offsetTime } = useRunApp()
 
     const { HOME_DIR } = useSystem()
     const { selectedKeys, treeData, createNode, nodeSize } = useDocTree()
@@ -117,9 +125,60 @@ export default defineComponent({
     const backPath = ref('')
     let lastFile = null
 
-    const updateGamePlaytime = (item: GameItem) => {
-      console.log('更新游戏时间', item.nickName, item.playtime)
-      updateGameFiled(item.gameDocDir, { playtime: Number(item.playtime || 0) + offsetTime.value })
+    // 更新次游戏结束玩的时间
+    const handleUpdateGamePlaytime = async (item: GameItem) => {
+      const { gameDocDir } = item
+
+      const hasPlayTimeInfo = await hasGamePlayTimeInfo(gameDocDir)
+      const playTimeInfo = {
+        startTime: startTime.value,
+        endTime: endTime.value,
+        playtime: offsetTime.value
+      }
+
+      if (!hasPlayTimeInfo) {
+        await addGamePlayTimeInfo(gameDocDir, playTimeInfo)
+      } else {
+        await updateGamePlayTimeList(gameDocDir, playTimeInfo)
+      }
+
+      // 更新游戏最近游玩时间和总时间
+      const { weekPlayTime, playtime } = await countPlayTime(gameDocDir)
+      updateGameFiled(gameDocDir, {
+        weekPlayTime,
+        playtime
+      })
+    }
+    // 计算游玩时间
+    const countPlayTime = async (gameDocDir: string) => {
+      const hasPlayTimeInfo = await hasGamePlayTimeInfo(gameDocDir)
+      if (!hasPlayTimeInfo) {
+        return {
+          weekPlayTime: 0,
+          playtime: 0
+        }
+      }
+
+      const currentDate = Date.now()
+      // 两周前时间戳
+      const twoWeeksAgo = currentDate - 14 * 24 * 60 * 60 * 1000
+      const playTimeList = await getGamePlayTimeList(gameDocDir)
+
+      const { weekPlayTime, playtime } = playTimeList.reduce(
+        (acc, obj) => {
+          if (obj.startTime >= twoWeeksAgo && obj.startTime <= currentDate) {
+            acc.weekPlayTime += obj.playtime
+          }
+          acc.playtime += obj.playtime
+          return acc
+        },
+        { weekPlayTime: 0, playtime: 0 }
+      )
+
+      return {
+        weekPlayTime,
+        playtime
+      }
     }
 
     const handleClick = (response: CardEmitItem) => {
@@ -128,7 +187,6 @@ export default defineComponent({
       const { gameDocPath, gameDocDir, pathType } = data
       GAME_DOC_PATH.value = gameDocPath
       GAME_DOC_DIR.value = gameDocDir
-      const startTime = Date.now()
 
       switch (type) {
         case 'restore':
@@ -161,17 +219,8 @@ export default defineComponent({
                 return
               }
               // 记录运行时间
-              updateGameFiled(gameDocDir, { lastRunTime: startTime })
-              startApp(gameItem.gameAppPath, gameItem, updateGamePlaytime)
-              /*  runApp(gameItem.gameAppPath)
-                .then(() => {
-                  const offsetTime = Date.now() - startTime
-                  updateGameFiled(gameDocDir, { playtime: playtime + offsetTime })
-                  console.log('App started successfully')
-                })
-                .catch(error => {
-                  console.error('Error starting app:', error)
-                }) */
+              updateGameFiled(gameDocDir, { lastRunTime: startTime.value })
+              startApp(gameItem.gameAppPath, gameItem, handleUpdateGamePlaytime)
             })
             .catch(e => {
               console.log('运行错误:', gameDocDir, e)
@@ -294,7 +343,8 @@ export default defineComponent({
       stopApp,
 
       GAME_DOC_DIR,
-      appStatus
+      appStatus,
+      countPlayTime
     }
   }
 })
