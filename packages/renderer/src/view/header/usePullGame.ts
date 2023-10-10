@@ -63,6 +63,7 @@ export const usePullGame = function () {
     setPullStatus(true)
 
     const rtx = await fullGame(steamId)
+    setPullStatus(false)
     if (rtx === null) {
       ElMessage({
         message: '分析异常!',
@@ -74,7 +75,6 @@ export const usePullGame = function () {
     console.log('rtx:', rtx)
     dataSource.value = rtx
 
-    setPullStatus(false)
     onModalOpen()
     ElMessage({
       message: '分析成功!',
