@@ -82,6 +82,7 @@ export default defineComponent({
         scopedSlots: { customRender: 'action' }
       }
     ]
+
     const onAdd = async (item: GameDocItem) => {
       const {
         gameName,
@@ -125,6 +126,7 @@ export default defineComponent({
 
       message.success('创建游戏存档成功!')
     }
+
     const onUpdate = async (record: any) => {
       const {
         gameName,
@@ -180,7 +182,7 @@ export default defineComponent({
 
       return unref(tableList as Readonly<Ref<GameDocItem[]>>).filter((game: any) => {
         const regExp = new RegExp(unref(searchText), 'i')
-        return regExp.test(game.gameName) || regExp.test(game.nickName)
+        return regExp.test(game.gameName) || regExp.test(game.nickName) || regExp.test(game.steamId)
       })
     })
 

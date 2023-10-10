@@ -97,7 +97,7 @@ export default defineComponent({
 
       return unref(tableList as Readonly<Ref<GameItem[]>>).filter((game: any) => {
         const regExp = new RegExp(unref(searchText), 'i')
-        return regExp.test(game.gameName) || regExp.test(game.nickName)
+        return regExp.test(game.gameName) || regExp.test(game.nickName) || regExp.test(game.steamId)
       })
     })
 
