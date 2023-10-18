@@ -184,7 +184,7 @@ export default defineComponent({
     const handleClick = (response: CardEmitItem) => {
       const [type, data] = response
       console.log('data', data)
-      const { gameDocPath, gameDocDir, pathType } = data
+      const { gameDocPath, gameDocDir, pathType, compatibleMode } = data
       GAME_DOC_PATH.value = gameDocPath
       GAME_DOC_DIR.value = gameDocDir
 
@@ -208,7 +208,7 @@ export default defineComponent({
         case 'run':
           // todo: 判断为对于游戏启动时不可继续触发
           if (appStatus.value === 'loading') {
-            stopApp()
+            stopApp(compatibleMode)
             return
           }
           // 检测是否存在游戏程序路径,并运行
@@ -220,7 +220,7 @@ export default defineComponent({
               }
               // 记录运行时间
               updateGameFiled(gameDocDir, { lastRunTime: startTime.value })
-              startApp(gameItem.gameAppPath, gameItem, handleUpdateGamePlaytime)
+              startApp(gameItem.gameAppPath, gameItem, handleUpdateGamePlaytime, compatibleMode)
             })
             .catch(e => {
               console.log('运行错误:', gameDocDir, e)
@@ -254,35 +254,72 @@ export default defineComponent({
     }
 
     const onContextMenu = (e: MouseEvent, item: GameItem) => {
-      // prevent the browser's default menu
-      console.log('右键:', item)
-
       e.preventDefault()
+      console.log('右键:', item)
+      const { gameDocDir, gameAppPath, compatibleMode = false } = item
+
       ContextMenu.showContextMenu({
         x: e.x,
         y: e.y,
+        theme: 'win10',
         items: [
           {
-            label: '设置游戏启动路径',
-            onClick: async () => {
-              const gameAppPath = await showOpenDialog({
-                title: '选择程序位置',
-                openFileType: 'exe'
-              })
-              console.log('gameAppPath:', gameAppPath)
-              if (!gameAppPath) return
+            label: '设置',
+            children: [
+              {
+                label: '启动游戏路径',
+                children: [
+                  {
+                    label: gameAppPath ? '修改' : '添加',
+                    onClick: async () => {
+                      const gameAppPath = await showOpenDialog({
+                        title: '选择程序位置',
+                        openFileType: 'exe'
+                      })
+                      console.log('gameAppPath:', gameAppPath)
+                      if (!gameAppPath) return
 
-              // todo: 校验路径是否为对应的游戏
-              const rtx = await updateGameFiled(item.gameDocDir, { gameAppPath })
-              if (rtx === null) {
-                error('设置失败!')
-                return
+                      // todo: 校验路径是否为对应的游戏
+                      const rtx = await updateGameFiled(gameDocDir, { gameAppPath })
+                      if (rtx === null) {
+                        error('设置失败!')
+                        return
+                      }
+                      refreshScanGames()
+                      success('设置成功!')
+                      // todo: 运行设置好的游戏? 加个配置控制
+                    }
+                  },
+                  {
+                    label: '删除',
+                    onClick: () => {
+                      updateGameFiled(gameDocDir, { gameAppPath: '' })
+                    }
+                  }
+                ]
+              },
+              {
+                label: '运行模式',
+                children: [
+                  {
+                    label: '普通',
+                    checked: !compatibleMode,
+                    onClick: () => {
+                      updateGameFiled(gameDocDir, { compatibleMode: false })
+                    }
+                  },
+                  {
+                    label: '兼容',
+                    checked: !!compatibleMode,
+                    onClick: () => {
+                      updateGameFiled(gameDocDir, { compatibleMode: true })
+                    }
+                  }
+                ]
               }
-              refreshScanGames()
-              success('设置成功!')
-              // todo: 运行设置好的游戏? 加个配置控制
-            }
+            ]
           },
+
           {
             label: '删除',
             onClick: async () => {
