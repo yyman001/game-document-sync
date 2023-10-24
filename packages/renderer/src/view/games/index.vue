@@ -69,6 +69,7 @@ import {
   updateGamePlayTimeList
 } from '@/utils/firebase/sdk'
 import useRunApp from '@/hooks/useRunApp'
+import { showItemInFolder } from '@/utils/shell'
 
 export default defineComponent({
   components: { Card, ModalBackUp, Empty, Spin, ContextMenu },
@@ -263,6 +264,13 @@ export default defineComponent({
         y: e.y,
         theme: 'win10',
         items: [
+          {
+            label: '打开文件夹位置',
+            disabled: !gameAppPath,
+            onClick: () => {
+              showItemInFolder(gameAppPath)
+            }
+          },
           {
             label: '设置',
             children: [
