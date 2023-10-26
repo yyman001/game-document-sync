@@ -33,6 +33,15 @@ export interface TreeItem {
   type: 'file' | 'directory'
 }
 
+function getParentDir(dir: string): string | null {
+  const parts = dir.split('\\')
+  if (parts.length <= 1) {
+    return null
+  }
+
+  return parts.pop() || ''
+}
+
 export function getTreeItem (filePath: string, rootDir: string) :Promise<TreeItem[]> {
   const fileDetailedList: TreeItem[] = []
   return new Promise(resolve => {
@@ -40,9 +49,11 @@ export function getTreeItem (filePath: string, rootDir: string) :Promise<TreeIte
       filePath,
       function (fileFullPath: string, stats: any, next: any) {
         const p = path.parse(fileFullPath)
-        const relativeParentPath = p.dir.replace(rootDir, '')
-        const relativePath = fileFullPath.replace(rootDir, '')
+        const relativeParentPath = path.relative(rootDir, p.dir)
+        const relativePath = path.relative(rootDir, fileFullPath)
+        // 从新以 gamedir作为根目录开始标记, 0 则是 gamedir
         const depth = relativePath.split('\\').length - 1
+        const parentDir = getParentDir(p.dir) || null
         const isFile = stats.isFile()
 
         const pathObjct = {
@@ -54,7 +65,7 @@ export function getTreeItem (filePath: string, rootDir: string) :Promise<TreeIte
           title: isFile ? `${p.name} - ${formatFileSize(stats.size)}` : p.name,
           relative_path: relativePath,
           relative_parent_path: relativeParentPath,
-          parent_dir: relativeParentPath ? relativeParentPath.split('\\').pop() : null,
+          parent_dir: parentDir,
           type: isFile ? 'file' : 'directory',
           dirname: p.dirname || null,
           basename: p.name,
