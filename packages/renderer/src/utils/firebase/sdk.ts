@@ -1,5 +1,5 @@
 import { message } from 'ant-design-vue'
-import { deleteDoc, doc, setDoc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore'
+import { deleteDoc, doc, setDoc, updateDoc, getDoc, arrayUnion, where, query, collection } from 'firebase/firestore'
 import {
   firebaseDB,
   GAMES_TABLE,
@@ -37,6 +37,16 @@ const hasGamesDoc = async (gameDocDir: string) => {
 }
 const getGamesDocInfo = async (gameDocDir: string) => {
   return (await getDoc(doc(firebaseDB, GAME_DOCS_TABLE, gameDocDir))).data()
+}
+const getGamesDocList = async (gameDocDir: string[]) => {
+  const promises = gameDocDir.map((gameDocDir: string) =>
+    getDoc(doc(firebaseDB, GAME_DOCS_TABLE, gameDocDir)).then((doc) => doc.data())
+  )
+
+  const results = await Promise.all(promises)
+  const filteredResults = results.filter((data) => data !== undefined) as GameDocItem[]
+
+  return filteredResults || []
 }
 
 // 游戏表
@@ -108,6 +118,7 @@ export {
   removeGamesDoc,
   hasGamesDoc,
   getGamesDocInfo,
+  getGamesDocList,
 
   addGame,
   updateGame,

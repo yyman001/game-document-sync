@@ -5,6 +5,7 @@ import { useLocalFileStoreWhitOut } from '@/store/localFile'
 import { useConfigStoreWhitOut } from '@/store/config'
 import useFile from './useFile'
 import useDocs from '@/hooks/db/useDocs'
+import { getGamesDocList } from '@/utils/firebase/sdk'
 
 export default function () {
   const Docs = useDocs()
@@ -158,7 +159,9 @@ export default function () {
   const nickNameMap = reactive<{ [index: string]: string }>({})
 
   const getGamesNickName = async (dirsname: string[]) => {
-    const games = await Docs.findGameDocs(dirsname)
+    if (!dirsname.length) return
+
+    const games = await getGamesDocList(dirsname)
     if (games.length) {
       games.forEach(item => {
         nickNameMap[item.gameDocDir] = item.nickName
