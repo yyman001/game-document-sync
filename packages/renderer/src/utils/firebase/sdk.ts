@@ -32,6 +32,12 @@ const removeGamesDoc = async (gameDocDir: string) => {
     message.error('删除失败!')
   }
 }
+const hasGamesDoc = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAME_DOCS_TABLE, gameDocDir))).exists()
+}
+const getGamesDocInfo = async (gameDocDir: string) => {
+  return (await getDoc(doc(firebaseDB, GAME_DOCS_TABLE, gameDocDir))).data()
+}
 
 // 游戏表
 const addGame = async (data: GameItem) => {
@@ -100,6 +106,8 @@ export {
   addGamesDoc,
   updateGamesDoc,
   removeGamesDoc,
+  hasGamesDoc,
+  getGamesDocInfo,
 
   addGame,
   updateGame,
